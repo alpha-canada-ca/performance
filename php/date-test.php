@@ -1,5 +1,16 @@
 <?php
 
+
+$url = "www.canada.ca/en/revenue-agency.html";
+$arr = explode("/", $url);
+
+foreach ($arr as $word) {
+	$output .= trim($word)."\\\\/";
+}
+
+$url = rtrim($output, "\\/");
+
+
 $iso = 'Y-m-d\TH:i:s.v';
 $today = new DateTime("today");
 
@@ -43,5 +54,9 @@ $dates = array(
 			sprintf ("%s/%s", $previousDate[4], $previousDate[5]),
 			sprintf ("%s/%s", $previousDate[5], $previousDate[6])
 		);
+
+print_r ($dates);
+
+
 
 ?>
