@@ -760,7 +760,7 @@ function fetchWithTimeout(url, options, delay, onTimeout) {
 
 var cnt = 0;
 const apiCall = (d, i, a, aa, uu) => a.map( type => {
-    url = ( type == "fle" ) ? "../php/file.php" : "../php/process.php"
+    url = ( type == "fle" ) ? "php/file.php" : "php/process.php"
 
     if ( type == "trnd") {
         day = parseInt( $("#numDays").html() );
