@@ -1,7 +1,8 @@
 <?php
 
 try {
-    $url = trim($_REQUEST["url"]);
+    $data = json_decode(file_get_contents('php://input'));
+    $url = trim($data->url);
 
     if ( (isset($url) && !empty($url)) ) {
 		$csv = array_map('str_getcsv', file('file.csv' , FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
@@ -19,8 +20,7 @@ try {
 		} else {
 		    $json = json_encode($csv[$key]);
 		}
-
-		header('Content-Type: application/json');
+		
 		echo $json;
     } else {
         echo json_encode( array('error' => "No data") );
