@@ -3,7 +3,7 @@
 function mongoUpdate ( $url, $date, $type, $data ) {
     try {
 
-        $mng = new MongoDB\Driver\Manager("mongodb://127.0.0.1:27017");
+        $mng = new MongoDB\Driver\Manager("mongodb://mongodb:27017");
         $bulk = new MongoDB\Driver\BulkWrite;
         $filter = [ 'url' => $url, 'date' => $date ]; 
         $query = new MongoDB\Driver\Query($filter);
