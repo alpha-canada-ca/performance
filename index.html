@@ -15,7 +15,7 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
     <link href="gcweb/GCWeb/assets/favicon.ico" rel="icon" type="image/x-icon">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="gcweb/GCWeb/css/theme.min.css">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/baremetrics-calendar/1.0.14/css/application.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baremetrics-calendar/1.0.14/css/application.css">
     <!--<![endif]-->
     <!--[if lt IE 9]>
 <link href="gcweb/GCWeb/assets/favicon.ico" rel="shortcut icon" />
@@ -43,6 +43,17 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
             top: 0px;
             background-color: #f2f2f2;
             z-index: 100;
+        }
+        .daterange .dr-input .dr-presets {
+            width: 40px;
+            background-color: #eaebed;
+            border-color: #dcdee1;
+        }
+        .daterange .dr-input .dr-presets .dr-preset-bar {
+            background-color: #335075;
+        }
+        .daterange .dr-input .dr-dates {
+            min-width: calc(100% - 40px);
         }
     </style>
 
@@ -117,8 +128,9 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
     </header>
     <main property="mainContentOfPage" class="container" typeof="WebPageElement">
         <h1 property="name" id="wb-cont">Page Performance Management Tool (PPMT)</h1>
-
-        <div class="daterange daterange--double one pull-right"></div></div>
+        <p class="pull-right">Date Range:</p>
+        <div class="clearfix"></div>
+        <div class="daterange daterange--double one pull-right"></div>
         <div class="clearfix"></div>
 
         <form id="urlform" action="#" method="post">
@@ -432,7 +444,7 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
         </div>
     </footer>
     <!--[if gte IE 9 | !IE ]><!-->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="gcweb/wet-boew/js/wet-boew.min.js"></script>
     <!--<![endif]-->
     <!--[if lt IE 9]>
@@ -447,7 +459,58 @@ alphaBanner.insertAdjacentHTML('afterbegin', '<section class="experimental alpha
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script type="text/javascript" src="js/Calendar.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/baremetrics-calendar/1.0.14/js/Calendar.min.js"></script>
+    <script>
+        new Calendar({
+        element: $(".one"),
+        earliest_date: "2017-07-01",
+        latest_date: moment(self.latest_date),
+        start_date: moment(self.latest_date).subtract(6, "week"),
+        end_date: moment().subtract(1, "day"),
+        presets: [{
+          label: 'This month',
+          start: moment(self.latest_date).startOf('month'),
+          end: moment(self.latest_date).subtract(1, 'day')
+        },{
+          label: 'Last 30 days',
+          start: moment(self.latest_date).subtract(29, 'days'),
+          end: moment(self.latest_date).subtract(1, 'day')
+        },{
+          label: 'Last 6 weeks',
+          start: moment(self.latest_date).subtract(6, 'week'),
+          end: moment(self.latest_date).subtract(1, 'day')
+        },{
+          label: 'Last month',
+          start: moment(self.latest_date).subtract(1, 'month').startOf('month'),
+          end: moment(self.latest_date).subtract(1, 'month').endOf('month')
+        },{
+          label: 'Last 3 months',
+          start: moment(self.latest_date).subtract(3, 'month').startOf('month'),
+          end: moment(self.latest_date).subtract(1, 'month').endOf('month')
+        },{
+          label: 'Last 6 months',
+          start: moment(self.latest_date).subtract(6, 'month').startOf('month'),
+          end: moment(self.latest_date).subtract(1, 'month').endOf('month')
+        },{
+          label: 'Fiscal year (18/19)',
+          start: moment("2018-04-01"),
+          end: moment("2019-03-31")
+          /*
+          label: 'Last fiscal year',
+          start: moment().subtract(2, 'year').month('April').startOf('month'),
+          end: moment().subtract(1, 'year').month('March').endOf('month')
+          */   
+        },{
+          label: 'Calendar year (2018)',
+          start: moment(self.latest_date).subtract(1, 'year').startOf('year'),
+          end: moment(self.latest_date).subtract(1, 'year').endOf('year')
+        },{
+          label: 'All time',
+          start: moment("2017-07-01"),
+          end: moment(self.latest_date).subtract(1, 'day')
+        }]
+    });
+    </script>
     <script type="text/javascript" src="js/api.min.js"></script>
 
 </body>
