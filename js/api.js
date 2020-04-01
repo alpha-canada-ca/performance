@@ -1,13 +1,5 @@
 $(document).ready(function() {
     $("#canvas-container").hide(); $("#loading").hide(); $("#notfound").hide();
-
-    var dd = new Calendar({
-        element: $(".one"),
-        earliest_date: "2017-07-01",
-        latest_date: moment(self.latest_date),
-        start_date: moment(self.latest_date).subtract(6, "week"),
-        end_date: moment().subtract(1, "day")
-    });
 });
 
 const kFormatter = (num) => {
@@ -777,7 +769,7 @@ const apiCall = (d, i, a, aa, uu) => a.map( type => {
         d.push( day );
     }
     
-    post = { dates: d, url: i, type: type };
+    post = { dates: d, url: i, type: type, oUrl: uu };
 
     let request = new Request(url, { 
         method: "POST",
