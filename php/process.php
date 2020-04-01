@@ -31,6 +31,16 @@ try {
     $start = $date[0];
     $end = $date[1];
 
+    $oDate = "$start/$end";
+    $oUrl = $d->oUrl;
+    
+    require 'mongodb_get.php';
+    $md = mongoGet($oUrl, $oDate, $type );
+    if ($md) {
+        echo ($md);
+        return;
+    }
+    
     if ( $type == "trnd" ) { 
             $iso = 'Y-m-d\TH:i:s.v';
             $vstep = $date[2];
@@ -111,6 +121,9 @@ try {
         } else {
             $api = json_encode( array('error' => "No data") );
         }
+
+        require 'mongodb_update.php';
+        mongoUpdate($oUrl, $oDate, $type, $api );
         
         echo ($api);
     } else {
