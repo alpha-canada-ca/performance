@@ -24,7 +24,7 @@ function mongoGet ( $url, $date, $type ) {
         $arr = array('error' => "The " . $filename . " script has experienced an error and has failed with the following exception\nException:" . $e->getMessage() . "\n
             In file:" . $e->getFile() . "\n
             On line:" . $e->getLine() . "\n" );
-        echo (json_encode( $arr ));      
+        return (json_encode( $arr ));      
     }
 
 }
