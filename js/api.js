@@ -1,6 +1,64 @@
 $(document).ready(function() {
     $("#canvas-container").hide(); $("#loading").hide(); $("#notfound").hide();
+    let params = getQueryParams()
+    var url, start, end;
+    url = getSpecifiedParam(params, "url")
+    start = getSpecifiedParam(params, "start")
+    end = getSpecifiedParam(params, "end")
+    if (start && end) {
+        start = moment(start).format("MMMM D, YYYY");
+        end = moment(end).format("MMMM D, YYYY");
+        $(".dr-date-start").html(start);
+        $(".dr-date-end").html(end);
+    }
+
+    if (url) {
+        $("#urlval").val(url);
+        mainQueue(url, start, end);
+    }
 });
+
+function getQueryParams() {
+  // initialize an empty object
+  let result = {};
+  // get URL query string
+  let params = window.location.search;
+  // remove the '?' character
+  params = params.substr(1);
+  let queryParamArray = ( params.split('&') );
+  // iterate over parameter array
+  queryParamArray.forEach(function(queryParam) {
+    // split the query parameter over '='
+    let item = queryParam.split("=");
+    result[item[0]] = decodeURIComponent(item[1]);
+  });
+  // return result object
+  return result;
+}
+
+function getQueryParams() {
+  // initialize an empty object
+  let result = {};
+  // get URL query string
+  let params = window.location.search;
+  // remove the '?' character
+  params = params.substr(1);
+  let queryParamArray = ( params.split('&') );
+  // iterate over parameter array
+  queryParamArray.forEach(function(queryParam) {
+    // split the query parameter over '='
+    let item = queryParam.split("=");
+    result[item[0]] = decodeURIComponent(item[1]);
+  });
+  // return result object
+  return result;
+}
+
+function getSpecifiedParam(object, val) {
+    for (let [key, value] of Object.entries(object)) {
+        if (key === val) return value;
+    }
+}
 
 const kFormatter = (num) => {
     return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + "k" : Math.sign(num) * Math.abs(num)
@@ -804,34 +862,44 @@ const apiCall = (d, i, a, aa, uu) => a.map( type => {
 
 $("#urlform").submit(function(event) {
     event.preventDefault();
+    url = $("#urlval").val();
+    start = $(".dr-date-start").html()
+    end = $(".dr-date-end").html()
+    mainQueue(url, start, end);
+});
 
+const mainQueue = (url, start, end) => {
     $("#canvas-container").hide();
     $("#notfound").hide()
     $("#loading").show();
 
     $success = 0;
-
-    var url = $("#urlval").val();
-
     url = (url.substring(0, 8) == "https://") ? url.substring(8, url.length) : url;
 
     if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html") {
         url = (url.length > 255) ? url.substring((url.length) - 255, url.length) : url;
-        vStart = $(".dr-date-start").html();
-        vEnd = $(".dr-date-end").html();
 
-        var start = moment(vStart, "MMMM DD, YYYY").format("YYYY-MM-DDTHH:mm:ss.SSS");
-        var end = moment(vEnd, "MMMM DD, YYYY").add(1, "day").format("YYYY-MM-DDTHH:mm:ss.SSS");
+        if (start && end) {
+            vStart = start;
+            vEnd = end;
+        } else {
+            vStart = $(".dr-date-start").html();
+            vEnd = $(".dr-date-end").html();
+        }
+
+        var start = moment(vStart).format("YYYY-MM-DDTHH:mm:ss.SSS");
+        var end = moment(vEnd).add(1, "day").format("YYYY-MM-DDTHH:mm:ss.SSS");
+        
         var d = [ start, end ]
         
-        var fromdaterange = moment(vStart, "MMMM DD, YYYY").format("dddd MMMM DD, YYYY");
-        var todaterange = moment(vEnd, "MMMM DD, YYYY").format("dddd MMMM DD, YYYY");
+        var fromdaterange = moment(vStart).format("dddd MMMM DD, YYYY");
+        var todaterange = moment(vEnd).format("dddd MMMM DD, YYYY");
         
         $("#fromdaterange").html(fromdaterange);
         $("#todaterange").html(todaterange);
         
-        var start = moment(vStart, "MMMM DD, YYYY");
-        var end = moment(vEnd, "MMMM DD, YYYY").add(1, "day");
+        var start = moment(vStart);
+        var end = moment(vEnd).add(1, "day");
         
         dDay = end.diff(start, "days");
         dWeek = end.diff(start, "week", true);
@@ -871,4 +939,4 @@ $("#urlform").submit(function(event) {
     }
 
     if (!$success) { $("#loading").hide(); $("#notfound").show(); }
-});
+}
