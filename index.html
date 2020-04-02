@@ -55,6 +55,11 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
         .daterange .dr-input .dr-dates {
             min-width: calc(100% - 40px);
         }
+        html {
+            font-family:sans-serif;
+            -ms-text-size-adjust:100%;
+            -webkit-text-size-adjust:100%
+        }
     </style>
 
 </head>
@@ -464,9 +469,9 @@ alphaBanner.insertAdjacentHTML('afterbegin', '<section class="experimental alpha
         new Calendar({
         element: $(".one"),
         earliest_date: "2017-07-01",
-        latest_date: moment(self.latest_date),
-        start_date: moment(self.latest_date).subtract(6, "week"),
-        end_date: moment().subtract(1, "day"),
+        latest_date: moment(self.latest_date).subtract(1, "day"),
+        start_date: moment(self.latest_date).subtract(1, 'month').startOf('month'),
+        end_date: moment(self.latest_date).subtract(1, 'month').endOf('month'),
         presets: [{
           label: 'This month',
           start: moment(self.latest_date).startOf('month'),
