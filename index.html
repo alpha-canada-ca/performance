@@ -29,6 +29,7 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
 <![endif]-->
     <noscript>
         <link rel="stylesheet" href="gcweb/wet-boew/css/noscript.min.css" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     </noscript>
 
     <style>
@@ -60,6 +61,97 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
             -ms-text-size-adjust:100%;
             -webkit-text-size-adjust:100%
         }
+
+
+
+/* Dropdown */
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+  color: #333;
+  font-family: Sans-Serif;
+  background-color: #f6f6f6;
+}
+
+.dd-button {
+  display: inline-block;
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 5px 30px 5px 20px;
+  background-color: #ffffff;
+  cursor: pointer;
+  white-space: nowrap;
+  z-index: 999;
+  font-size: 16px;
+  font-weight: 100;
+}
+
+.dd-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+}
+
+.dd-button:hover {
+  background-color: #eeeeee;
+}
+
+
+.dd-input {
+  display: none;
+}
+
+.dd-menu {
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0;
+  margin: 2px 0 0 0;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  list-style-type: none;
+  z-index: 9;
+  font-size: 16px;
+  font-weight: 100;
+}
+
+.dd-input + .dd-menu {
+  display: none;
+}
+
+.dd-input:checked + .dd-menu {
+  display: block;
+}
+
+.dd-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dd-menu li:hover {
+  background-color: #f6f6f6;
+}
+
+.dd-menu li a {
+  display: block;
+  margin: -10px -20px;
+  padding: 5px 20px;
+}
+
+.dd-menu li.divider{
+  padding: 0;
+  border-bottom: 1px solid #cccccc;
+}
     </style>
 
 </head>
@@ -132,16 +224,32 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
 
     </header>
     <main property="mainContentOfPage" class="container" typeof="WebPageElement">
-        <h1 property="name" id="wb-cont">Page Performance Management Tool (PPMT)</h1>
-        <p class="pull-right">Date Range:</p>
-        <div class="clearfix"></div>
-        <div class="daterange daterange--double one pull-right"></div>
+        <h1 property="name" id="wb-cont">Canada.ca page performance</h1>
+
+        <div class="pull-right">
+        <label class="dropdown">
+
+  <div class="dd-button"><i class="fas fa-calendar"></i> Select date</div>
+
+  <input type="checkbox" class="dd-input" />
+
+  <ul class="dd-menu">
+  <li data-value="31" data-index="1"><i class="fas fa-calendar-alt"></i> Last 30 days</li>
+    <li data-value="8" data-index="2"><i class="fas fa-calendar-week"></i> Last 7 days</li>
+    <li data-value="2" data-index="3"><i class="fas fa-calendar-day"></i> Yesterday</li>
+  </ul>
+  
+</label>
+</div>
         <div class="clearfix"></div>
 
         <form id="urlform" action="#" method="post">
 
+                    
+        <input type='hidden' name='dd-value'>
+
             <label for="btngrp-search2" class="wb-inv">Search</label>
-            <p>Place URL below</p>
+            <p>Enter the page URL</p>
             <div class="input-group">
                 <input type="search" id="urlval" name="urlval" class="form-control" placeholder="Place URL" size="6" />
                 <span class="input-group-btn">
@@ -151,7 +259,7 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
         </form>
 
         <div id="loading">
-            <p><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i>Loading...<span id="percent">0%</span></p>
+            <p><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i>Loading... <!--<span id="percent">0%</span>--></p>
         </div>
 
         <div id="notfound">
@@ -162,7 +270,7 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
             <span id="numWeeks" class="hidden"></span>
             <h2>Page-level statistics</h2>
             <p>
-              <strong>Period:</strong> <span id="numDays"></span> days - <span id="fromdaterange" class="text-primary"></span> to <span id="todaterange" class="text-primary"></span> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
+              <strong>Period:</strong> <span id="numDays"></span> days - <span id="fromdaterange"></span> to <span id="todaterange"></span> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
             </p>
 
             <div class="row">
@@ -182,7 +290,7 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
                     <p id="rap"></p>
                 </div>
                 <div class="col-md-6">
-                    <p class="h2">Users left by searching</p>
+                    <p class="h2">Phrases searched from this page</p>
 
                     <div class="row">
                         <div class="col-md-6">
@@ -218,12 +326,33 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
             -->
             <div class="row">
                 <div class="col-md-6">
-                    <p class="h2">Global searches to page</p>
-                    <table id="srchG" class="table table-border"></table>
+                    <p class="h2">Search terms leading to this page</p>
+                    <table id="srchG" class="table table-striped table-hover">
+                        <!--
+                        <thead>
+                            <tr>
+                                <th>>Term</th>
+                                <th>Position</th>
+                                <th>Impressions</th>
+                                <th>Clicks</th>
+                                <th>Click through rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Term</td>
+                                <td>Position</td>
+                                <td>Impressions</td>
+                                <td>Clicks</td>
+                                <td>Click through rate</td>
+                            </tr>
+                        </tbody>
+                    -->
+                    </table>
                 </div>
                 <div class="col-md-6">
-                    <p class="h2">Contextual searches to page</p>
-                    <table id="srchI" class="table table-border"></table>
+                    <p class="h2">Search terms from this section leading to this page</p>
+                    <table id="srchI" class="table table-striped table-hover"></table>
                 </div>
             </div>
             
@@ -466,7 +595,13 @@ alphaBanner.insertAdjacentHTML('afterbegin', '<section class="experimental alpha
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/baremetrics-calendar/1.0.14/js/Calendar.min.js"></script>
     <script>
-        new Calendar({
+        $('.dd-menu li').click(function(){
+          $(this).parents('.dropdown').find('.dd-button').html($(this).html());
+          $("input[name='dd-value']").val( $(this).attr("data-index") );;
+        });
+
+/*
+        var dd = new Calendar({
         element: $(".one"),
         earliest_date: "2017-07-01",
         latest_date: moment(self.latest_date).subtract(1, "day"),
@@ -504,7 +639,7 @@ alphaBanner.insertAdjacentHTML('afterbegin', '<section class="experimental alpha
           label: 'Last fiscal year',
           start: moment().subtract(2, 'year').month('April').startOf('month'),
           end: moment().subtract(1, 'year').month('March').endOf('month')
-          */   
+          
         },{
           label: 'Calendar year (2018)',
           start: moment(self.latest_date).subtract(1, 'year').startOf('year'),
@@ -515,6 +650,7 @@ alphaBanner.insertAdjacentHTML('afterbegin', '<section class="experimental alpha
           end: moment(self.latest_date).subtract(1, 'day')
         }]
     });
+    */
     </script>
     <script type="text/javascript" src="js/api.min.js"></script>
 
