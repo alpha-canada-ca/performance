@@ -1,11 +1,11 @@
 <?php
 
-function mongoUpdate ( $url, $date, $type, $data ) {
+function mongoSearchUpdate ( $type, $data ) {
     try {
 
         $mng = new MongoDB\Driver\Manager("mongodb://127.0.0.1:27017");
         $bulk = new MongoDB\Driver\BulkWrite;
-        $filter = [ 'url' => $url, 'date' => $date ]; 
+        $filter = [ 'type' => 'search' ]; 
         $query = new MongoDB\Driver\Query($filter);
 
         $res = $mng->executeQuery('pageperformance.cache', $query);
@@ -17,8 +17,7 @@ function mongoUpdate ( $url, $date, $type, $data ) {
         } else {
             $ins = [
                 '_id' => new MongoDB\BSON\ObjectID,
-                'url' => $url,
-                'date' => $date,
+                'type' => 'search',
                 $type => $data
             ];
 
