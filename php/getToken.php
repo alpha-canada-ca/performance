@@ -3,8 +3,8 @@
 require 'generate_jwt.php';
 require 'generate_token.php';
 require 'api_get.php';
+require 'api_post.php';
 $config = include('config.php');
-$data = include('data.php');
 
 $fp = fopen("../keys/secret.pem", "r");
 $priv_key = fread($fp, 8192);
