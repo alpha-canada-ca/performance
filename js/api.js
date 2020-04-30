@@ -36,24 +36,6 @@ function getQueryParams() {
   return result;
 }
 
-function getQueryParams() {
-  // initialize an empty object
-  let result = {};
-  // get URL query string
-  let params = window.location.search;
-  // remove the '?' character
-  params = params.substr(1);
-  let queryParamArray = ( params.split('&') );
-  // iterate over parameter array
-  queryParamArray.forEach(function(queryParam) {
-    // split the query parameter over '='
-    let item = queryParam.split("=");
-    result[item[0]] = decodeURIComponent(item[1]);
-  });
-  // return result object
-  return result;
-}
-
 function getSpecifiedParam(object, val) {
     for (let [key, value] of Object.entries(object)) {
         if (key === val) return value;
@@ -120,7 +102,7 @@ const trendChartTable = (lab, val, lval) => {
  * @param      {<type>}  title   The title (caption)
  */
 function generateTableHead(table, data, title) {
-    let cap = (table.createCaption()).innerHTML = title
+    let cap = (table.createCaption()).innerHTML = "<div class='wb-inv'>"+title+"</div";
     let thead = table.createTHead();
     let row = thead.insertRow();
     for (let key of data) {
@@ -269,8 +251,8 @@ const jsonPieGenerate = (json) => {
         let table = document.querySelector("table#tbl-pltfrm");
         let dtx = Object.keys(srch[0]);
         table.innerHTML = ""
-        generateTableHead(table, dtx, "Number of visits by devices used");
         generateTable(table, srch);
+        generateTableHead(table, dtx, "Number of visits by devices used");
 
         $("#chart-pltfrms").show();
         $("#chrtp").hide();
@@ -470,8 +452,8 @@ const jsonTrendGenerate = ( json, day ) => {
         let table = document.querySelector("table#tbl-trnds");
         let dtx = Object.keys(srch[0]);
         table.innerHTML = ""
-        generateTableHead(table, dtx, "Visits trend by current year and previous year");
         generateTable(table, srch);
+        generateTableHead(table, dtx, "Visits trend by current year and previous year");
         
         $("#chart-trnds").show();
         $("#chrtt").hide();
@@ -493,14 +475,15 @@ const jsonUv = json => {
         uv = (rows["data"][0])
         uvDays = parseInt( uv / $days ).toLocaleString();
         uv = parseInt(uv).toLocaleString();
-        $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>per day</strong></br><span class='small'>" + uv +" total</span>");
+        $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>average per day</strong></br><span class='small'>" + uv +" total</span>");
         
         rap = (rows["data"][1])
         rapWeeks = parseInt( rap / $weeks ).toLocaleString();
         rap = parseInt(rap).toLocaleString();
-        $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>per week</strong></br><span class='small'>" + rap +" total</span>");
+        $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>average per week</strong></br><span class='small'>" + rap +" total</span>");
         
         itemid = (rows["itemId"]);
+        console.log(itemid);
         return itemid;
     } else {
         $uv.html("0");
@@ -597,10 +580,10 @@ const jsonSnum = (json) => {
         snum = (rows["data"])
         snumDays = parseInt( snum / $days ).toLocaleString();
         snum = parseInt(snum).toLocaleString();
-        $snum.prepend("<span class='h1'>" + snumDays +"</span> <strong>per day</strong></br><span class='small'>" + snum +" total</span>");
+        $snum.prepend("<span class='h1'>" + snumDays +"</span> <strong>average per day</strong></br><span class='small'>" + snum +" total</span>");
         
         itemid = (rows["itemId"]);
-
+        console.log(itemid);
         return itemid;
     } else {
         var arrayNum = 4;
@@ -746,31 +729,30 @@ const jsonSearch = ( json, val, title ) => {
 
         $.each(array, function(index, value) {
             term = value["value"];
-            pos = value["data"][0];
+            pos = parseFloat(value["data"][0]);
             imp = value["data"][1];
             clicks = value["data"][2];
             ctr = (clicks * 100 / imp).toFixed(1) + "%"
-            
             pos = pos.toFixed(1);
+
             imp = imp.toLocaleString();
             clicks = clicks.toLocaleString();
 
             if (pos != "NaN" && term != "(Low Traffic)" && term != "Unspecified") {
                 srch.push({
                     Term: term,
-                    Position: pos,
+                    "Average Position": pos,
                     Impressions: imp,
                     Clicks: clicks,
-                    "Click Through Rate (CTR)": ctr
+                    "Click through rate": ctr
                 });
             }
         });
 
         let table = document.querySelector("table"+val);
         let data = Object.keys(srch[0]);
-        generateTableHead(table, data, title);
         generateTable(table, srch);
-
+        generateTableHead(table, data, title);
 
     } else {
         $search.html("No data");
@@ -779,15 +761,20 @@ const jsonSearch = ( json, val, title ) => {
 
 
 const jsonSearchesInstitution = json => {
+    
     var title = "Contextual searches to page";
     var val = "#srchI";
     jsonSearch(json, val, title);
+
+    $(val).trigger("wb-init.wb-tables");
 }
 
 const jsonSearchesGlobal = json => {
    var title = "Global searches to page";
    var val = "#srchG";
    jsonSearch(json, val, title);
+
+   $(val).trigger("wb-init.wb-tables");
 }
 
 
@@ -808,24 +795,8 @@ function fetchWithTimeout(url, options, delay, onTimeout) {
    })
 }
 
-var cnt = 0;
-const apiCall = (d, i, a, aa, uu) => a.map( type => {
+const apiCall = (d, i, a, uu) => a.map( type => {
     url = ( type == "fle" ) ? "php/file.php" : "php/process.php"
-
-    if ( type == "trnd") {
-        day = parseInt( $("#numDays").html() );
-        if ( day <= 31 ) {
-            day = "day"
-        } else if ( day > 31 && day <= 105 ) {
-            day = "week"
-        } else if ( day > 105 && day <= 365 ) {
-            day = "month"
-        } else {
-            day = "year"
-        }
-
-        d.push( day );
-    }
     
     post = { dates: d, url: i, type: type, oUrl: uu };
 
@@ -835,7 +806,7 @@ const apiCall = (d, i, a, aa, uu) => a.map( type => {
     });
 
     return fetch(request).then(res => res.json()).then(res => {
-        cnt++; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
+        //cnt++; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
         //console.log(type);
         //console.log(res);
         switch (type) {
@@ -843,7 +814,7 @@ const apiCall = (d, i, a, aa, uu) => a.map( type => {
             case "fle" : return jsonFile(res);
             case "snm" : return jsonSnum(res);
             case "srch" : return jsonSearches(res);
-            case "trnd" : return jsonTrendGenerate(res, day);
+            case "trnd" : return jsonTrendGenerate(res, "day");
             case "pltfrm" : return jsonPieGenerate(res);
             case "prvs" : return jsonPrevious(res);
             case "frwrd" : return jsonForward(res);
@@ -860,11 +831,31 @@ const apiCall = (d, i, a, aa, uu) => a.map( type => {
 
 });
 
+const apiCall2 = (d, i, a, uu) => a.map( type => {    
+    url = "php/process-new.php";
+    
+    post = { dates: d, url: i, oUrl: uu };
+
+    let request = new Request(url, { 
+        method: "POST",
+        body: JSON.stringify(post)
+    });
+
+    return fetch(request).catch(function (err) {
+        console.log(err.message);
+        console.log(err.stack);
+    });
+
+});
+
 $("#urlform").submit(function(event) {
     event.preventDefault();
     url = $("#urlval").val();
     start = $(".dr-date-start").html()
-    end = $(".dr-date-end").html()
+    end = moment();
+
+    
+
     mainQueue(url, start, end);
 });
 
@@ -879,47 +870,60 @@ const mainQueue = (url, start, end) => {
     if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html") {
         url = (url.length > 255) ? url.substring((url.length) - 255, url.length) : url;
 
+        $dd = $("input[name=dd-value").val();
+
         if (start && end) {
             vStart = start;
             vEnd = end;
         } else {
-            vStart = $(".dr-date-start").html();
-            vEnd = $(".dr-date-end").html();
+            var start = moment();
+            var vEnd = moment().format("dddd MMMM DD, YYYY");
+            if ( $dd == 1 ) vStart = moment(start).subtract(30, 'days').format("dddd MMMM DD, YYYY");
+            else if ( $dd == 2 ) vStart = moment(start).subtract(7, 'days').format("dddd MMMM DD, YYYY");
+            else if ( $dd == 3 ) vStart = moment(start).subtract(1, 'days').format("dddd MMMM DD, YYYY");
+            else { vStart = moment(start).subtract(7, 'days').format("dddd MMMM DD, YYYY"); }
         }
-
         var start = moment(vStart).format("YYYY-MM-DDTHH:mm:ss.SSS");
-        var end = moment(vEnd).add(1, "day").format("YYYY-MM-DDTHH:mm:ss.SSS");
+        var end = moment(vEnd).format("YYYY-MM-DDTHH:mm:ss.SSS");
         
-        var d = [ start, end ]
+        var d = [ start, end ];
+
+        console.log( d );
         
         var fromdaterange = moment(vStart).format("dddd MMMM DD, YYYY");
-        var todaterange = moment(vEnd).format("dddd MMMM DD, YYYY");
+        var todaterange = moment(vEnd).subtract(1, "days").format("dddd MMMM DD, YYYY");
         
-        $("#fromdaterange").html(fromdaterange);
-        $("#todaterange").html(todaterange);
+        $("#fromdaterange").html("<strong>"+fromdaterange+"</strong>");
+        $("#todaterange").html("<strong>"+todaterange+"</strong>");
         
         var start = moment(vStart);
-        var end = moment(vEnd).add(1, "day");
+        var end = moment(vEnd);
         
         dDay = end.diff(start, "days");
         dWeek = end.diff(start, "week", true);
+        /*
         dMonth = end.diff(start, "month", true);
         dQuarter = end.diff(start, "quarter", true);
         dYear = end.diff(start, "year", true);
-        
+        */
+
         $("#numDays").html(dDay);
         $("#numWeeks").html(dWeek);
 
         $("#searchBttn").prop("disabled",true);
 
-        var match = [ "snm", "uvrap", "pltfrm", "trnd", "fle" ];
+        var dbCall = [ "dbGet" ];
+        var match = [ "uvrap", "snm", "pltfrm", "trnd", "fle", "srch", "frwrd", "srchI", "srchG", "prvs" ];
         //var match = [ "snm", "uvrap" ];
-        var previousURL = [ "srch", "frwrd", "srchI", "srchG" ];
-        var pageURL = [ "prvs" ]; //, "dwnld", "outbnd" ];
+        var previousURL = [];
+        var pageURL = [  ]; //, "dwnld", "outbnd" ];
+        /*
         let aa = (match.concat(previousURL).concat(pageURL)).length;
         cnt = 0; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
-
-        const getMatch = () => { return Promise.all( apiCall(d, url, match, aa, url)) }
+        */
+        const dbGetMatch= () => { return Promise.all( apiCall2(d, url, dbCall, url)) }
+        const getMatch = () => { return Promise.all( apiCall(d, url, match, url)) }
+        /*
         const getPreviousPage = id => {
             if (id != null) return Promise.all( apiCall(d, id, previousURL, aa, url));
             else $("#np").html("No data");
@@ -928,9 +932,11 @@ const mainQueue = (url, start, end) => {
             if (id != null) return Promise.all( apiCall(d, id, pageURL, aa, url));
             else $("#pp").html("No data");
         }
+        */
         
-        getMatch().then( res => { getPreviousPage(res[0]); return res; })
-                .then( res => getPageURL(res[1]) )
+        dbGetMatch().then ( () => getMatch() )
+        /*.then( res => { getPreviousPage(res[0]); return res; })
+                .then( res => getPageURL(res[1]) ) */
                 .then( () => { $("#loading").hide(); $("#notfound").hide(); $("#canvas-container").show(); $("#searchBttn").prop("disabled",false); })
                 .catch(console.error.bind(console));
 
