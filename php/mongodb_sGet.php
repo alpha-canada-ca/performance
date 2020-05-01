@@ -3,7 +3,7 @@
 function mongoSearchGet ( $type ) {
     try {
 
-        $mng = new MongoDB\Driver\Manager("mongodb://127.0.0.1:27017");
+        $mng = new MongoDB\Driver\Manager("mongodb://mongodb:27017");
         $bulk = new MongoDB\Driver\BulkWrite;
         $filter = [ 'type' => 'search' ]; 
         $query = new MongoDB\Driver\Query($filter);
