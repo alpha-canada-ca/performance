@@ -83,28 +83,25 @@ try
         $col = array_search("URL", $header);
         */
 
-        require 'mongodb_update.php';
-        require 'mongodb_get.php';
-        require 'mongodb_sUpdate.php';
-        require 'mongodb_sGet.php';
-        require 'mongodb_delete.php';
+        require_once('mongodb_update.php');
+        require_once('mongodb_get.php');
+        require_once('mongodb_sUpdate.php');
+        require_once('mongodb_sGet.php');
+        require_once('mongodb_delete.php');
 
-        if (!isset($_SESSION['CREATED']))
-        {
+        if (!isset($_SESSION['CREATED'])) {
             $_SESSION['CREATED'] = time();
-            require 'getToken.php';
+            require_once('getToken.php');
         }
-        else if (time() - $_SESSION['CREATED'] > 86400)
-        {
+        else if (time() - $_SESSION['CREATED'] > 86400) {
             session_regenerate_id(true);
             $_SESSION['CREATED'] = time();
-            require 'getToken.php';
+            require_once('getToken.php');
         }
 
-        if (isset($_SESSION["token"]))
-        {
+        if (isset($_SESSION["token"])) {
 
-            require 'api_post.php';
+            require_once('api_post.php');
             $data = include ('data.php');
             $config = include ('config.php');
             /*
