@@ -1,9 +1,9 @@
 <?php
 
-require 'generate_jwt.php';
-require 'generate_token.php';
-require 'api_get.php';
-require 'api_post.php';
+require_once('generate_jwt.php');
+require_once('generate_token.php');
+require_once('api_get.php');
+require_once('api_post.php');
 $config = include('config.php');
 
 $fp = fopen("../keys/secret.pem", "r");

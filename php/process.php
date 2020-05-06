@@ -38,7 +38,7 @@ try {
 
     if ((isset($url) && !empty($url))) {
 
-        require 'mongodb_get.php';
+        require_once('mongodb_get.php');
 
         if (substr($url, 0, 8) == "https://") {
             $url = substr($url, 8, strlen($url));
