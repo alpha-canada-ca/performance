@@ -136,14 +136,12 @@ function generateTable(table, data) {
  * @param      {<type>}  json    The json
  * @return     {<type>}  { description_of_the_return_value }
  */
-const jsonPieGenerate = (json) => {
-    var rows = json["rows"][0];
-    
-    if (rows != null) {
+const jsonPieGenerate = (arr) => {
+
         $("#chart").remove()
         $("#chart-canvas").append("<canvas id='chart'></canvas>")
         
-        val = rows["data"];
+        val = arr;
         cnt = val.length;
 
         var data = [{
@@ -256,10 +254,6 @@ const jsonPieGenerate = (json) => {
 
         $("#chart-pltfrms").show();
         $("#chrtp").hide();
-    } else {
-        $("#chart-pltfrms").hide();
-        $("#chrtp").show();
-    }
 }
 
 /**
@@ -546,6 +540,7 @@ const jsonPrevious = json => {
 }
 
 const jsonForward = json => {
+    /*
     var rows = json["rows"][0];
     var $next = $("#np");
     
@@ -568,6 +563,7 @@ const jsonForward = json => {
     } else {
         $next.html("No data");
     }
+    */
 }
 
 const jsonSnum = (json) => {
@@ -749,10 +745,14 @@ const jsonSearch = ( json, val, title ) => {
             }
         });
 
-        let table = document.querySelector("table"+val);
-        let data = Object.keys(srch[0]);
-        generateTable(table, srch);
-        generateTableHead(table, data, title);
+        if (srch.length != 0) {
+            let table = document.querySelector("table"+val);
+            let data = Object.keys(srch[0]);
+            generateTable(table, srch);
+            generateTableHead(table, data, title);
+        } else {
+            $search.html("No data");
+        }
 
     } else {
         $search.html("No data");
@@ -777,6 +777,142 @@ const jsonSearchesGlobal = json => {
    $(val).trigger("wb-init.wb-tables");
 }
 
+function sortByCol(arr) {
+  return arr.sort((a, b)=> b.Value - a.Value)
+}
+
+const jsonAM = ( json, day ) => {
+
+   var rows = json["rows"][0];
+    var $next = $("#np");
+
+    if (rows != null) {
+        var array = json["rows"];
+        $next.html("");
+
+        var next = [];
+
+        $.each(array, function(index, value) {
+            term = value["value"];
+            val = value["data"][day].toLocaleString();
+
+            if (term != "(Low Traffic)" && term != "Unspecified" && val != "0") {
+                next.push({
+                    "Link Text": term,
+                    Clicks: val
+                });
+            }
+        });
+
+        if (next.length != 0) {
+
+            sortByCol(next);
+
+            let table = document.querySelector("table#np");
+            let data = Object.keys(next[0]);
+            generateTable(table, next);
+            generateTableHead(table, data, "Outbound Clicks on Page");
+
+        } else {
+            $next.html("No data");
+        }
+        
+
+    } else {
+        $next.html("No data");
+    }
+
+}
+
+const jsonMetrics = ( json, day ) => {
+
+   var rows = json["summaryData"]["filteredTotals"];
+
+   var $uv = $("#uv");
+    var $rap = $("#rap");
+    var $days = parseInt( $("#numDays").html() );
+    var $weeks = parseInt( $("#numWeeks").html() );
+    var uvNum = 9 + parseInt(day);
+    var rapNum = 36 + parseInt(day);
+
+    var desktopNum = 12 + parseInt(day);
+    var mobileNum = 15 + parseInt(day);
+    var tabletNum = 18 + parseInt(day);
+    var otherNum = 21 + parseInt(day);
+
+    $uv.html("")
+    $rap.html("")
+    if (rows != null) {
+        uv = parseInt(rows[uvNum])
+        uvDays = parseInt( uv / $days ).toLocaleString();
+        uv = parseInt(uv).toLocaleString();
+        $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>average per day</strong></br><span class='small'>" + uv +" total</span>");
+        
+        rap = parseInt(rows[rapNum])
+        rapWeeks = parseInt( rap / $weeks ).toLocaleString();
+        rap = parseInt(rap).toLocaleString();
+        $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>average per week</strong></br><span class='small'>" + rap +" total</span>");
+
+        desktop = parseInt(rows[desktopNum])
+        mobile = parseInt(rows[mobileNum])
+        tablet = parseInt(rows[tabletNum])
+        other = parseInt(rows[otherNum])
+
+        //console.log ( desktop + " " + mobile + " " + tablet + " " + other );
+
+        var arr  = [ desktop, mobile, tablet, other ];
+
+        jsonPieGenerate( arr );
+
+    } else {
+        $uv.html("0");
+        $rap.html("0");
+    }
+
+   /*
+    var $next = $("#np");
+
+    if (rows != null) {
+        var array = json["rows"];
+        $next.html("");
+
+        var next = [];
+
+        $.each(array, function(index, value) {
+            term = value["value"];
+            val = value["data"][day];
+
+            if (term != "(Low Traffic)" && term != "Unspecified" && val != "0") {
+                next.push({
+                    "Link Text": term,
+                    Clicks: val
+                });
+            }
+        });
+
+        if (next.length != 0) {
+
+            sortByCol(next);
+
+            let table = document.querySelector("table#np");
+            let data = Object.keys(next[0]);
+            generateTable(table, next);
+            generateTableHead(table, data, "Outbound Clicks on Page");
+
+        } else {
+            $next.html("No data");
+        }
+        
+
+    } else {
+        $next.html("No data");
+    }
+
+    */
+
+}
+
+
 
 function fetchWithTimeout(url, options, delay, onTimeout) {
    const timer = new Promise((resolve) => {
@@ -795,7 +931,7 @@ function fetchWithTimeout(url, options, delay, onTimeout) {
    })
 }
 
-const apiCall = (d, i, a, uu) => a.map( type => {
+const apiCall = (d, i, a, uu, dd) => a.map( type => {
     url = ( type == "fle" ) ? "php/file.php" : "php/process.php"
     
     post = { dates: d, url: i, type: type, oUrl: uu };
@@ -810,16 +946,18 @@ const apiCall = (d, i, a, uu) => a.map( type => {
         //console.log(type);
         //console.log(res);
         switch (type) {
-            case "uvrap" : return jsonUv(res);
+            //case "uvrap" : return jsonUv(res);
             case "fle" : return jsonFile(res);
             case "snm" : return jsonSnum(res);
             case "srch" : return jsonSearches(res);
             case "trnd" : return jsonTrendGenerate(res, "day");
-            case "pltfrm" : return jsonPieGenerate(res);
+            //case "pltfrm" : return jsonPieGenerate(res);
             case "prvs" : return jsonPrevious(res);
             case "frwrd" : return jsonForward(res);
             case "srchI" : return jsonSearchesInstitution(res);
             case "srchG" : return jsonSearchesGlobal(res);
+            case "activityMap" : return jsonAM(res, dd);
+            case "metrics" : return jsonMetrics(res, dd);
             //case "dwnld" : return jsonDownload(res, uu);
             //case "outbnd" : return jsonOutbound(res, uu);
         }
@@ -871,6 +1009,7 @@ const mainQueue = (url, start, end) => {
         url = (url.length > 255) ? url.substring((url.length) - 255, url.length) : url;
 
         $dd = $("input[name=dd-value").val();
+        if (!$dd) $dd=1;
 
         if (start && end) {
             vStart = start;
@@ -878,10 +1017,9 @@ const mainQueue = (url, start, end) => {
         } else {
             var start = moment();
             var vEnd = moment().format("dddd MMMM DD, YYYY");
-            if ( $dd == 1 ) vStart = moment(start).subtract(30, 'days').format("dddd MMMM DD, YYYY");
-            else if ( $dd == 2 ) vStart = moment(start).subtract(7, 'days').format("dddd MMMM DD, YYYY");
-            else if ( $dd == 3 ) vStart = moment(start).subtract(1, 'days').format("dddd MMMM DD, YYYY");
-            else { vStart = moment(start).subtract(7, 'days').format("dddd MMMM DD, YYYY"); }
+            if ( $dd == 0 ) vStart = moment(start).subtract(30, 'days').format("dddd MMMM DD, YYYY");
+            else if ( $dd == 1 ) vStart = moment(start).subtract(7, 'days').format("dddd MMMM DD, YYYY");
+            else if ( $dd == 2 ) vStart = moment(start).subtract(1, 'days').format("dddd MMMM DD, YYYY");
         }
         var start = moment(vStart).format("YYYY-MM-DDTHH:mm:ss.SSS");
         var end = moment(vEnd).format("YYYY-MM-DDTHH:mm:ss.SSS");
@@ -913,7 +1051,7 @@ const mainQueue = (url, start, end) => {
         $("#searchBttn").prop("disabled",true);
 
         var dbCall = [ "dbGet" ];
-        var match = [ "uvrap", "snm", "pltfrm", "trnd", "fle", "srch", "frwrd", "srchI", "srchG", "prvs" ];
+        var match = [ "snm", "trnd", "fle", "srch", "frwrd", "srchI", "srchG", "prvs", "activityMap", "metrics" ];
         //var match = [ "snm", "uvrap" ];
         var previousURL = [];
         var pageURL = [  ]; //, "dwnld", "outbnd" ];
@@ -921,8 +1059,8 @@ const mainQueue = (url, start, end) => {
         let aa = (match.concat(previousURL).concat(pageURL)).length;
         cnt = 0; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
         */
-        const dbGetMatch= () => { return Promise.all( apiCall2(d, url, dbCall, url)) }
-        const getMatch = () => { return Promise.all( apiCall(d, url, match, url)) }
+        const dbGetMatch= () => { return Promise.all( apiCall2(d, url, dbCall, url, $dd)) }
+        const getMatch = () => { return Promise.all( apiCall(d, url, match, url, $dd)) }
         /*
         const getPreviousPage = id => {
             if (id != null) return Promise.all( apiCall(d, id, previousURL, aa, url));
