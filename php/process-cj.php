@@ -1,5 +1,7 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+
 
 function dateRange($first, $last, $step, $format = 'Y-m-d\TH:i:s.v')
 {
@@ -63,7 +65,7 @@ try
         $dates = [$month, $week, $yesterday];
 
     }
-    else if ((isset($start) && !empty($start)) && (isset($start) && !empty($start)))
+    else if ((isset($start) && !empty($start)) && (isset($end) && !empty($end)))
     {
         $iso = 'Y-m-d\TH:i:s.v';
         $start = (new DateTime($start))->format($iso);
@@ -131,7 +133,7 @@ try
 
             include('lib/simple_html_dom.php');
 
-            $html = file_get_html('https://'.$origUrl);
+            $html = file_get_html('https://' . $origUrl);
 
             foreach ($html->find('form') as $e) {
                 if ($e->action && $e->name == 'cse-search-box') {
@@ -139,6 +141,15 @@ try
                     break;
                 }
             }
+
+            foreach ($html->find('h1') as $e) {
+                $titlePage = $e->innertext;
+                break;
+            }
+
+            $titlePage = trim($titlePage);
+
+            #echo $html;
 
             $oSearchURL = $searchURL;
 
@@ -155,15 +166,17 @@ try
                 $sUrl = "2498054421";
             }
 
-            if ( $searchURL === $globalSearchEn || $searchURL === $globalSearchFr ) {
-                $type = ["srchID", "prevp", "uvrap", "pltfrm", "trnd", "frwrd", "srchG", "prvs", "snm", "srch" ];
+            if ($searchURL === $globalSearchEn || $searchURL === $globalSearchFr) {
+                $type = ["srchID", "prevp", "trnd", "frwrd", "srchG", "prvs", "snm", "srch", "activityMap", "metrics"];
                 $hasContextual = false;
-            } else {
-                if ( $origUrl == 'www.canada.ca' || $origUrl == 'www.canada.ca/home.html' ) {
-                    $type = ["prevp", "uvrap", "pltfrm", "trnd", "frwrd", "prvs" ];
+            }
+            else {
+                if ($origUrl == 'www.canada.ca' || $origUrl == 'www.canada.ca/home.html') {
+                    $type = ["prevp", "trnd", "frwrd", "prvs", "activityMap", "metrics"];
                     $hasContextual = false;
-                } else {
-                    $type = ["srchID", "prevp", "uvrap", "pltfrm", "trnd", "frwrd", "srchI", "srchG", "prvs", "snm", "srch" ];
+                }
+                else {
+                    $type = ["srchID", "prevp", "trnd", "frwrd", "srchI", "srchG", "prvs", "snm", "srch", "activityMap", "metrics"];
                     $hasContextual = true;
                 }
             }
@@ -174,7 +187,7 @@ try
 
                 if ($mode == "delete")
                 {
-                    mongoDelete($oUrl, $oDate);
+                    mongoDelete($oUrl);
 
                 }
                 else if ($mode == "update")
@@ -183,17 +196,19 @@ try
                     //echo $key + 1 . " " . $oDate . "<br />";
                     foreach ($type as $t)
                     {
-
+                        $sm = "single";
+                        if ( $t == "activityMap" || $t == "metrics" ) {
+                            $oDate = $dates[0] . "/" . $end;
+                            $sm = "multi";
+                        }
                         //echo "<br /><br />$t<br />$oDate<br /><br />";
-                        $md = mongoGet($oUrl, $oDate, $t);
-                        if ($md)
-                        {
+                        $md = mongoGet($oUrl, $oDate, $t, $sm);
+                        if ($md) {
                             //echo ($md);
                             continue;
                         }
 
-                        $prevpId = mongoGet($oUrl, $oDate, "prevpId");
-                        $urlId = mongoGet($oUrl, $oDate, "urlId");
+                        $prevpId = mongoGet($oUrl, $oDate, "prevpId", $sm);
                         $searchID = mongoSearchGet($searchURLFormat);
 
                         if ( !($searchID) ) {
@@ -224,10 +239,16 @@ try
                             $array = array_merge( $array, array($prevpId, $searchID, $searchID, $prevpId, $searchID) );
                         } else if ($prevpId && ($t == "srchG")) {
                             $array = array_merge( $array, array($prevpId, $sUrl, $sUrl, $prevpId, $sUrl) );
-                        } else if ($urlId && ($t == "prvs")) {
-                            $array = array_merge( $array, array($urlId) );
+                        } else if ($t == "prvs") {
+                            $array = array_merge( array( $oUrl ), $array );
                         } else if ( $t == "prevp" ) {
                             $array = array_merge( $array, array($pUrl) );
+                        } else if ( $t == "activityMap" ) {
+                            $array = array_merge ( array($titlePage), $dates );
+                            //var_dump($array) ;
+                        } else if ( $t == "metrics" ) {
+                            $array = array( $oUrl );
+                            //var_dump($array) ;
                         } else if ( $t == "snm" ) {
                             if ($hasContextual)
                                 $array = array_merge( $array, array($searchID, $pUrl) );
@@ -294,6 +315,16 @@ try
                         }
 
                         $json = vsprintf($json, $array);
+                        if ($t == "activityMap" || $t == "metrics" ) {
+                            $json = str_replace("2020-05-16T00:00:00.000", $end, $json);
+                            //echo $json;
+                        }
+                        if ($t == "metrics" ) {
+                            $json = str_replace("*month*", $dates[0], $json);
+                            $json = str_replace("*week*", $dates[1], $json);
+                            $json = str_replace("*yesterday*", $dates[2], $json);
+                            //echo $json;
+                        }
 
                         //echo "<br /><br />$t&nbsp;&nbsp;&nbsp;$start&nbsp;&nbsp;&nbsp;&nbsp;$end&nbsp;&nbsp;&nbsp;&nbsp;$oDate";
 
@@ -307,16 +338,12 @@ try
 
                         if ($t == "prevp" && $itemid)
                         {
-                            mongoUpdate($oUrl, $oDate, "prevpId", $itemid);
+                            mongoUpdate($oUrl, $oDate, "prevpId", $itemid, $sm);
 
-                        }
-                        else if ($t == "uvrap" && $itemid)
-                        {
-                            mongoUpdate($oUrl, $oDate, "urlId", $itemid);
                         }
                         
 
-                        mongoUpdate($oUrl, $oDate, $t, $api);
+                        mongoUpdate($oUrl, $oDate, $t, $api, $sm);
                         
                     }
 

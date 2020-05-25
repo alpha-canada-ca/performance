@@ -1,11 +1,12 @@
 <?php
 
-function mongoUpdate ( $url, $date, $type, $data ) {
+function mongoUpdate ( $url, $date, $type, $data, $sm ) {
     try {
 
         $mng = new MongoDB\Driver\Manager("mongodb://mongodb:27017");
         $bulk = new MongoDB\Driver\BulkWrite;
-        $filter = [ 'url' => $url, 'date' => $date ]; 
+        
+            $filter = [ 'url' => $url, 'field' => $sm, 'date' => $date ]; 
         $query = new MongoDB\Driver\Query($filter);
 
         $res = $mng->executeQuery('pageperformance.cache', $query);
@@ -15,12 +16,13 @@ function mongoUpdate ( $url, $date, $type, $data ) {
             $upd = $bulk->update($filter, ['$set' => [$type => $data]]);
             $mng->executeBulkWrite('pageperformance.cache', $bulk);
         } else {
-            $ins = [
-                '_id' => new MongoDB\BSON\ObjectID,
-                'url' => $url,
-                'date' => $date,
-                $type => $data
-            ];
+                $ins = [
+                    '_id' => new MongoDB\BSON\ObjectID,
+                    'url' => $url,
+                    'date' => $date,
+                    'field' => $sm,
+                    $type => $data
+                ];
 
             $bulk->insert($ins);
             $mng->executeBulkWrite('pageperformance.cache', $bulk);

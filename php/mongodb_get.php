@@ -1,11 +1,11 @@
 <?php
 
-function mongoGet ( $url, $date, $type ) {
+function mongoGet ( $url, $date, $type, $sm ) {
     try {
 
         $mng = new MongoDB\Driver\Manager("mongodb://mongodb:27017");
         $bulk = new MongoDB\Driver\BulkWrite;
-        $filter = [ 'url' => $url, 'date' => $date ]; 
+        $filter = [ 'url' => $url, 'field' => $sm, 'date' => $date ]; 
         $query = new MongoDB\Driver\Query($filter);
 
         $res = $mng->executeQuery('pageperformance.cache', $query);
