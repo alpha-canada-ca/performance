@@ -1,11 +1,11 @@
 <?php
 
-function mongoDelete ( $url, $date ) {
+function mongoDelete ( $url ) {
     try {
 
         $mng = new MongoDB\Driver\Manager("mongodb://mongodb:27017");
         $bulk = new MongoDB\Driver\BulkWrite;
-        $filter = [ 'url' => $url, 'date' => $date ]; 
+        $filter = [ 'url' => $url ]; 
         $bulk->delete($filter);
 
         $mng->executeBulkWrite('pageperformance.cache', $bulk);

@@ -13,28 +13,21 @@ try {
 
     $mode = (empty($_REQUEST["mode"])) ? "update" : $_REQUEST["mode"];
 
-    if ((!isset($start) && empty($start)) && (!isset($end) && empty($empty))) {
-        $iso = 'Y-m-d\TH:i:s.v';
-        $today = new DateTime("today");
-        $end = $today->format($iso);
+    $iso = 'Y-m-d\TH:i:s.v';
+    $start = (new DateTime($start))->format($iso);
+    $today = new DateTime("today");
+    $end = $today->format($iso);
 
-        $yesterday = $today->modify('-1 day')
-            ->format($iso);
-        $week = $today->modify('-6 day')
-            ->format($iso);
-        $month = $today->modify('-23 day')
-            ->format($iso);
+    $yesterday = $today->modify('-1 day')
+        ->format($iso);
+    $week = $today->modify('-6 day')
+        ->format($iso);
+    $month = $today->modify('-23 day')
+        ->format($iso);
 
-        $dates = [$month, $week, $yesterday];
+    $dates2 = [$month, $week, $yesterday];
 
-    }
-    else if ((isset($start) && !empty($start)) && (isset($start) && !empty($start))) {
-        $iso = 'Y-m-d\TH:i:s.v';
-        $start = (new DateTime($start))->format($iso);
-        $end = (new DateTime($end))->format($iso);
-
-        $dates = [$start];
-    }
+    $dates = [$start];
 
     if ((isset($url) && !empty($url))) {
 
@@ -57,8 +50,14 @@ try {
         foreach ($dates as $key => $start) {
             $oDate = "$start/$end";
 
+            if ( $type == "activityMap" || $type == "metrics" ) {
+                $oDate = $dates2[0] . "/" . $end;
+                $sm = "multi";
+            } else {
+                $sm = "single";
+            }
             if ($mode == "update") {
-                $md = mongoGet($oUrl, $oDate, $type);
+                $md = mongoGet($oUrl, $oDate, $type, $sm);
                 if ($md) {
                     echo ($md);
                     return;
