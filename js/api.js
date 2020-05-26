@@ -94,6 +94,12 @@ const trendChartTable = (lab, val, lval) => {
 }
 */
 
+function isInt(value) {
+  return !isNaN(value) && 
+         parseInt(Number(value)) == value && 
+         !isNaN(parseInt(value, 10));
+}
+
 /**
  * Generates table head
  *
@@ -123,8 +129,12 @@ function generateTable(table, data) {
     for (let element of data) {
         let row = table.insertRow();
         for (key in element) {
+            var key = element[key];
             let cell = row.insertCell();
-            let text = document.createTextNode(element[key]);
+            if (isInt(key)) {
+                key = key.toLocaleString();
+            }
+            let text = document.createTextNode(key);
             cell.appendChild(text);
         }
     }
@@ -778,7 +788,7 @@ const jsonSearchesGlobal = json => {
 }
 
 function sortByCol(arr) {
-  return arr.sort((a, b)=> b.Value - a.Value)
+  return arr.sort((a, b)=> b.Clicks - a.Clicks);
 }
 
 const jsonAM = ( json, day ) => {
@@ -794,7 +804,7 @@ const jsonAM = ( json, day ) => {
 
         $.each(array, function(index, value) {
             term = value["value"];
-            val = value["data"][day].toLocaleString();
+            val = value["data"][day];
 
             if (term != "(Low Traffic)" && term != "Unspecified" && val != "0") {
                 next.push({
@@ -805,8 +815,7 @@ const jsonAM = ( json, day ) => {
         });
 
         if (next.length != 0) {
-
-            sortByCol(next);
+            next.sort((a, b)=> b.Clicks - a.Clicks);
 
             let table = document.querySelector("table#np");
             let data = Object.keys(next[0]);
@@ -831,7 +840,7 @@ const jsonMetrics = ( json, day ) => {
    var $uv = $("#uv");
     var $rap = $("#rap");
     var $days = parseInt( $("#numDays").html() );
-    var $weeks = parseInt( $("#numWeeks").html() );
+    var $weeks = parseFloat( $("#numWeeks").html() );
     var uvNum = 9 + parseInt(day);
     var rapNum = 36 + parseInt(day);
 
@@ -849,6 +858,7 @@ const jsonMetrics = ( json, day ) => {
         $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>average per day</strong></br><span class='small'>" + uv +" total</span>");
         
         rap = parseInt(rows[rapNum])
+        if (day == 2) $weeks = 1;
         rapWeeks = parseInt( rap / $weeks ).toLocaleString();
         rap = parseInt(rap).toLocaleString();
         $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>average per week</strong></br><span class='small'>" + rap +" total</span>");
@@ -1039,6 +1049,7 @@ const mainQueue = (url, start, end) => {
         
         dDay = end.diff(start, "days");
         dWeek = end.diff(start, "week", true);
+        console.log(dWeek);
         /*
         dMonth = end.diff(start, "month", true);
         dQuarter = end.diff(start, "quarter", true);
