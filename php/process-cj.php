@@ -347,6 +347,7 @@ try
 
                         $api2 = json_decode($api);
 
+                        /*
                         if ($api2->error_code) {
                             sleep(4);
 
