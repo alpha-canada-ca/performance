@@ -65,7 +65,6 @@ try {
         $end = (new DateTime($end))->format($iso);
 
         $dates = [$start];
-        var_dump($dates2);
     }
 
     if ((isset($url) && !empty($url))) {
@@ -124,6 +123,8 @@ try {
 
             include ('lib/simple_html_dom.php');
 
+
+            $bUrl = substr('https://' . $origUrl, 0, 255);
             $html = file_get_html('https://' . $origUrl);
 
             foreach ($html->find('form') as $e) {
@@ -139,6 +140,11 @@ try {
             }
 
             $titlePage = trim($titlePage);
+            $titlePage = str_replace('&amp;', '', $titlePage);
+            $titlePage = str_replace('&nbsp;', ' ', $titlePage);
+            $titlePage = str_replace('<br>', '', $titlePage);
+            $titlePage = str_replace('<br/>', '', $titlePage);
+            $titlePage = str_replace('<br />', '', $titlePage);
 
             $oSearchURL = $searchURL;
 
@@ -157,16 +163,16 @@ try {
             }
 
             if ($searchURL === $globalSearchEn || $searchURL === $globalSearchFr) {
-                $type = ["srchID", "prevp", "trnd", "frwrd", "srchG", "prvs", "snm", "srch", "activityMap", "metrics"];
+                $type = ["srchID", "prevp", "trnd", "frwrd", "prvs", "snm", "srch", "srchAll", "activityMap", "refType", "metrics"];
                 $hasContextual = false;
             }
             else {
                 if ($origUrl == 'www.canada.ca' || $origUrl == 'www.canada.ca/home.html') {
-                    $type = ["prevp", "trnd", "frwrd", "prvs", "activityMap", "metrics"];
+                    $type = ["prevp", "trnd", "frwrd", "prvs", "activityMap", "refType", "metrics"];
                     $hasContextual = false;
                 }
                 else {
-                    $type = ["srchID", "prevp", "trnd", "frwrd", "srchI", "srchG", "prvs", "snm", "srch", "activityMap", "metrics"];
+                    $type = ["srchID", "prevp", "trnd", "frwrd", "prvs", "snm", "srch", "srchAll", "activityMap", "refType", "metrics"];
                     $hasContextual = true;
                 }
             }
@@ -184,7 +190,7 @@ try {
                     foreach ($type as $t) {
 
                         $sm = "single";
-                        if ( $t == "activityMap" || $t == "metrics" ) {
+                        if ( $t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType") {
                             $oDate = $dates2[0] . "/" . $end;
                             $sm = "multi";
                         }
@@ -218,7 +224,7 @@ try {
                         //echo "<br />$searchID<br />";
                         $array = array($start, $end);
 
-                        if ($prevpId && ($t == "frwrd")) {
+                        if ($t == "frwrd") {
                             $array = array_merge($array, array($prevpId));
                         }
                         else if ($prevpId && ($t == "srchI") && $hasContextual) {
@@ -226,6 +232,12 @@ try {
                         }
                         else if ($prevpId && ($t == "srchG")) {
                             $array = array_merge($array, array($prevpId, $sUrl, $sUrl, $prevpId, $sUrl));
+                        }
+                        else if ($t == "srchAll") {
+                            $array = array_merge(array($bUrl), $dates2);
+                        }
+                        else if ($t == "refType") {
+                            $array = array_merge(array($oUrl), $dates2);
                         }
                         else if ($t == "prvs") {
                             $array = array_merge( array( $oUrl ), $array );
@@ -243,7 +255,7 @@ try {
                             if ($hasContextual) $array = array_merge($array, array($searchID, $pUrl));
                             else $array = array_merge($array, array($sUrl, $pUrl));
                         }
-                        else if ($prevpId && ($t == "srch")) {
+                        else if ($t == "srch") {
                             if ($hasContextual) $array = array_merge($array, array($prevpId, $searchID));
                             else $array = array_merge($array, array($prevpId, $sUrl));
                         }
@@ -297,7 +309,7 @@ try {
                         }
 
                         $json = vsprintf($json, $array);
-                        if ($t == "activityMap" || $t == "metrics" ) {
+                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType") {
                             $json = str_replace("2020-05-16T00:00:00.000", $end, $json);
                             //echo $json;
                         }
