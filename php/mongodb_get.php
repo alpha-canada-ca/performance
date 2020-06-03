@@ -11,7 +11,7 @@ function mongoGet ( $url, $date, $type, $sm ) {
         $res = $mng->executeQuery('pageperformance.cache', $query);
         $result = current($res->toArray());
     
-        if ( !empty($result) ) {
+        if ( !empty($result)  && property_exists($result,$type) ) {
             return $result->$type;
         } else {
             return null;
