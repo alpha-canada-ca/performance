@@ -508,12 +508,13 @@ const getPageTitle = a => Object.keys(a).map( (key, index) => {
     }
 });
 
-const getPageH1 = html => {
-    var $html = html[0].html;
-    $html = $html.substr($html.indexOf("<h1"), $html.length);
-    $html = $html.substr(0, $html.indexOf("</h1>"));
-    return $html;
-}
+const getPageH1 = url => {
+    url = ( url.indexOf("https://") !== -1 ) ? url : "https://" + url;
+    if ( url.indexOf("canada.ca") !== -1) {
+        let request = new Request(url, { method: "GET" });
+        return fetch(request).then(res => res.text()).then(res => $(res).find("h1:first").text()).catch(console.error.bind(console));
+    }
+};
 
 const getPage = url => {
     url = ( url.indexOf("https://") !== -1 ) ? url : "https://" + url;
@@ -723,7 +724,46 @@ const jsonOutbound = (json, url) => {
     }
 }
 
-const jsonSearch = ( json, val, title ) => {
+const jsonRT = ( json, day ) => {
+    var rows = json["rows"][0];
+    val = "#reft";
+    title = "Referring types";
+    var $ref = $(val);
+
+    if (rows != null) {
+        var array = json["rows"];
+        $ref.html("");
+
+        var ref = [];
+
+        $.each(array, function(index, value) {
+            term = value["value"];
+            clicks = value["data"][day];
+            
+            ref.push({
+                Type: term,
+                Visits: clicks
+            });
+        });
+
+        if (ref.length != 0) {
+            ref.sort((a, b)=> b.Visits - a.Visits);
+            let table = document.querySelector("table#reft");
+            let data = Object.keys(ref[0]);
+            generateTable(table, ref);
+            generateTableHead(table, data, title);
+
+            $(val).trigger("wb-init.wb-tables");
+        } else {
+            $ref.html("No data");
+        }
+
+    } else {
+        $ref.html("No data");
+    }
+}
+
+const jsonSearch = ( json, val, title, day ) => {
     var rows = json["rows"][0];
     var $search = $(val);
 
@@ -735,27 +775,18 @@ const jsonSearch = ( json, val, title ) => {
 
         $.each(array, function(index, value) {
             term = value["value"];
-            pos = parseFloat(value["data"][0]);
-            imp = value["data"][1];
-            clicks = value["data"][2];
-            ctr = (clicks * 100 / imp).toFixed(1) + "%"
-            pos = pos.toFixed(1);
+            clicks = value["data"][day];
 
-            imp = imp.toLocaleString();
-            clicks = clicks.toLocaleString();
-
-            if (pos != "NaN" && term != "(Low Traffic)" && term != "Unspecified") {
+            if (term != "(Low Traffic)" && term != "Unspecified" && clicks != 0) {
                 srch.push({
                     Term: term,
-                    "Average Position": pos,
-                    Impressions: imp,
-                    Clicks: clicks,
-                    "Click through rate": ctr
+                    Clicks: clicks
                 });
             }
         });
 
         if (srch.length != 0) {
+            srch.sort((a, b)=> b.Clicks - a.Clicks);
             let table = document.querySelector("table"+val);
             let data = Object.keys(srch[0]);
             generateTable(table, srch);
@@ -769,6 +800,15 @@ const jsonSearch = ( json, val, title ) => {
     }
 }
 
+
+const jsonSearchesAll = ( json, day ) => {
+    
+    var title = "Searches to page";
+    var val = "#srchA";
+    jsonSearch(json, val, title, day);
+
+    $(val).trigger("wb-init.wb-tables");
+}
 
 const jsonSearchesInstitution = json => {
     
@@ -964,10 +1004,10 @@ const apiCall = (d, i, a, uu, dd) => a.map( type => {
             //case "pltfrm" : return jsonPieGenerate(res);
             case "prvs" : return jsonPrevious(res);
             case "frwrd" : return jsonForward(res);
-            case "srchI" : return jsonSearchesInstitution(res);
-            case "srchG" : return jsonSearchesGlobal(res);
+            case "srchAll" : return jsonSearchesAll(res, dd);
             case "activityMap" : return jsonAM(res, dd);
             case "metrics" : return jsonMetrics(res, dd);
+            case "refType" : return jsonRT(res, dd);
             //case "dwnld" : return jsonDownload(res, uu);
             //case "outbnd" : return jsonOutbound(res, uu);
         }
@@ -1016,7 +1056,11 @@ const mainQueue = (url, start, end) => {
     url = (url.substring(0, 8) == "https://") ? url.substring(8, url.length) : url;
 
     if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html") {
+        oUrl = "https://" + url;
         url = (url.length > 255) ? url.substring((url.length) - 255, url.length) : url;
+
+        Promise.all( [ getPageH1(oUrl) ] )
+        .then(res => { $("#h1title").html(res); } )
 
         $dd = $("input[name=dd-value").val();
         if (!$dd) $dd=1;
@@ -1062,7 +1106,7 @@ const mainQueue = (url, start, end) => {
         $("#searchBttn").prop("disabled",true);
 
         var dbCall = [ "dbGet" ];
-        var match = [ "snm", "trnd", "fle", "srch", "frwrd", "srchI", "srchG", "prvs", "activityMap", "metrics" ];
+        var match = [ "snm", "trnd", "fle", "srch", "frwrd", "prvs", "srchAll", "activityMap", "refType", "metrics" ];
         //var match = [ "snm", "uvrap" ];
         var previousURL = [];
         var pageURL = [  ]; //, "dwnld", "outbnd" ];
@@ -1070,8 +1114,8 @@ const mainQueue = (url, start, end) => {
         let aa = (match.concat(previousURL).concat(pageURL)).length;
         cnt = 0; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
         */
-        const dbGetMatch= () => { return Promise.all( apiCall2(d, url, dbCall, url, $dd)) }
-        const getMatch = () => { return Promise.all( apiCall(d, url, match, url, $dd)) }
+        const dbGetMatch= () => { return Promise.all( apiCall2(d, url, dbCall, oUrl, $dd)) }
+        const getMatch = () => { return Promise.all( apiCall(d, url, match, oUrl, $dd)) }
         /*
         const getPreviousPage = id => {
             if (id != null) return Promise.all( apiCall(d, id, previousURL, aa, url));
