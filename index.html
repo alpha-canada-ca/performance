@@ -1,36 +1,22 @@
-<html>
+<!DOCTYPE html>
 <!--[if lt IE 9]><html class="no-js lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js" lang="en" dir="ltr">
-<!--<![endif]-->
-
-<head>
-    <meta charset="utf-8">
-    <!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW)
-wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html -->
-    <title>Page Performance Measurement Tool (PPMT)</title>
-    <meta content="width=device-width,initial-scale=1" name="viewport">
-    <meta name="description" content="Page performance management tool (PPMT)">
-    <!--[if gte IE 9 | !IE ]><!-->
-    <link href="gcweb/GCWeb/assets/favicon.ico" rel="icon" type="image/x-icon">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="gcweb/GCWeb/css/theme.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baremetrics-calendar/1.0.14/css/application.css">
-    <!--<![endif]-->
-    <!--[if lt IE 9]>
-<link href="gcweb/GCWeb/assets/favicon.ico" rel="shortcut icon" />
-
-<link rel="stylesheet" href="gcweb/GCWeb/css/ie8-theme.min.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
-<script src="gcweb/wet-boew/js/ie8-wet-boew.min.js"></script>
-<![endif]-->
-    <!--[if lte IE 9]>
-
-<![endif]-->
-    <noscript>
-        <link rel="stylesheet" href="gcweb/wet-boew/css/noscript.min.css" />
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    </noscript>
+<!--[if gt IE 8]><!--><html class="no-js hidden" lang="en" dir="ltr"><!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW) wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html -->
+        <title data-i18n="app-title"></title>
+        <!-- Meta data -->
+        <meta content="width=device-width,initial-scale=1" name="viewport">
+        <!-- Meta data -->
+        <meta name="description" content="Page performance management tool (PPMT)">
+        <!-- Load closure template scripts -->
+        <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/soyutils.js"></script>
+		<script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/wet-en.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baremetrics-calendar/1.0.14/css/application.css">
+        <noscript>
+            <link rel="stylesheet" href="gcweb/wet-boew/css/noscript.min.css" />
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        </noscript>
 
     <style>
         canvas {
@@ -155,91 +141,40 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
   border-bottom: 1px solid #cccccc;
 }
     </style>
-
+    <!-- Write closure template -->
+    <script>
+        document.write(wet.builder.refTop({
+            "isApplication": true
+        }));
+    </script>
 </head>
 
 <body vocab="http://schema.org/" typeof="WebPage">
-    <nav>
-        <ul id="wb-tphp">
-            <li class="wb-slc">
-                <a class="wb-sl" href="#wb-cont">Skip to main content</a>
-            </li>
-            <li class="wb-slc">
-                <a class="wb-sl" href="#wb-info">Skip to "About government"</a>
-            </li>
-        </ul>
-    </nav>
-    <header>
-        <div id="wb-bnr" class="container">
-            <section id="wb-lng" class="text-right">
-                <h2 class="wb-inv">Language selection</h2>
-                <ul class="list-inline margin-bottom-none">
-                    <li><a lang="fr" hreflang="fr" href="analytics-fr.html">Français</a></li>
-                </ul>
-            </section>
-            <div class="row">
-                <div class="brand col-xs-5 col-md-4" property="publisher" typeof="GovernmentOrganization">
-                    <a href="https://www.canada.ca/en.html" property="url"><img src="gcweb/GCWeb/assets/sig-blk-en.svg" alt="" property="logo"><span class="wb-inv" property="name"> Government of Canada / <span lang="fr">Gouvernement du Canada</span></span>
-                    </a>
-                    <meta property="areaServed" typeof="Country" content="Canada">
-                    <link property="logo" href="gcweb/GCWeb/assets/wmms-blk.svg">
-                </div>
-                <section id="wb-srch" class="col-lg-8 text-right">
-                    <h2>Search</h2>
-                    <form action="#" method="post" name="cse-search-box" role="search" class="form-inline">
-                        <div class="form-group">
-                            <label for="wb-srch-q" class="wb-inv">Search Canada.ca</label>
-                            <input id="wb-srch-q" list="wb-srch-q-ac" class="wb-srch-q form-control" name="q" type="search" value="" size="34" maxlength="170" placeholder="Search Canada.ca">
-                            <datalist id="wb-srch-q-ac">
-                            </datalist>
-                        </div>
-                        <div class="form-group submit">
-                            <button type="submit" id="wb-srch-sub" class="btn btn-primary btn-small" name="wb-srch-sub"><span class="glyphicon-search glyphicon"></span><span class="wb-inv">Search</span></button>
-                        </div>
-                    </form>
-                </section>
-            </div>
-        </div>
-        <nav class="gcweb-menu" typeof="SiteNavigationElement">
-            <div class="container">
-                <h2 class="wb-inv">Menu</h2>
-                <button type="button" aria-haspopup="true" aria-expanded="false"><span class="wb-inv">Main </span>Menu <span class="expicon glyphicon glyphicon-chevron-down"></span></button>
-                <ul role="menu" aria-orientation="vertical" data-ajax-replace="gcweb/ajax/sitemenu-v5-en.html">
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/jobs.html">Jobs and the workplace</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/immigration-citizenship.html">Immigration and citizenship</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://travel.gc.ca/">Travel and tourism</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/business.html">Business and industry</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/benefits.html">Benefits</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/health.html">Health</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/taxes.html">Taxes</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/environment.html">Environment and natural resources</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/defence.html">National security and defence</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/culture.html">Culture, history and sport</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/policing.html">Policing, justice and emergencies</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/transport.html">Transport and infrastructure</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://international.gc.ca/world-monde/index.aspx?lang=eng">Canada and the world</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/finance.html">Money and finances</a></li>
-                    <li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/science.html">Science and innovation</a></li>
-                </ul>
-            </div>
-
-        </nav>
-
-    </header>
+    <div id="def-top">
+        <!-- Write closure fall-back static file -->
+        <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/appTop-en.html -->
+    </div>
+    <!-- Write closure template -->
+    <script>
+        var defTop = document.getElementById("def-top");
+        defTop.outerHTML = wet.builder.appTop({
+            "appName": [{"text": "APPNAME", "href": "https://pageperformance.alpha.canada.ca"}],
+            "lngLinks": [{"lang": "fr", "href": "index-fr.html", "text": "Français"}]
+        });
+    </script>
     <main property="mainContentOfPage" class="container" typeof="WebPageElement">
-        <h1 property="name" id="wb-cont">Canada.ca page performance</h1>
-
+        <br/>
         <div class="pull-right">
         <label class="dropdown">
 
-  <div class="dd-button"><i class="fas fa-calendar"></i> Select date</div>
+  <div class="dd-button"><i class="fas fa-calendar"></i>&nbsp;<span data-i18n="select-date"></span></div>
 
   <input type="checkbox" class="dd-input" />
 
   <ul class="dd-menu">
-  <li data-value="31" data-index="0"><i class="fas fa-calendar-alt"></i> Last 30 days</li>
-    <li data-value="8" data-index="1"><i class="fas fa-calendar-week"></i> Last 7 days</li>
-    <li data-value="2" data-index="2"><i class="fas fa-calendar-day"></i> Yesterday</li>
+  <li data-value="31" data-index="0"><i class="fas fa-calendar-alt"></i><span data-i18n="Last30days"></span></li>
+    <li data-value="8" data-index="1"><i class="fas fa-calendar-week"></i><span data-i18n="Last7days"></span></li>
+    <li data-value="2" data-index="2"><i class="fas fa-calendar-day"></i><span data-i18n="Yesterday"></span></li>
   </ul>
   
 </label>
@@ -261,15 +196,15 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
             </div>
         </form>
 
-        <div id="loading">
+        <div id="loading" class="hidden">
             <p><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i>Loading... <!--<span id="percent">0%</span>--></p>
         </div>
 
-        <div id="notfound">
+        <div id="notfound" class="hidden">
             <p><i class="fas fa-exclamation-triangle"></i>Oops... Your search was unsuccessful. Please try again.</p>
         </div>
 
-        <div id="canvas-container">
+        <div id="canvas-container" class="hidden">
             <span id="numWeeks" class="hidden"></span>
             <h2 id="h1title">Page-level statistics</h2>
             <p>
@@ -466,204 +401,59 @@ wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licenc
 
 
         </div>
-
-        <div class="pagedetails">
-            <div class="row">
-                <div class="col-sm-6 col-md-5 col-lg-4">
-                    <details class="brdr-0">
-                        <summary class="btn btn-default text-center">Report a problem on this page</summary>
-                        <div class="well row">
-                            <div class="gc-rprt-prblm">
-                                <div class="gc-rprt-prblm-frm gc-rprt-prblm-tggl">
-                                    <form action="#">
-                                        <fieldset>
-                                            <legend><span class="field-name">Please select all that apply: </span></legend>
-                                            <div class="checkbox">
-                                                <label for="problem1">
-                                                    <input type="checkbox" data-reveal="#broken" name="problem" value="Something is broken" id="problem1">Something is broken</label>
-                                            </div>
-                                            <div class="form-group hide" id="broken">
-                                                <label for="problem1-detail">Provide more details (optional):</label>
-                                                <input type="text" class="form-control full-width" id="problem1-detail">
-                                            </div>
-                                            <div class="checkbox">
-                                                <label for="problem2">
-                                                    <input type="checkbox" data-reveal="#spelling" name="problem" value="It has spelling or grammar mistakes" id="problem2">The page has spelling or grammar mistakes</label>
-                                            </div>
-                                            <div class="form-group hide" id="spelling">
-                                                <label for="problem2-detail">Provide more details (optional):</label>
-                                                <input type="text" class="form-control full-width" id="problem2-detail">
-                                            </div>
-                                            <div class="checkbox">
-                                                <label for="problem3">
-                                                    <input type="checkbox" data-reveal="#wrong" name="problem" value="The information is wrong" id="problem3">The information is wrong</label>
-                                            </div>
-                                            <div class="form-group hide" id="wrong">
-                                                <label for="problem3-detail">Provide more details (optional):</label>
-                                                <input type="text" class="form-control full-width" id="problem3-detail">
-                                            </div>
-                                            <div class="checkbox">
-                                                <label for="problem4">
-                                                    <input type="checkbox" data-reveal="#outdated" name="problem" value="The information is outdated" id="problem4">The information is outdated</label>
-                                            </div>
-                                            <div class="form-group hide" id="outdated">
-                                                <label for="problem4-detail">Provide more details (optional):</label>
-                                                <input type="text" class="form-control full-width" id="problem4-detail">
-                                            </div>
-                                            <div class="checkbox">
-                                                <label for="problem5">
-                                                    <input type="checkbox" data-reveal="#find" name="problem" value="I can’t find what I’m looking for" id="problem5">I can’t find what I’m looking for</label>
-                                            </div>
-                                            <div class="form-group hide" id="find">
-                                                <label for="problem5-detail">Describe what you’re looking for (optional):</label>
-                                                <input type="text" class="form-control full-width" id="problem5-detail">
-                                            </div>
-                                            <div class="checkbox">
-                                                <label for="problem6">
-                                                    <input type="checkbox" data-reveal="#confusing" name="problem" value="It’s confusing" id="problem6">Other</label>
-                                            </div>
-                                            <div class="form-group hide" id="confusing">
-                                                <label for="problem6-detail">Provide more details (optional):</label>
-                                                <input type="text" class="form-control full-width" id="problem6-detail">
-                                            </div>
-                                        </fieldset>
-                                        <button type="submit" class="btn btn-primary wb-toggle" data-toggle='{"stateOff": "hide", "stateOn": "show", "selector": ".gc-rprt-prblm-tggl"}'>Submit</button>
-                                    </form>
-                                </div>
-                                <div class="gc-rprt-prblm-thnk gc-rprt-prblm-tggl hide">
-                                    <h3>Thank you for your help!</h3>
-                                    <p>You will not receive a reply. For enquiries, please <a href="https://www.canada.ca/en/contact.html">contact us</a>.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </details>
-                </div>
+        <div id="def-preFooter">
+            <!-- Write closure fall-back static file -->
+            <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/preFooter-en.html -->
             </div>
-            <dl id="wb-dtmd">
-                <dt>Date modified:&#32;</dt>
-                <dd>
-                    <time property="dateModified">2020-02-25</time>
-                </dd>
-            </dl>
-        </div>
+        <!-- Write closure template -->
+        <script>
+            var defPreFooter = document.getElementById("def-preFooter");
+            defPreFooter.outerHTML = wet.builder.preFooter({
+                    "dateModified": "2020-06-05"
+            });
+        </script>
+       
     </main>
-    <footer id="wb-info">
-        <div class="landscape">
-            <nav class="container wb-navcurr">
-                <h2 class="wb-inv">About government</h2>
-                <ul class="list-unstyled colcount-sm-2 colcount-md-3">
-                    <li><a href="https://www.canada.ca/en/contact.html">Contact us</a></li>
-                    <li><a href="https://www.canada.ca/en/government/dept.html">Departments and agencies</a></li>
-                    <li><a href="https://www.canada.ca/en/government/publicservice.html">Public service and military</a></li>
-                    <li><a href="https://www.canada.ca/en/news.html">News</a></li>
-                    <li><a href="https://www.canada.ca/en/government/system/laws.html">Treaties, laws and regulations</a></li>
-                    <li><a href="https://www.canada.ca/en/transparency/reporting.html">Government-wide reporting</a></li>
-                    <li><a href="https://pm.gc.ca/eng">Prime Minister</a></li>
-                    <li><a href="https://www.canada.ca/en/government/system.html">How government works</a></li>
-                    <li><a href="https://open.canada.ca/en/">Open government</a></li>
-                </ul>
-            </nav>
-        </div>
-        <div class="brand">
-            <div class="container">
-                <div class="row">
-                    <nav class="col-md-9 col-lg-10 ftr-urlt-lnk">
-                        <h2 class="wb-inv">About this site</h2>
-                        <ul>
-                            <li><a href="https://www.canada.ca/en/social.html">Social media</a></li>
-                            <li><a href="https://www.canada.ca/en/mobile.html">Mobile applications</a></li>
-                            <li><a href="https://www1.canada.ca/en/newsite.html">About Canada.ca</a></li>
-                            <li><a href="https://www.canada.ca/en/transparency/terms.html">Terms and conditions</a></li>
-                            <li><a href="https://www.canada.ca/en/transparency/privacy.html">Privacy</a></li>
-                        </ul>
-                    </nav>
-                    <div class="col-xs-6 visible-sm visible-xs tofpg">
-                        <a href="#wb-cont">Top of Page <span class="glyphicon glyphicon-chevron-up"></span></a>
-                    </div>
-                    <div class="col-xs-6 col-md-3 col-lg-2 text-right">
-                        <img src="gcweb/GCWeb/assets/wmms-blk.svg" alt="Symbol of the Government of Canada">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--[if gte IE 9 | !IE ]><!-->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script type="text/javascript" src="gcweb/wet-boew/js/wet-boew.min.js"></script>
-    <!--<![endif]-->
-    <!--[if lt IE 9]>
-<script src="gcweb/wet-boew/js/ie8-wet-boew2.min.js"></script>
-
-<![endif]-->
-    <script type="text/javascript" src="gcweb/GCWeb/js/theme.min.js"></script>
+    <div id="def-footer">
+        <!-- Write closure fall-back static file -->
+        <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/appFooter-en.html -->
+    </div>
+    <!-- Write closure template -->
     <script>
-    var alphaBanner = document.getElementsByTagName('BODY')[0];
-alphaBanner.insertAdjacentHTML('afterbegin', '<section class="experimental alpha-top"><h2 class="wb-inv">Alpha</h2><div class="container"><small><label class="alpha-label">Alpha</label>&nbsp;&nbsp; This is an experimental version of Canada.ca for public testing.</small></div></section >');
+        var defFooter = document.getElementById("def-footer");
+        defFooter.outerHTML = wet.builder.appFooter({
+            "showFeatures": false
+        });
+    </script>
+    <!-- Write closure template -->
+    <script>
+        document.write(wet.builder.refFooter({
+            "isApplication": true
+        }));
+    </script>
+    <script>
+        var alphaBanner = document.getElementsByTagName('BODY')[0];
+        alphaBanner.insertAdjacentHTML('afterbegin', '<section class="experimental alpha-top"><h2 class="wb-inv">Alpha</h2><div class="container"><small><label class="alpha-label">Alpha</label>&nbsp;&nbsp; This is an experimental version of Canada.ca for public testing.</small></div></section >');
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/baremetrics-calendar/1.0.14/js/Calendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.min.js" integrity="sha256-Xe5TCNN0b3K98e99/oWJr0FOiSTILqWWWEaDCY48V5E=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.messagestore.min.js" integrity="sha256-dxDziD29LGTvKo6LXzZmm8o8W87YCu4BOh+tsrDJd4k=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.fallbacks.min.js" integrity="sha256-JYNCT/waNdj6h/SOcUqOmluIEjQakFz54nrbkd44Kj0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.language.min.js" integrity="sha256-GQa4KOpPyr5vY9JrqY9ibG3IXNyNTzTpb/K4fyReaBY=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.parser.min.js" integrity="sha256-wShTIrxeao7Eih6UkkjLqdE2jiH/N0MqaJdiXeGl/7o=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.min.js" integrity="sha256-VNKWSG0j8kQ/+I4J9r0skSppRy11yw7kRmoZK7xmcIM=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.bidi.min.js" integrity="sha256-gtc2Tvs5/k9I3Q28OZ/CP7TzCHANC8wUbJZQVE989Do=" crossorigin="anonymous"></script>
+
+
     <script>
         $('.dd-menu li').click(function(){
           $(this).parents('.dropdown').find('.dd-button').html($(this).html());
           $("input[name='dd-value']").val( $(this).attr("data-index") );;
         });
-
-/*
-        var dd = new Calendar({
-        element: $(".one"),
-        earliest_date: "2017-07-01",
-        latest_date: moment(self.latest_date).subtract(1, "day"),
-        start_date: moment(self.latest_date).subtract(1, 'month').startOf('month'),
-        end_date: moment(self.latest_date).subtract(1, 'month').endOf('month'),
-        presets: [{
-          label: 'This month',
-          start: moment(self.latest_date).startOf('month'),
-          end: moment(self.latest_date).subtract(1, 'day')
-        },{
-          label: 'Last 30 days',
-          start: moment(self.latest_date).subtract(29, 'days'),
-          end: moment(self.latest_date).subtract(1, 'day')
-        },{
-          label: 'Last 6 weeks',
-          start: moment(self.latest_date).subtract(6, 'week'),
-          end: moment(self.latest_date).subtract(1, 'day')
-        },{
-          label: 'Last month',
-          start: moment(self.latest_date).subtract(1, 'month').startOf('month'),
-          end: moment(self.latest_date).subtract(1, 'month').endOf('month')
-        },{
-          label: 'Last 3 months',
-          start: moment(self.latest_date).subtract(3, 'month').startOf('month'),
-          end: moment(self.latest_date).subtract(1, 'month').endOf('month')
-        },{
-          label: 'Last 6 months',
-          start: moment(self.latest_date).subtract(6, 'month').startOf('month'),
-          end: moment(self.latest_date).subtract(1, 'month').endOf('month')
-        },{
-          label: 'Fiscal year (18/19)',
-          start: moment("2018-04-01"),
-          end: moment("2019-03-31")
-          /*
-          label: 'Last fiscal year',
-          start: moment().subtract(2, 'year').month('April').startOf('month'),
-          end: moment().subtract(1, 'year').month('March').endOf('month')
-          
-        },{
-          label: 'Calendar year (2018)',
-          start: moment(self.latest_date).subtract(1, 'year').startOf('year'),
-          end: moment(self.latest_date).subtract(1, 'year').endOf('year')
-        },{
-          label: 'All time',
-          start: moment("2017-07-01"),
-          end: moment(self.latest_date).subtract(1, 'day')
-        }]
-    });
-    */
     </script>
-    <script type="text/javascript" src="js/api.min.js"></script>
-
+    <script type="text/javascript" src="js/api.js"></script>
 </body>
-
 </html>

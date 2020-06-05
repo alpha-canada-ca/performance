@@ -1,0 +1,17 @@
+{
+    "select-date" : "Select date",
+    "app-title" : "Page Performance Measurement Tool (PPMT)",
+    "Last30days" : "Last 30 days",
+    "Last7days": "Last7days",
+    "Yesterday": "Yesterday",
+    "Search" : "Search",
+    "EnterthepageURL" : "Enter the page URL",
+    "PlaceURL" : "Place URL",
+    "Loading..." : "Loading...",
+    "Opps" : "Oops... Your search was unsuccessful. Please try again.",
+    "Page-levelstatistics" : "Page-level statistics",
+    "Period:" : "Period:",
+    "days-" : "days - ",
+    "to" : "to",
+    "Uniquevisitors" : "Unique visitors"
+}
