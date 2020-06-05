@@ -1,5 +1,16 @@
-$(document).ready(function() {
-    $("#canvas-container").hide(); $("#loading").hide(); $("#notfound").hide();
+
+
+$(document).on("wb-ready.wb",function() {
+    $.i18n().load( {
+        'en': './assets/js/i18n/en.json',
+        'fr': './assets/js/i18n/fr.json'
+    } ).done(function () {
+        $("html").i18n();
+        $(".app-name").text($.i18n("app-title"));
+        $("html").removeClass("hidden");
+    });
+    
+    
     let params = getQueryParams()
     var url, start, end;
     url = getSpecifiedParam(params, "url")
@@ -1047,10 +1058,18 @@ $("#urlform").submit(function(event) {
     mainQueue(url, start, end);
 });
 
+const removeQueryString = (url) => {
+    var a = document.createElement('a'); // dummy element
+    a.href = url;   // set full url
+    a.search = "";  // blank out query string
+    return a.href;
+}
+
 const mainQueue = (url, start, end) => {
-    $("#canvas-container").hide();
-    $("#notfound").hide()
-    $("#loading").show();
+    url = removeQueryString(url);
+    $("#canvas-container").addClass("hidden");
+    $("#notfound").addClass("hidden")
+    $("#loading").removeClass("hidden");
 
     $success = 0;
     url = (url.substring(0, 8) == "https://") ? url.substring(8, url.length) : url;
@@ -1130,12 +1149,12 @@ const mainQueue = (url, start, end) => {
         dbGetMatch().then ( () => getMatch() )
         /*.then( res => { getPreviousPage(res[0]); return res; })
                 .then( res => getPageURL(res[1]) ) */
-                .then( () => { $("#loading").hide(); $("#notfound").hide(); $("#canvas-container").show(); $("#searchBttn").prop("disabled",false); })
+                .then( () => { $("#loading").addClass("hidden"); $("#notfound").addClass("hidden"); $("#canvas-container").removeClass("hidden"); $("#searchBttn").prop("disabled",false); })
                 .catch(console.error.bind(console));
 
         $success = 1;
 
     }
 
-    if (!$success) { $("#loading").hide(); $("#notfound").show(); }
+    if (!$success) { $("#loading").addClass("hidden"); $("#notfound").removeClass("hidden"); }
 }
