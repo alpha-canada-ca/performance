@@ -1047,7 +1047,15 @@ $("#urlform").submit(function(event) {
     mainQueue(url, start, end);
 });
 
+const removeQueryString = (url) => {
+    var a = document.createElement('a'); // dummy element
+    a.href = url;   // set full url
+    a.search = "";  // blank out query string
+    return a.href;
+}
+
 const mainQueue = (url, start, end) => {
+    url = removeQueryString(url);
     $("#canvas-container").hide();
     $("#notfound").hide()
     $("#loading").show();
