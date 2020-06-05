@@ -186,45 +186,45 @@
                     
         <input type='hidden' name='dd-value'>
 
-            <label for="btngrp-search2" class="wb-inv">Search</label>
-            <p>Enter the page URL</p>
+            <label for="btngrp-search2" class="wb-inv" data-i18n="Search"></label>
+            <p data-i18n="EnterthepageURL"></p>
             <div class="input-group">
-                <input type="search" id="urlval" name="urlval" class="form-control" placeholder="Place URL" size="6" />
+                <input type="search" id="urlval" name="urlval" class="form-control" data-i18n="[placeholder]PlaceURL" size="6" />
                 <span class="input-group-btn">
-                    <button class="btn btn-default" id="searchBttn" type="submit"><span class="glyphicon-search glyphicon"></span><span class="wb-inv">Search</span></button>
+                    <button class="btn btn-default" id="searchBttn" type="submit"><span class="glyphicon-search glyphicon"></span><span class="wb-inv" data-i18n="Search"></span></button>
                 </span>
             </div>
         </form>
 
         <div id="loading" class="hidden">
-            <p><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i>Loading... <!--<span id="percent">0%</span>--></p>
+            <p><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="Loading..."></span> </p>
         </div>
 
         <div id="notfound" class="hidden">
-            <p><i class="fas fa-exclamation-triangle"></i>Oops... Your search was unsuccessful. Please try again.</p>
+            <p><i class="fas fa-exclamation-triangle"></i><span data-i18n="Opps"></span></p>
         </div>
 
         <div id="canvas-container" class="hidden">
             <span id="numWeeks" class="hidden"></span>
-            <h2 id="h1title">Page-level statistics</h2>
+            <h2 id="h1title" data-i18n="Page-levelstatistics"></h2>
             <p>
-              <strong>Period:</strong> <span id="numDays"></span> days - <span id="fromdaterange"></span> to <span id="todaterange"></span> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
+              <strong data-i18n="Period:"></strong></strong> <span id="numDays"></span> <span data-i18n="days-"></span> <span id="fromdaterange"></span> <span data-i18n="to"></span> <span id="todaterange"></span> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
             </p>
 
             <div class="row">
                 <div class="col-md-6">
-                    <p class="h2">Unique visitors</p>
+                    <p class="h2" data-i18n="Uniquevisitors"></p>
                     <p id="uv"></p>
                 </div>
                 <div class="col-md-6">
-                    <p class="h2">Searches started from this page</p>
+                    <p class="h2" data-i18n="Searchesstartedfromthispage"></p>
                     <p id="snum"></p>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6">
-                    <p class="h2">Report a problem</p>
+                    <p class="h2" data-i18n="Reportaproblem"></p>
                     <p id="rap"></p>
                 </div>
                 <div class="col-md-6">
