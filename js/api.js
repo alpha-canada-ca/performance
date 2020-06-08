@@ -7,7 +7,9 @@ $(document).on("wb-ready.wb",function() {
     } ).done(function () {
         $("html").i18n();
         $(".app-name").text($.i18n("app-title"));
-        $("html").removeClass("hidden");
+        var alphaBanner = document.getElementsByTagName('BODY')[0];
+        alphaBanner.insertAdjacentHTML('afterbegin', '<section class="experimental alpha-top"><h2 class="wb-inv">Alpha</h2><div class="container"><small><label class="alpha-label">Alpha</label>&nbsp;&nbsp; This is an experimental version of Canada.ca for public testing.</small></div></section >');
+        $("#allspan").removeClass("hidden");
     });
     
     
@@ -159,9 +161,10 @@ function generateTable(table, data) {
  */
 const jsonPieGenerate = (arr) => {
 
-        $("#chart").remove()
-        $("#chart-canvas").append("<canvas id='chart'></canvas>")
-        
+        $("#chart").remove();
+        $("#chart-canvas").append("<canvas id='chart' data-i18n='Textalternativeforthiscanvasgraphicisinthedatatablebelow.'></canvas>");
+        //$("#chart-canvas").append('<details><summary data-i18n="Numberofvisits(%)bydevicesused-Table"></summary><table id="tbl-pltfrm" class="table table-border"></table></details>');
+
         val = arr;
         cnt = val.length;
 
@@ -273,7 +276,9 @@ const jsonPieGenerate = (arr) => {
         generateTable(table, srch);
         generateTableHead(table, dtx, "Number of visits by devices used");
 
+        $("summary" ).trigger( "wb-init.wb-details" );
         $("#chart-pltfrms").show();
+
         $("#chrtp").hide();
 }
 

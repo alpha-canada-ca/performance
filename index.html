@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--[if lt IE 9]><html class="no-js lt-ie9" lang="en" dir="ltr"><![endif]-->
-<!--[if gt IE 8]><!--><html class="no-js hidden" lang="en" dir="ltr"><!--<![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en" dir="ltr"><!--<![endif]-->
 	<head>
 		<meta charset="utf-8">
 		<!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW) wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html -->
@@ -10,6 +10,15 @@
         <!-- Meta data -->
         <meta name="description" content="Page performance management tool (PPMT)">
         <!-- Load closure template scripts -->
+        <script>
+            var altLang = "fr"
+            var altLangText = "Français";
+            if (location.search.indexOf("lang=fr") > -1) {
+                document.documentElement.lang = "fr";
+                altLang = "en";
+                altLangText = "English";
+            }
+        </script>
         <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/soyutils.js"></script>
 		<script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/wet-en.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baremetrics-calendar/1.0.14/css/application.css">
@@ -150,6 +159,7 @@
 </head>
 
 <body vocab="http://schema.org/" typeof="WebPage">
+    <span id="allspan" class="hidden">
     <div id="def-top">
         <!-- Write closure fall-back static file -->
         <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/appTop-en.html -->
@@ -159,7 +169,7 @@
         var defTop = document.getElementById("def-top");
         defTop.outerHTML = wet.builder.appTop({
             "appName": [{"text": "APPNAME", "href": "https://pageperformance.alpha.canada.ca"}],
-            "lngLinks": [{"lang": "fr", "href": "index-fr.html", "text": "Français"}]
+            "lngLinks": [{"lang": altLang, "href": "?lang="+altLang, "text": altLangText}]
         });
     </script>
     <main property="mainContentOfPage" class="container" typeof="WebPageElement">
@@ -285,7 +295,7 @@
                             <canvas id="chart" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow."></canvas>
                         </div>
                         <details>
-                            <summary data-i18n="Numberofvisits(%)bydevicesused-Table"></summary>
+                            <summary id="tbl-pltfrm-sumary" data-i18n="Numberofvisits(%)bydevicesused-Table"></summary>
                             <table id="tbl-pltfrm" class="table table-border">
                             </table>
                         </details>
@@ -356,10 +366,6 @@
             "isApplication": true
         }));
     </script>
-    <script>
-        var alphaBanner = document.getElementsByTagName('BODY')[0];
-        alphaBanner.insertAdjacentHTML('afterbegin', '<section class="experimental alpha-top"><h2 class="wb-inv">Alpha</h2><div class="container"><small><label class="alpha-label">Alpha</label>&nbsp;&nbsp; This is an experimental version of Canada.ca for public testing.</small></div></section >');
-    </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -380,5 +386,6 @@
         });
     </script>
     <script type="text/javascript" src="js/api.js"></script>
+    </span>
 </body>
 </html>
