@@ -7,7 +7,7 @@ $(document).on("wb-ready.wb",function() {
     } ).done(function () {
         $("html").i18n();
         $(".app-name").text($.i18n("app-title"));
-        $("html").removeClass("hidden");
+        $("#allspan").removeClass("hidden");
     });
     
     
@@ -72,39 +72,6 @@ const poolColors = (a) => {
     return pool;
 }
 
-/*
-const pieChartTable = (lab, val) => {
-    $.each(lab, function(index, value) {
-        $typ = $("#type" + index)
-        $typ.html(value);
-    });
-
-    $.each(val, function(index, value) {
-        $val = $("#percent" + index)
-        const arrSum = val => val.reduce((a, b) => a + b, 0)
-        per = (value * 100 / arrSum(val)).toFixed(1) + "%";
-        $val.html(per);
-    });
-}
-
-const trendChartTable = (lab, val, lval) => {
-    $.each(lab, function(index, value) {
-        $lab = $("#lab" + index);
-        $lab.html(value);
-    });
-
-    $.each(val, function(index, value) {
-        $val = $("#val" + index);
-        $val.html(value.toLocaleString());
-    });
-
-    $.each(lval, function(index, value) {
-        $lval = $("#lval" + index);
-        $lval.html(value.toLocaleString());
-    });
-}
-*/
-
 function isInt(value) {
   return !isNaN(value) && 
          parseInt(Number(value)) == value && 
@@ -159,9 +126,9 @@ function generateTable(table, data) {
  */
 const jsonPieGenerate = (arr) => {
 
-        $("#chart").remove()
-        $("#chart-canvas").append("<canvas id='chart'></canvas>")
-        
+        $("#chart").remove();
+        $("#chart-canvas").append("<canvas id='chart' data-i18n='Textalternativeforthiscanvasgraphicisinthedatatablebelow.'></canvas>");
+
         val = arr;
         cnt = val.length;
 
@@ -201,31 +168,6 @@ const jsonPieGenerate = (arr) => {
             tooltips: {
                 enabled: false
             },
-            /*
-            tooltips: {
-                callbacks: {
-                  label: function (item, data) { 
-                      console.log(data.datasets[item.datasetIndex]);
-                    var labels = data.datasets[item.datasetIndex].labels;
-                    var values = data.datasets[item.datasetIndex].data;
-                    var value = data.datasets[item.datasetIndex].data[item.index];
-                    var colour = data.datasets[item.datasetIndex].backgroundColor
-                    var total = 0;
-                    for (var i in values) {
-                      total += values[i];
-                   }
-                    
-                    var totally = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    var label = [];
-                    for (var j in labels) {
-                        var percentage = Math.round((values[j] / total) * 100);
-                      label.push (labels[j] + " : " + values[j].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " (" + percentage + "%)");
-                    }       
-                    label.push("Total : " + totally)
-                    return label;
-                  }
-                }
-              },*/
             legend: {
                 position: "bottom",
                 minSize: {
@@ -243,12 +185,12 @@ const jsonPieGenerate = (arr) => {
             type: "pie",
             data: {
                 datasets: data,
-                labels: ["Desktop", "Mobile Phone", "Tablet", "Other"]
+                labels: [$.i18n("Desktop"), $.i18n("Mobile Phone"), $.i18n("Tablet"), $.i18n("Other")]
             },
             options: options
         });
 
-        //pieChartTable(chart.data.labels, val)
+        
 
         sum = val.reduce(function(acc, val) { return acc + val; }, 0)
 
@@ -259,19 +201,18 @@ const jsonPieGenerate = (arr) => {
             lab = chart.data.labels[index]
             per = (val * 100 / sum).toFixed(2) + "%"
             val = value.toLocaleString()
-
-            srch.push({
-                "Device Type": lab,
-                Visits: val,
-                Percent: per
-            });
+            var obj = {};
+            obj[$.i18n("DeviceType")] = lab;
+            obj[$.i18n("Visits")] = val;
+            obj[$.i18n("Percent")] = per;
+            srch.push(obj);
         });
 
         let table = document.querySelector("table#tbl-pltfrm");
         let dtx = Object.keys(srch[0]);
         table.innerHTML = ""
         generateTable(table, srch);
-        generateTableHead(table, dtx, "Number of visits by devices used");
+        generateTableHead(table, dtx, $.i18n("Number of visits by devices used"));
 
         $("#chart-pltfrms").show();
         $("#chrtp").hide();
@@ -330,50 +271,7 @@ const jsonTrendGenerate = ( json, day ) => {
                     display: false
                 }
             },
-            /*
-            plugins: {
-                datalabels: {
-                    formatter: (value, ctx) => {
-                        return kFormatter(value);
-                    },
-                    backgroundColor: function(context) {
-                        return context.dataset.backgroundColor;
-                    },
-                    borderRadius: 4,
-                    color: "white",
-                    font: {
-                        weight: "bold"
-                    },
-                    align: function(ctx) {
-                        var idx = ctx.dataIndex;
-                        var val = ctx.dataset.data[idx];
-                        var datasets = ctx.chart.data.datasets;
-                        var min = val;
-                        var max = val;
-                        var i, ilen, ival;
-
-                        for (i = 0, ilen = datasets.length; i < ilen; ++i) {
-                            if (i === ctx.datasetIndex) {
-                                continue;
-                            }
-
-                            ival = datasets[i].data[idx];
-                            min = Math.min(min, ival);
-                            max = Math.max(max, ival);
-
-                            maxMed = max / 2
-                            if (val < maxMed) {
-                                return "end"
-                            } else if (val > min && val < max) {
-                                return "center";
-                            }
-                        }
-
-                        return val <= min ? "start" : "end";
-                    }
-                }
-            },
-            * */
+           
             scales: {
                 yAxes: [{/*
                     afterBuildTicks: function(scale) {
@@ -393,13 +291,13 @@ const jsonTrendGenerate = ( json, day ) => {
                     },*/
                     scaleLabel: {
                         display: true,
-                        labelString: "Number of visits"
+                        labelString: $.i18n("Numberofvisits")
                     }
                 }],
                 xAxes: [ {
                   scaleLabel: {
                     display: true,
-                    labelString: (granularity + " of selected date range")
+                    labelString: ($.i18n(granularity) + $.i18n("Dayofselecteddaterange"))
                   }
                 }]
             },
@@ -429,19 +327,17 @@ const jsonTrendGenerate = ( json, day ) => {
             data: {
                 labels: $rng,
                 datasets: [{
-                    label: "Current year",
+                    label: $.i18n("CurrentYear"),
                     data: val,
                     backgroundColor: dynamicColors()
                 }, {
-                    label: "Previous year",
+                    label: $.i18n("PreviousYear"),
                     data: lval,
                     backgroundColor: dynamicColors()
                 }]
             },
             options: options
         });
-
-        //trendChartTable(chart2.data.labels, val, lval)
 
         let srch = [];
         var cntrx = 1
@@ -450,25 +346,24 @@ const jsonTrendGenerate = ( json, day ) => {
             vals = val[index]
             lvals = lval[index]
             lab = chart2.data.labels[index]
-            gran = granularity + " " + cntrx
+            gran = $.i18n(granularity) + " " + cntrx
             cntrx++
             diff = ((( vals - lvals ) / lvals) * 100).toFixed(1) + "%"
             vals = val[index].toLocaleString()
             lvals = lval[index].toLocaleString()
-
-            srch.push({
-                [granularity]: gran,
-                "Current Year": vals,
-                "Previous Year": lvals,
-                "Difference": diff
-            });
+            var obj = {};
+            obj[$.i18n("CurrentYear")] = vals;
+            obj[$.i18n("PreviousYear")] = lvals;
+            obj[$.i18n("Difference")] = lvals;
+            obj[granularity]= gran;
+            srch.push(obj);
         });
 
         let table = document.querySelector("table#tbl-trnds");
         let dtx = Object.keys(srch[0]);
         table.innerHTML = ""
         generateTable(table, srch);
-        generateTableHead(table, dtx, "Visits trend by current year and previous year");
+        generateTableHead(table, dtx, $.i18n("Visitstrendbycurrentyearandpreviousyear"));
         
         $("#chart-trnds").show();
         $("#chrtt").hide();
@@ -490,12 +385,12 @@ const jsonUv = json => {
         uv = (rows["data"][0])
         uvDays = parseInt( uv / $days ).toLocaleString();
         uv = parseInt(uv).toLocaleString();
-        $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>average per day</strong></br><span class='small'>" + uv +" total</span>");
+        $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>" + $.i18n("averageperday") + "</strong></br><span class='small'>" + uv +" "+ $.i18n("total")+"</span>");
         
         rap = (rows["data"][1])
         rapWeeks = parseInt( rap / $weeks ).toLocaleString();
         rap = parseInt(rap).toLocaleString();
-        $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>average per week</strong></br><span class='small'>" + rap +" total</span>");
+        $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>" + $.i18n("averageperweek") + "</strong></br><span class='small'>" + rap +" "+ $.i18n("total")+"</span>");
         
         itemid = (rows["itemId"]);
         console.log(itemid);
@@ -551,13 +446,13 @@ const jsonPrevious = json => {
                 term = (res[index] == null) ? url : res[index];
                 val = value["data"][0];
                 
-                f = (url == "blank page url") ? "Direct traffic / Bookmark" : ("<a href='" + url + "'>" + term + "</a>");
+                f = (url == "blank page url") ? $.i18n("Directtraffic/Bookmark") : ("<a href='" + url + "'>" + term + "</a>");
                 $prev.append($("<li>").append(f));
             });
         }).catch(console.error.bind(console));
         
     } else {
-        $prev.html("No data");
+        $prev.html($.i18n("Nodata"));
     }
 }
 
@@ -598,7 +493,7 @@ const jsonSnum = (json) => {
         snum = (rows["data"])
         snumDays = parseInt( snum / $days ).toLocaleString();
         snum = parseInt(snum).toLocaleString();
-        $snum.prepend("<span class='h1'>" + snumDays +"</span> <strong>average per day</strong></br><span class='small'>" + snum +" total</span>");
+        $snum.prepend("<span class='h1'>" + snumDays +"</span> <strong>" + $.i18n("averageperday") + "</strong></br><span class='small'>" + snum +" "+ $.i18n("total")+"</span>");
         
         itemid = (rows["itemId"]);
         console.log(itemid);
@@ -609,7 +504,7 @@ const jsonSnum = (json) => {
 
         $snum.html("0");
         $search = $("#search0");
-        $search.html("No data");
+        $search.html($.i18n("Nodata"));
         $.each(array, function(index, value) {
             if (index != 0) {
                 $search = $("#search" + index);
@@ -705,7 +600,7 @@ $url = "https://www.canada.ca/en/revenue-agency/services/forms-publications/td1-
         //console.log(srch)
         
     } else {
-        $dwnld.html("No data");
+        $dwnld.html($.i18n("Nodata"));
     }
 }
 
@@ -750,11 +645,10 @@ const jsonRT = ( json, day ) => {
         $.each(array, function(index, value) {
             term = value["value"];
             clicks = value["data"][day];
-            
-            ref.push({
-                Type: term,
-                Visits: clicks
-            });
+            var obj = {};
+            obj[$.i18n("Type")]  = $.i18n(term.replace(/\s/g,''));
+            obj[$.i18n("Visits")]  = clicks;
+            ref.push(obj);
         });
 
         if (ref.length != 0) {
@@ -766,11 +660,11 @@ const jsonRT = ( json, day ) => {
 
             $(val).trigger("wb-init.wb-tables");
         } else {
-            $ref.html("No data");
+            $ref.html($.i18n("Nodata"));
         }
 
     } else {
-        $ref.html("No data");
+        $ref.html($.i18n("Nodata"));
     }
 }
 
@@ -789,10 +683,10 @@ const jsonSearch = ( json, val, title, day ) => {
             clicks = value["data"][day];
 
             if (term != "(Low Traffic)" && term != "Unspecified" && clicks != 0) {
-                srch.push({
-                    Term: term,
-                    Clicks: clicks
-                });
+                var obj = {};
+                obj[$.i18n("Term")] = term;
+                obj[$.i18n("Clicks")] = clicks;
+                srch.push(obj);
             }
         });
 
@@ -803,18 +697,18 @@ const jsonSearch = ( json, val, title, day ) => {
             generateTable(table, srch);
             generateTableHead(table, data, title);
         } else {
-            $search.html("No data");
+            $search.html($.i18n("Nodata"));
         }
 
     } else {
-        $search.html("No data");
+        $search.html($("Nodata"));
     }
 }
 
 
 const jsonSearchesAll = ( json, day ) => {
     
-    var title = "Searches to page";
+    var title = $.i18n("Searches to page");
     var val = "#srchA";
     jsonSearch(json, val, title, day);
 
@@ -823,7 +717,7 @@ const jsonSearchesAll = ( json, day ) => {
 
 const jsonSearchesInstitution = json => {
     
-    var title = "Contextual searches to page";
+    var title = $.i18n("Contextualsearchestopage");
     var val = "#srchI";
     jsonSearch(json, val, title);
 
@@ -831,7 +725,7 @@ const jsonSearchesInstitution = json => {
 }
 
 const jsonSearchesGlobal = json => {
-   var title = "Global searches to page";
+   var title = $.i18n("Globalsearchestopage");
    var val = "#srchG";
    jsonSearch(json, val, title);
 
@@ -858,10 +752,10 @@ const jsonAM = ( json, day ) => {
             val = value["data"][day];
 
             if (term != "(Low Traffic)" && term != "Unspecified" && val != "0") {
-                next.push({
-                    "Link Text": term,
-                    Clicks: val
-                });
+                var obj = {};
+                obj[$.i18n("LinkText")] = term;
+                obj[$.i18n("Clicks")] = val;
+                next.push(obj);
             }
         });
 
@@ -871,15 +765,15 @@ const jsonAM = ( json, day ) => {
             let table = document.querySelector("table#np");
             let data = Object.keys(next[0]);
             generateTable(table, next);
-            generateTableHead(table, data, "Outbound Clicks on Page");
+            generateTableHead(table, data, $.i18n("OutboundClicksonPage"));
 
         } else {
-            $next.html("No data");
+            $next.html($.i18n("Nodata"));
         }
         
 
     } else {
-        $next.html("No data");
+        $next.html($.i18n("Nodata"));
     }
 
 }
@@ -906,13 +800,13 @@ const jsonMetrics = ( json, day ) => {
         uv = parseInt(rows[uvNum])
         uvDays = parseInt( uv / $days ).toLocaleString();
         uv = parseInt(uv).toLocaleString();
-        $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>average per day</strong></br><span class='small'>" + uv +" total</span>");
+        $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>"+$.i18n("averageperday")+"</strong></br><span class='small'>" + uv +" "+ $.i18n("total")+"</span>");
         
         rap = parseInt(rows[rapNum])
         if (day == 2) $weeks = 1;
         rapWeeks = parseInt( rap / $weeks ).toLocaleString();
         rap = parseInt(rap).toLocaleString();
-        $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>average per week</strong></br><span class='small'>" + rap +" total</span>");
+        $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>"+$.i18n("averageperweek")+"</strong></br><span class='small'>" + rap +" "+ $.i18n("total")+"</span>");
 
         desktop = parseInt(rows[desktopNum])
         mobile = parseInt(rows[mobileNum])
