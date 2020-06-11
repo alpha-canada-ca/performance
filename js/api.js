@@ -25,7 +25,7 @@ $(document).on("wb-ready.wb",function() {
 
     if (url) {
         $("#urlval").val(url);
-        mainQueue(url, start, end);
+        mainQueue(url, start, end, 0);
     }
 });
 
@@ -110,7 +110,7 @@ function generateTable(table, data) {
             var key = element[key];
             let cell = row.insertCell();
             if (isInt(key)) {
-                key = key.toLocaleString();
+                key = key.toLocaleString(document.documentElement.lang+"-CA");
             }
             let text = document.createTextNode(key);
             cell.appendChild(text);
@@ -126,9 +126,9 @@ function generateTable(table, data) {
  */
 const jsonPieGenerate = (arr) => {
 
-        $("#chart").remove();
-        $("#chart-canvas").append("<canvas id='chart' data-i18n='Textalternativeforthiscanvasgraphicisinthedatatablebelow.'></canvas>");
-
+        $("#chart").remove()
+        $("#chart-canvas").append("<canvas id='chart'></canvas>")
+        
         val = arr;
         cnt = val.length;
 
@@ -152,8 +152,13 @@ const jsonPieGenerate = (arr) => {
                             sum += data;
                         });
 
-                        let percentage = (value * 100 / sum).toFixed(1) + "%";
-                        return percentage;
+                        let percentage = parseFloat((value * 100 / sum).toFixed(1)).toLocaleString(document.documentElement.lang+"-CA");
+                        if ( document.documentElement.lang == "fr" ) {
+                            var end = " %"
+                        } else {
+                            var end = "%";
+                        }
+                        return percentage + end;
                     },
                     backgroundColor: function(context) {
                         return context.dataset.backgroundColor;
@@ -185,12 +190,10 @@ const jsonPieGenerate = (arr) => {
             type: "pie",
             data: {
                 datasets: data,
-                labels: [$.i18n("Desktop"), $.i18n("Mobile Phone"), $.i18n("Tablet"), $.i18n("Other")]
+                labels: [$.i18n("Desktop"), $.i18n("MobilePhone"), $.i18n("Tablet"), $.i18n("Other")]
             },
             options: options
         });
-
-        
 
         sum = val.reduce(function(acc, val) { return acc + val; }, 0)
 
@@ -199,8 +202,14 @@ const jsonPieGenerate = (arr) => {
         $.each(val, function(index, value) {
             val = value
             lab = chart.data.labels[index]
-            per = (val * 100 / sum).toFixed(2) + "%"
-            val = value.toLocaleString()
+            per = parseFloat((val * 100 / sum).toFixed(2)).toLocaleString(document.documentElement.lang+"-CA")
+            if ( document.documentElement.lang == "fr" ) {
+                var end = " %"
+            } else {
+                var end = "%";
+            }
+            per = per + end;
+            val = value.toLocaleString(document.documentElement.lang+"-CA")
             var obj = {};
             obj[$.i18n("DeviceType")] = lab;
             obj[$.i18n("Visits")] = val;
@@ -273,22 +282,7 @@ const jsonTrendGenerate = ( json, day ) => {
             },
            
             scales: {
-                yAxes: [{/*
-                    afterBuildTicks: function(scale) {
-                        scale.ticks = updateChartTicks(scale);
-                        return;
-                    },
-                    beforeUpdate: function(oScale) {
-                        return;
-                    },
-                    ticks: {
-                        beginAtZero: true,
-                        beginAtZero: true,
-                        padding: 6,
-                        callback: function(value, index, values) {
-                            return kFormatter(value);
-                        }
-                    },*/
+                yAxes: [{
                     scaleLabel: {
                         display: true,
                         labelString: $.i18n("Numberofvisits")
@@ -348,14 +342,20 @@ const jsonTrendGenerate = ( json, day ) => {
             lab = chart2.data.labels[index]
             gran = $.i18n(granularity) + " " + cntrx
             cntrx++
-            diff = ((( vals - lvals ) / lvals) * 100).toFixed(1) + "%"
-            vals = val[index].toLocaleString()
-            lvals = lval[index].toLocaleString()
+            diff = ( (vals - lvals) / lvals * 100 ).toFixed(1);
+            if ( diff == "Infinity" ) diff = $.i18n("NotAvailable");
+            else if ( document.documentElement.lang == "fr" ) {
+                diff = parseFloat(diff).toLocaleString(document.documentElement.lang+"-CA") + " %";
+            } else {
+                diff = parseFloat(diff) + "%";
+            }
+            vals = val[index].toLocaleString(document.documentElement.lang+"-CA")
+            lvals = lval[index].toLocaleString(document.documentElement.lang+"-CA")
             var obj = {};
+            obj[$.i18n(granularity)] = gran;
             obj[$.i18n("CurrentYear")] = vals;
             obj[$.i18n("PreviousYear")] = lvals;
-            obj[$.i18n("Difference")] = lvals;
-            obj[granularity]= gran;
+            obj[$.i18n("Difference")] = diff;
             srch.push(obj);
         });
 
@@ -383,17 +383,17 @@ const jsonUv = json => {
     $rap.html("")
     if (rows != null) {
         uv = (rows["data"][0])
-        uvDays = parseInt( uv / $days ).toLocaleString();
-        uv = parseInt(uv).toLocaleString();
+        uvDays = parseInt( uv / $days ).toLocaleString(document.documentElement.lang+"-CA");
+        uv = parseInt(uv).toLocaleString(document.documentElement.lang+"-CA");
         $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>" + $.i18n("averageperday") + "</strong></br><span class='small'>" + uv +" "+ $.i18n("total")+"</span>");
         
         rap = (rows["data"][1])
-        rapWeeks = parseInt( rap / $weeks ).toLocaleString();
-        rap = parseInt(rap).toLocaleString();
+        rapWeeks = parseInt( rap / $weeks ).toLocaleString(document.documentElement.lang+"-CA");
+        rap = parseInt(rap).toLocaleString(document.documentElement.lang+"-CA");
         $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>" + $.i18n("averageperweek") + "</strong></br><span class='small'>" + rap +" "+ $.i18n("total")+"</span>");
         
         itemid = (rows["itemId"]);
-        console.log(itemid);
+        //console.log(itemid);
         return itemid;
     } else {
         $uv.html("0");
@@ -483,26 +483,67 @@ const jsonForward = json => {
     */
 }
 
-const jsonSnum = (json) => {
+const jsonSnum = (json, day) => {
     var rows = json["rows"][0];
     var $snum = $("#snum");
     var $days = parseInt( $("#numDays").html() );
     $snum.html("")
 
     if (rows != null) {
-        snum = (rows["data"])
-        snumDays = parseInt( snum / $days ).toLocaleString();
-        snum = parseInt(snum).toLocaleString();
+
+        snum = (rows["data"][day])
+        snumDays = parseInt( snum / $days ).toLocaleString(document.documentElement.lang+"-CA");
+        snum = parseInt(snum).toLocaleString(document.documentElement.lang+"-CA");
         $snum.prepend("<span class='h1'>" + snumDays +"</span> <strong>" + $.i18n("averageperday") + "</strong></br><span class='small'>" + snum +" "+ $.i18n("total")+"</span>");
         
         itemid = (rows["itemId"]);
-        console.log(itemid);
+        //console.log(itemid);
         return itemid;
+    } else {
+        $snum.html("No data");
+    }
+
+}
+
+const jsonSearches = (json, day) => {
+    var rows = json["rows"][0];
+
+    if (rows != null) {
+        var array = json["rows"];
+
+        var searcha = [];
+
+        $.each(array, function(index, value) {
+            search = value["value"];
+            searchurl = "https://www.canada.ca/en/revenue-agency/search.html?cdn=canada&st=s&num=10&langs=en&st1rt=1&s5bm3ts21rch=x&q=" + search + "&_charset_=UTF-8&wb-srch-sub=";
+            searchv = value["data"][day];
+
+            if (searchv != "0") {
+                searcha.push({
+                    Term: search,
+                    url: searchurl,
+                    Clicks: searchv
+                });
+            }
+        });
+
+        if (searcha.length != 0) {
+            searcha.sort((a, b)=> b.Clicks - a.Clicks);
+
+            $.each(searcha, function(index, value) {
+                $search = "#search" + index;
+                $searchhtml = $($search);
+                $searchhtml.html("");
+
+                $($search).append("<a href='" + value.url + "'>" + value.Term + "</a>").append(" (" + (value.Clicks).toLocaleString(document.documentElement.lang+"-CA") + ")");
+            });
+            
+        }
+
     } else {
         var arrayNum = 4;
         var array = new Array(arrayNum);
 
-        $snum.html("0");
         $search = $("#search0");
         $search.html($.i18n("Nodata"));
         $.each(array, function(index, value) {
@@ -512,21 +553,6 @@ const jsonSnum = (json) => {
             }
         });
     }
-}
-
-const jsonSearches = (json) => {
-    arrayS = json["rows"];
-
-    $.each(arrayS, function(index, value) {
-        $search = $("#search" + index);
-        $search.html("");
-
-        search = value["value"];
-        searchurl = "https://www.canada.ca/en/revenue-agency/search.html?cdn=canada&st=s&num=10&langs=en&st1rt=1&s5bm3ts21rch=x&q=" + search + "&_charset_=UTF-8&wb-srch-sub=";
-        searchv = value["data"][0];
-
-        $search.append("<a href='" + searchurl + "'>" + search + "</a>").append(" (" + searchv.toLocaleString() + ")");
-    });
 }
 
 const jsonDownload = (json) => {
@@ -591,7 +617,7 @@ $url = "https://www.canada.ca/en/revenue-agency/services/forms-publications/td1-
         
         $.each( srchClick, function(index, value) {
             $.each ( srchP, function(i, v) {
-                if ( value['term'] == v) $next.append($('<li>').append(value['filename'] + " (" + value['clicks'].toLocaleString() + ") [<em>" + value['type'] + "</em>]"));
+                if ( value['term'] == v) $next.append($('<li>').append(value['filename'] + " (" + value['clicks'].toLocaleString(document.documentElement.lang+"-CA") + ") [<em>" + value['type'] + "</em>]"));
            });
         });
         
@@ -622,11 +648,11 @@ const jsonOutbound = (json, url) => {
             $.each(arrayO, function(index, value) {
                 text = value["value"];
                 outbnd = value["data"][0];
-                $outbnd.append($("<li>").append(text + " (" + outbnd.toLocaleString() + ")"));
+                $outbnd.append($("<li>").append(text + " (" + outbnd.toLocaleString(document.documentElement.lang+"-CA") + ")"));
             });
         });
     } else {
-        $outbnd.html("No data");
+        $outbnd.html($.i18n("Nodata"));
     }
 }
 
@@ -701,7 +727,7 @@ const jsonSearch = ( json, val, title, day ) => {
         }
 
     } else {
-        $search.html($("Nodata"));
+        $search.html($.i18n("Nodata"));
     }
 }
 
@@ -798,22 +824,20 @@ const jsonMetrics = ( json, day ) => {
     $rap.html("")
     if (rows != null) {
         uv = parseInt(rows[uvNum])
-        uvDays = parseInt( uv / $days ).toLocaleString();
-        uv = parseInt(uv).toLocaleString();
+        uvDays = parseInt( uv / $days ).toLocaleString(document.documentElement.lang+"-CA");
+        uv = parseInt(uv).toLocaleString(document.documentElement.lang+"-CA");
         $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>"+$.i18n("averageperday")+"</strong></br><span class='small'>" + uv +" "+ $.i18n("total")+"</span>");
         
         rap = parseInt(rows[rapNum])
         if (day == 2) $weeks = 1;
-        rapWeeks = parseInt( rap / $weeks ).toLocaleString();
-        rap = parseInt(rap).toLocaleString();
+        rapWeeks = parseInt( rap / $weeks ).toLocaleString(document.documentElement.lang+"-CA");
+        rap = parseInt(rap).toLocaleString(document.documentElement.lang+"-CA");
         $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>"+$.i18n("averageperweek")+"</strong></br><span class='small'>" + rap +" "+ $.i18n("total")+"</span>");
 
         desktop = parseInt(rows[desktopNum])
         mobile = parseInt(rows[mobileNum])
         tablet = parseInt(rows[tabletNum])
         other = parseInt(rows[otherNum])
-
-        //console.log ( desktop + " " + mobile + " " + tablet + " " + other );
 
         var arr  = [ desktop, mobile, tablet, other ];
 
@@ -823,47 +847,6 @@ const jsonMetrics = ( json, day ) => {
         $uv.html("0");
         $rap.html("0");
     }
-
-   /*
-    var $next = $("#np");
-
-    if (rows != null) {
-        var array = json["rows"];
-        $next.html("");
-
-        var next = [];
-
-        $.each(array, function(index, value) {
-            term = value["value"];
-            val = value["data"][day];
-
-            if (term != "(Low Traffic)" && term != "Unspecified" && val != "0") {
-                next.push({
-                    "Link Text": term,
-                    Clicks: val
-                });
-            }
-        });
-
-        if (next.length != 0) {
-
-            sortByCol(next);
-
-            let table = document.querySelector("table#np");
-            let data = Object.keys(next[0]);
-            generateTable(table, next);
-            generateTableHead(table, data, "Outbound Clicks on Page");
-
-        } else {
-            $next.html("No data");
-        }
-        
-
-    } else {
-        $next.html("No data");
-    }
-
-    */
 
 }
 
@@ -903,8 +886,8 @@ const apiCall = (d, i, a, uu, dd) => a.map( type => {
         switch (type) {
             //case "uvrap" : return jsonUv(res);
             case "fle" : return jsonFile(res);
-            case "snm" : return jsonSnum(res);
-            case "srch" : return jsonSearches(res);
+            case "snmAll" : return jsonSnum(res, dd);
+            case "srchLeftAll" : return jsonSearches(res, dd);
             case "trnd" : return jsonTrendGenerate(res, "day");
             //case "pltfrm" : return jsonPieGenerate(res);
             case "prvs" : return jsonPrevious(res);
@@ -924,17 +907,25 @@ const apiCall = (d, i, a, uu, dd) => a.map( type => {
 
 });
 
-const apiCall2 = (d, i, a, uu) => a.map( type => {    
+const apiCall2 = (d, i, a, uu, lg) => a.map( type => {    
     url = "php/process-new.php";
     
-    post = { dates: d, url: i, oUrl: uu };
+    post = { dates: d, url: i, oUrl: uu, lang: lg };
 
     let request = new Request(url, { 
         method: "POST",
         body: JSON.stringify(post)
     });
 
-    return fetch(request).catch(function (err) {
+    return fetch(request).then(res => res.json()).then(res => {
+        //cnt++; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
+        //console.log(type);
+        //console.log(res);
+
+        $("#urlStatic").html("https://" + res['url']);
+        return res['url'];
+    }).catch(function (err) {
+        console.log(type);
         console.log(err.message);
         console.log(err.stack);
     });
@@ -944,12 +935,20 @@ const apiCall2 = (d, i, a, uu) => a.map( type => {
 $("#urlform").submit(function(event) {
     event.preventDefault();
     url = $("#urlval").val();
+    $("#urlStatic").html(url);
     start = $(".dr-date-start").html()
     end = moment();
 
-    
+    mainQueue(url, start, end, 0);
+});
 
-    mainQueue(url, start, end);
+$('a#h2href').click(function(){
+    event.preventDefault();
+    url = $("#urlStatic").html();
+    start = $(".dr-date-start").html()
+    end = moment();
+
+    mainQueue(url, start, end, 1);
 });
 
 const removeQueryString = (url) => {
@@ -959,7 +958,8 @@ const removeQueryString = (url) => {
     return a.href;
 }
 
-const mainQueue = (url, start, end) => {
+const mainQueue = (url, start, end, lang) => {
+
     url = removeQueryString(url);
     $("#canvas-container").addClass("hidden");
     $("#notfound").addClass("hidden")
@@ -972,8 +972,7 @@ const mainQueue = (url, start, end) => {
         oUrl = "https://" + url;
         url = (url.length > 255) ? url.substring((url.length) - 255, url.length) : url;
 
-        Promise.all( [ getPageH1(oUrl) ] )
-        .then(res => { $("#h1title").html(res); } )
+        moment.locale('en'); // default the locale to Englishy
 
         $dd = $("input[name=dd-value").val();
         if (!$dd) $dd=1;
@@ -993,10 +992,16 @@ const mainQueue = (url, start, end) => {
         
         var d = [ start, end ];
 
-        console.log( d );
+        //console.log( d );
         
-        var fromdaterange = moment(vStart).format("dddd MMMM DD, YYYY");
-        var todaterange = moment(vEnd).subtract(1, "days").format("dddd MMMM DD, YYYY");
+        var localLocaleStart = moment(vStart);
+        var localLocaleEnd = moment(vEnd);
+
+        localLocaleStart.locale(document.documentElement.lang);
+        localLocaleEnd.locale(document.documentElement.lang);
+
+        var fromdaterange = localLocaleStart.format("dddd MMMM DD, YYYY");
+        var todaterange = localLocaleEnd.subtract(1, "days").format("dddd MMMM DD, YYYY");
         
         $("#fromdaterange").html("<strong>"+fromdaterange+"</strong>");
         $("#todaterange").html("<strong>"+todaterange+"</strong>");
@@ -1006,7 +1011,7 @@ const mainQueue = (url, start, end) => {
         
         dDay = end.diff(start, "days");
         dWeek = end.diff(start, "week", true);
-        console.log(dWeek);
+        //console.log(dWeek);
         /*
         dMonth = end.diff(start, "month", true);
         dQuarter = end.diff(start, "quarter", true);
@@ -1019,7 +1024,7 @@ const mainQueue = (url, start, end) => {
         $("#searchBttn").prop("disabled",true);
 
         var dbCall = [ "dbGet" ];
-        var match = [ "snm", "trnd", "fle", "srch", "frwrd", "prvs", "srchAll", "activityMap", "refType", "metrics" ];
+        var match = [ "trnd", "fle", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "refType", "metrics" ];
         //var match = [ "snm", "uvrap" ];
         var previousURL = [];
         var pageURL = [  ]; //, "dwnld", "outbnd" ];
@@ -1027,8 +1032,14 @@ const mainQueue = (url, start, end) => {
         let aa = (match.concat(previousURL).concat(pageURL)).length;
         cnt = 0; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
         */
-        const dbGetMatch= () => { return Promise.all( apiCall2(d, url, dbCall, oUrl, $dd)) }
-        const getMatch = () => { return Promise.all( apiCall(d, url, match, oUrl, $dd)) }
+        const dbGetMatch= () => { return Promise.all( apiCall2(d, url, dbCall, oUrl, lang)) }
+        const getMatch = () => { 
+            url = $("#urlStatic").html();
+            oUrl = $("#urlStatic").html();
+            return Promise.all( apiCall(d, url, match, oUrl, $dd))
+        }
+        const getTitle = h2 => { return Promise.all( [ getPageH1(h2) ] ) }
+
         /*
         const getPreviousPage = id => {
             if (id != null) return Promise.all( apiCall(d, id, previousURL, aa, url));
@@ -1040,9 +1051,12 @@ const mainQueue = (url, start, end) => {
         }
         */
         
-        dbGetMatch().then ( () => getMatch() )
+        dbGetMatch()
+            .then( res => getTitle(res) )
+            .then( res => { $("#h2title").html(res); } )
+            .then ( () => getMatch() )
         /*.then( res => { getPreviousPage(res[0]); return res; })
-                .then( res => getPageURL(res[1]) ) */
+                */
                 .then( () => { $("#loading").addClass("hidden"); $("#notfound").addClass("hidden"); $("#canvas-container").removeClass("hidden"); $("#searchBttn").prop("disabled",false); })
                 .catch(console.error.bind(console));
 

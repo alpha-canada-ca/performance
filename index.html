@@ -24,8 +24,6 @@
             document.write(inlineScript.outerHTML);
         </script>
 
-		
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baremetrics-calendar/1.0.14/css/application.css">
         <noscript>
             <link rel="stylesheet" href="gcweb/wet-boew/css/noscript.min.css" />
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -35,25 +33,6 @@
         canvas {
             padding: 1em;
             border: 1px solid lightgrey;
-        }
-        /*media all*/
-        .beta-top, .alpha-top {
-            padding-top: 2px !important;
-            padding-bottom: 2px !important;
-            top: 0px;
-            background-color: #f2f2f2;
-            z-index: 100;
-        }
-        .daterange .dr-input .dr-presets {
-            width: 40px;
-            background-color: #eaebed;
-            border-color: #dcdee1;
-        }
-        .daterange .dr-input .dr-presets .dr-preset-bar {
-            background-color: #335075;
-        }
-        .daterange .dr-input .dr-dates {
-            min-width: calc(100% - 40px);
         }
         html {
             font-family:sans-serif;
@@ -159,13 +138,13 @@
          //script.onreadystatechange = script.onload = null;
          document.write(wet.builder.refTop({
             "isApplication": true
-         }));
+        }));
     </script>
 </head>
 
 <body vocab="http://schema.org/" typeof="WebPage">
     <span id="allspan" class="hidden">
-     <section class="experimental alpha-top"><h2 class="wb-inv" data-i18n="Alpha"></h2><div class="container"><small><label class="alpha-label" data-i18n="Alpha"></label>&nbsp;&nbsp; <span data-i18n="alphaMsg"></span> </small></div></section >
+     <section class="experimental alpha-top"><h2 class="wb-inv" data-i18n="Alpha"></h2><div class="container"><small><label class="alpha-label" data-i18n="Alpha"></label>&nbsp;&nbsp; <span data-i18n="AlphaMsg"></span> </small></div></section >
     <div id="def-top">
         <!-- Write closure fall-back static file -->
         <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/appTop-en.html -->
@@ -188,9 +167,9 @@
   <input type="checkbox" class="dd-input" />
 
   <ul class="dd-menu">
-  <li data-value="31" data-index="0"><i class="fas fa-calendar-alt"></i> <span data-i18n="Last30days"></span></li>
-    <li data-value="8" data-index="1"><i class="fas fa-calendar-week"></i> <span data-i18n="Last7days"></span></li>
-    <li data-value="2" data-index="2"><i class="fas fa-calendar-day"></i> <span data-i18n="Yesterday"></span></li>
+  <li data-value="31" data-index="0"><i class="fas fa-calendar-alt"></i>&nbsp;<span data-i18n="Last30days"></span></li>
+    <li data-value="8" data-index="1"><i class="fas fa-calendar-week"></i>&nbsp;<span data-i18n="Last7days"></span></li>
+    <li data-value="2" data-index="2"><i class="fas fa-calendar-day"></i>&nbsp;<span data-i18n="Yesterday"></span></li>
   </ul>
   
 </label>
@@ -222,7 +201,8 @@
 
         <div id="canvas-container" class="hidden">
             <span id="numWeeks" class="hidden"></span>
-            <h2 id="h1title" data-i18n="Page-levelstatistics"></h2>
+            <h2><span id="h2title" data-i18n="Page-levelstatistics"></span> <sup class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></sup></h2>
+            <p id="urlStatic" class="small"></p>
             <p>
               <strong data-i18n="Period:"></strong></strong> <span id="numDays"></span> <span data-i18n="days-"></span> <span id="fromdaterange"></span> <span data-i18n="to"></span> <span id="todaterange"></span> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
             </p>
@@ -266,6 +246,18 @@
 
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                     <p class="h2" data-i18n="Referringtypes"></p>
+                    <table id="reft" class="table table-striped table-hover"></table>
+                </div>
+                <div class="col-md-6">
+                    <p class="h2" data-i18n="Whereuserscamefrom"></p>
+                    <p id="pp" data-i18n="Nodata"></p>
+                </div>
+            </div>
+
           
             <div class="row">
                 <div class="col-md-6">
@@ -274,23 +266,12 @@
                     </table>
                 </div>
                 <div class="col-md-6">
-                     <p class="h2" data-i18n="Referringtypes"></p>
-                    <table id="reft" class="table table-striped table-hover"></table>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="h2" data-i18n="Whereuserscamefrom"></p>
-                    <p id="pp" data-i18n="Nodata"></p>
-                </div>
-                <div class="col-md-6">
                         <p class="h2 pull-left"><span data-i18n="Whatusersclickedon"></span> <sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></p>
                     <table id="np" class="table table-striped table-hover">
                     </table>
                 </div>
             </div>
-
+            
             <div class="row">
                 <div class="col-md-6">
                     <p class="h2" data-i18n="Devicesused"></p>
@@ -323,6 +304,8 @@
                     </div>
                 </div>
             </div>
+            
+             
         <aside class="wb-fnote" role="note">
     	<h2 id="fn" data-i18n="Footnotes"></h2>
     	<dl>
@@ -350,7 +333,7 @@
         <script>
             var defPreFooter = document.getElementById("def-preFooter");
             defPreFooter.outerHTML = wet.builder.preFooter({
-                    "dateModified": "2020-06-05"
+                    "dateModified": "2020-06-11"
             });
         </script>
        
@@ -372,17 +355,17 @@
             "isApplication": true
         }));
     </script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/baremetrics-calendar/1.0.14/js/Calendar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.min.js" integrity="sha256-Xe5TCNN0b3K98e99/oWJr0FOiSTILqWWWEaDCY48V5E=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.messagestore.min.js" integrity="sha256-dxDziD29LGTvKo6LXzZmm8o8W87YCu4BOh+tsrDJd4k=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.fallbacks.min.js" integrity="sha256-JYNCT/waNdj6h/SOcUqOmluIEjQakFz54nrbkd44Kj0=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.language.min.js" integrity="sha256-GQa4KOpPyr5vY9JrqY9ibG3IXNyNTzTpb/K4fyReaBY=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.parser.min.js" integrity="sha256-wShTIrxeao7Eih6UkkjLqdE2jiH/N0MqaJdiXeGl/7o=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.min.js" integrity="sha256-VNKWSG0j8kQ/+I4J9r0skSppRy11yw7kRmoZK7xmcIM=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.7/jquery.i18n.emitter.bidi.min.js" integrity="sha256-gtc2Tvs5/k9I3Q28OZ/CP7TzCHANC8wUbJZQVE989Do=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="assets/js/Chart.min.js"></script>
+    <script type="text/javascript" src="assets/js/chartjs-plugin-datalabels.min.js"></script>
+    <script type="text/javascript" src="assets/js/moment.min.js"></script>
+    <script type="text/javascript" src="assets/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.messagestore.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.fallbacks.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.language.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.parser.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.emitter.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.emitter.bidi.min.js"></script>
 
 
     <script>
@@ -391,7 +374,6 @@
           $("input[name='dd-value']").val( $(this).attr("data-index") );;
         });
     </script>
-    <script type="text/javascript" src="js/api.js"></script>
-    </span>
+    <script type="text/javascript" src="js/api.min.js"></script>
 </body>
 </html>
