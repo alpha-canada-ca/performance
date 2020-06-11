@@ -81,8 +81,6 @@ try {
 
         require_once('mongodb_update.php');
         require_once('mongodb_get.php');
-        require_once('mongodb_sUpdate.php');
-        require_once('mongodb_sGet.php');
         require_once('mongodb_delete.php');
 
         if (!isset($_SESSION['CREATED'])) {
@@ -120,6 +118,7 @@ try {
                 $url = "www.canada.ca" . $otherLang;
             }
 
+            $myObj = (object)[];
             $myObj->url = $url;
             $myJSON = json_encode($myObj);
             echo $myJSON;

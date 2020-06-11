@@ -90,8 +90,6 @@ try
 
         require_once('mongodb_update.php');
         require_once('mongodb_get.php');
-        require_once('mongodb_sUpdate.php');
-        require_once('mongodb_sGet.php');
         require_once('mongodb_delete.php');
 
         if (!isset($_SESSION['CREATED'])) {
@@ -118,6 +116,10 @@ try
 
 include ('lib/simple_html_dom.php');
 
+if (substr($url, 0, 8) == "https://")
+            {
+                $url = substr($url, 8, strlen($url));
+            }
             $html = file_get_html('https://' . $url);
 
             if ($oLang) {
