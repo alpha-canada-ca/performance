@@ -955,7 +955,11 @@ const removeQueryString = (url) => {
     var a = document.createElement('a'); // dummy element
     a.href = url;   // set full url
     a.search = "";  // blank out query string
-    return a.href;
+    $href = a.href;
+    if (/Edge/.test(navigator.userAgent)) {
+        $href = $href.substring(0, $href.length-1);
+    }
+    return $href;
 }
 
 const mainQueue = (url, start, end, lang) => {
@@ -966,6 +970,8 @@ const mainQueue = (url, start, end, lang) => {
     $("#loading").removeClass("hidden");
 
     $success = 0;
+
+    console.log(url);
     url = (url.substring(0, 8) == "https://") ? url.substring(8, url.length) : url;
 
     if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html") {
