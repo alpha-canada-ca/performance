@@ -1082,7 +1082,7 @@ const mainQueue = (url, start, end, lang) => {
         $("#searchBttn").prop("disabled",true);
 
         var dbCall = [ "dbGet" ];
-        var match = [ "trnd", "fle", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "refType", "metrics" ];
+        var match = [ "trnd", "fle", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "refType", "metrics", "fwylf" ];
         //var match = [ "snm", "uvrap" ];
         var previousURL = [];
         var pageURL = [  ]; //, "dwnld", "outbnd" ];
