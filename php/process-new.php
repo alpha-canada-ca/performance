@@ -1,7 +1,7 @@
 <?php
 session_start();
+//session_unset();
 //ini_set('display_errors', 1);
-
 function dateRange($first, $last, $step, $format = 'Y-m-d\TH:i:s.v') {
     $dates = [];
     $step = '+1 ' . $step;
@@ -98,7 +98,7 @@ try {
             require_once('api_post.php');
             $data = include ('data.php');
             $config = include ('config.php');
-
+            
             include ('lib/simple_html_dom.php');
 
             if (substr($url, 0, 8) == "https://") {
@@ -125,7 +125,7 @@ try {
 
             $html = file_get_html('https://' . $url);
 
-            $pUrl = substr($url, 0, 255 - 8);
+                        $pUrl = substr($url, 0, 255 - 8);
             $origUrl = $url;
 
             $url = substr($url, -255);
@@ -136,7 +136,7 @@ try {
                 $pUrl = "www.canada.ca/home.html";
             }
 
-
+          
             $bUrl = substr('https://' . $origUrl, 0, 255);
             $html = file_get_html('https://' . $origUrl);
 
@@ -168,16 +168,16 @@ try {
             $globalSearchEn = "www.canada.ca/en/sr/srb.html";
             $globalSearchFr = "www.canada.ca/fr/sr/srb.html";
             if ($searchURL === $globalSearchEn || $searchURL === $globalSearchFr) {
-                $type = ["trnd", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "refType", "metrics"];
+                $type = ["trnd", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "refType", "metrics","fwylf"];
                 $hasContextual = false;
             }
             else {
                 if ($origUrl == 'www.canada.ca' || $origUrl == 'www.canada.ca/home.html') {
-                    $type = [ "trnd", "prvs", "activityMap", "refType", "metrics"];
+                    $type = [ "trnd", "prvs", "activityMap", "refType", "metrics","fwylf"];
                     $hasContextual = false;
                 }
                 else {
-                    $type = ["trnd", "prvs", "srchAll", "activityMap", "refType", "snmAll", "srchLeftAll", "metrics"];
+                    $type = ["trnd", "prvs", "srchAll", "activityMap", "refType", "snmAll", "srchLeftAll", "metrics","fwylf"];
                     $hasContextual = true;
                 }
             }
@@ -195,7 +195,7 @@ try {
                     foreach ($type as $t) {
 
                         $sm = "single";
-                        if ( $t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll") {
+                        if ( $t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf") {
                             $oDate = $dates2[0] . "/" . $end;
                             $sm = "multi";
                         }
@@ -210,6 +210,8 @@ try {
                         if ($t == "srchAll") {
                             $array = array_merge(array($bUrl), $dates2);
                         } else if ($t == "refType") {
+                            $array = array_merge(array($oUrl), $dates2);
+                        } else if ($t == "fwylf") {
                             $array = array_merge(array($oUrl), $dates2);
                         } else if ($t == "prvs") {
                             $array = array_merge( array( $oUrl ), $array );
@@ -272,7 +274,7 @@ try {
                         }
 
                         $json = vsprintf($json, $array);
-                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll") {
+                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "fwylf") {
                             $json = str_replace("2020-05-16T00:00:00.000", $end, $json);
                             //echo $json;
                         }
@@ -293,7 +295,7 @@ try {
                               echo "<br />JSON:<br />$json<br />";
                               echo "<br />API:<br />$api<br />";
                           }
-                        */
+                        */ 
 /*
                         $api2 = json_decode($api);
                         $itemid = $api2->rows[0]->itemId;

@@ -138,13 +138,13 @@
          //script.onreadystatechange = script.onload = null;
          document.write(wet.builder.refTop({
             "isApplication": true
-        }));
+         }));
     </script>
 </head>
 
 <body vocab="http://schema.org/" typeof="WebPage">
     <span id="allspan" class="hidden">
-     <section class="experimental alpha-top"><h2 class="wb-inv" data-i18n="Alpha"></h2><div class="container"><small><label class="alpha-label" data-i18n="Alpha"></label>&nbsp;&nbsp; <span data-i18n="AlphaMsg"></span> </small></div></section >
+     <section class="experimental alpha-top"><h2 class="wb-inv" data-i18n="Alpha"></h2><div class="container"><small><label class="alpha-label" data-i18n="Alpha"></label>&nbsp;&nbsp; <span data-i18n="alphaMsg"></span> </small></div></section >
     <div id="def-top">
         <!-- Write closure fall-back static file -->
         <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/appTop-en.html -->
@@ -167,10 +167,10 @@
   <input type="checkbox" class="dd-input" />
 
   <ul class="dd-menu">
-  <li data-value="31" data-index="0"><i class="fas fa-calendar-alt"></i>&nbsp;<span data-i18n="Last30days"></span></li>
-    <li data-value="8" data-index="1"><i class="fas fa-calendar-week"></i>&nbsp;<span data-i18n="Last7days"></span></li>
-    <li data-value="2" data-index="2"><i class="fas fa-calendar-day"></i>&nbsp;<span data-i18n="Yesterday"></span></li>
-  </ul>
+    <li data-value="31" data-index="0"><i class="fas fa-calendar-alt"></i>&nbsp;<span data-i18n="Last30days"></span></li>
+      <li data-value="8" data-index="1"><i class="fas fa-calendar-week"></i>&nbsp;<span data-i18n="Last7days"></span></li>
+      <li data-value="2" data-index="2"><i class="fas fa-calendar-day"></i>&nbsp;<span data-i18n="Yesterday"></span></li>
+    </ul>
   
 </label>
 </div>
@@ -220,8 +220,25 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <p class="h2" data-i18n="Reportaproblem"></p>
-                    <p id="rap"></p>
+                    <div id="rapCont">
+                        <p  class="h2" data-i18n="Reportaproblem"></p>
+                        <p id="rap"></p>
+                    </div>
+                    <div id="fwylfCont">
+                        <p  class="h2" data-i18n="FindWhatYoureLookingFor"></p>
+                        <table id="fwylfTable" class="table table-striped">
+                            <thead>
+                                <th data-i18n="Yes"></th>
+                                <th data-i18n="No"></th>
+                            </thead>
+                            <tr>
+                                <td id="fwylfYes"></td>
+                                <td id="fwylfNo"></td>
+                            </tr>
+                        </table>
+                        <table id="fwylfReason" class="table table-striped">
+                        </table>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <p class="h2" data-i18n="Phrasessearchedfromthispage"></p>
@@ -246,7 +263,7 @@
 
                 </div>
             </div>
-
+          
             <div class="row">
                 <div class="col-md-6">
                      <p class="h2" data-i18n="Referringtypes"></p>
@@ -257,8 +274,8 @@
                     <p id="pp" data-i18n="Nodata"></p>
                 </div>
             </div>
+            
 
-          
             <div class="row">
                 <div class="col-md-6">
                     <p class="h2" data-i18n="Searchtermsleadingtothispage"></p>
@@ -271,7 +288,7 @@
                     </table>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-md-6">
                     <p class="h2" data-i18n="Devicesused"></p>
@@ -304,8 +321,8 @@
                     </div>
                 </div>
             </div>
-            
-             
+
+
         <aside class="wb-fnote" role="note">
     	<h2 id="fn" data-i18n="Footnotes"></h2>
     	<dl>
@@ -333,7 +350,7 @@
         <script>
             var defPreFooter = document.getElementById("def-preFooter");
             defPreFooter.outerHTML = wet.builder.preFooter({
-                    "dateModified": "2020-06-11"
+                    "dateModified": "2020-07-15"
             });
         </script>
        
@@ -355,18 +372,18 @@
             "isApplication": true
         }));
     </script>
-    <script type="text/javascript" src="assets/js/Chart.min.js"></script>
-    <script type="text/javascript" src="assets/js/chartjs-plugin-datalabels.min.js"></script>
-    <script type="text/javascript" src="assets/js/moment.min.js"></script>
-    <script type="text/javascript" src="assets/js/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.i18n.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.i18n.messagestore.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.i18n.fallbacks.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.i18n.language.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.i18n.parser.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.i18n.emitter.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.i18n.emitter.bidi.min.js"></script>
-
+     <script type="text/javascript" src="assets/js/Chart.min.js"></script>
+     <script type="text/javascript" src="assets/js/chartjs-plugin-datalabels.min.js"></script>
+     <script type="text/javascript" src="assets/js/moment.min.js"></script>
+     <script type="text/javascript" src="assets/js/moment-with-locales.min.js"></script>
+     <script type="text/javascript" src="assets/js/jquery.i18n.min.js"></script>
+     <script type="text/javascript" src="assets/js/jquery.i18n.messagestore.min.js"></script>
+     <script type="text/javascript" src="assets/js/jquery.i18n.fallbacks.min.js"></script>
+     <script type="text/javascript" src="assets/js/jquery.i18n.language.min.js"></script>
+     <script type="text/javascript" src="assets/js/jquery.i18n.parser.min.js"></script>
+     <script type="text/javascript" src="assets/js/jquery.i18n.emitter.min.js"></script>
+     <script type="text/javascript" src="assets/js/jquery.i18n.emitter.bidi.min.js"></script>
+ 
 
     <script>
         $('.dd-menu li').click(function(){
@@ -374,7 +391,7 @@
           $("input[name='dd-value']").val( $(this).attr("data-index") );;
         });
     </script>
-    <script type="text/javascript" src="js/api.min.js"></script>
-  </span>
+    <script type="text/javascript" src="js/api.js"></script>
+</span>
 </body>
 </html>

@@ -114,30 +114,30 @@ try
             */
             //echo "Starting " . $url . "<br />";
 
-include ('lib/simple_html_dom.php');
+            include ('lib/simple_html_dom.php');
 
-if (substr($url, 0, 8) == "https://")
-            {
-                $url = substr($url, 8, strlen($url));
-            }
-            $html = file_get_html('https://' . $url);
-
-            if ($oLang) {
-                foreach ($html->find('a') as $e) {
-                    if ( ($e->lang == "en" || $e->lang == "fr") &&
-                       ( trim($e->innertext) == "English" || trim($e->innertext) == "Fran&ccedil;ais" )  ) {
-                        $otherLang = $e->href;
-                        break;
-                    }
-                }
-
-                $url = "www.canada.ca" . $otherLang;
-            }
-
-            //echo $url;
-
-            $html = file_get_html('https://' . $url);
-	    
+            if (substr($url, 0, 8) == "https://")
+                        {
+                            $url = substr($url, 8, strlen($url));
+                        }
+                        $html = file_get_html('https://' . $url);
+            
+                        if ($oLang) {
+                            foreach ($html->find('a') as $e) {
+                                if ( ($e->lang == "en" || $e->lang == "fr") &&
+                                   ( trim($e->innertext) == "English" || trim($e->innertext) == "Fran&ccedil;ais" )  ) {
+                                    $otherLang = $e->href;
+                                    break;
+                                }
+                            }
+            
+                            $url = "www.canada.ca" . $otherLang;
+                        }
+            
+                        //echo $url;
+            
+                        $html = file_get_html('https://' . $url);
+            
             if (substr($url, 0, 8) == "https://")
             {
                 $url = substr($url, 8, strlen($url));
@@ -188,16 +188,16 @@ if (substr($url, 0, 8) == "https://")
             $globalSearchFr = "www.canada.ca/fr/sr/srb.html";
 
             if ($searchURL === $globalSearchEn || $searchURL === $globalSearchFr) {
-                $type = ["trnd", "prvs", "srchAll", "refType", "snmAll", "srchLeftAll", "activityMap", "metrics"];
+                $type = ["trnd", "prvs", "srchAll", "refType", "snmAll", "srchLeftAll", "activityMap", "metrics","fwylf"];
                 $hasContextual = false;
             }
             else {
                 if ($origUrl == 'www.canada.ca' || $origUrl == 'www.canada.ca/home.html') {
-                    $type = ["trnd", "prvs", "activityMap", "refType", "metrics"];
+                    $type = ["trnd", "prvs", "activityMap", "refType", "metrics","fwylf"];
                     $hasContextual = false;
                 }
                 else {
-                    $type = ["trnd", "prvs", "srchAll", "refType", "snmAll", "srchLeftAll", "activityMap", "metrics"];
+                    $type = ["trnd", "prvs", "srchAll", "refType", "snmAll", "srchLeftAll", "activityMap", "metrics","fwylf"];
                     $hasContextual = true;
                 }
             }
@@ -218,7 +218,7 @@ if (substr($url, 0, 8) == "https://")
                     foreach ($type as $t)
                     {
                         $sm = "single";
-                        if ( $t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll") {
+                        if ( $t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t = "fwylf") {
                             $oDate = $dates[0] . "/" . $end;
                             $sm = "multi";
                         }
@@ -234,6 +234,8 @@ if (substr($url, 0, 8) == "https://")
                         if ($t == "srchAll") {
                             $array = array_merge(array($bUrl), $dates);
                         } else if ($t == "refType") {
+                            $array = array_merge(array($oUrl), $dates);
+                        } else if ($t == "fwylf") {
                             $array = array_merge(array($oUrl), $dates);
                         } else if ($t == "prvs") {
                             $array = array_merge( array( $oUrl ), $array );
@@ -301,7 +303,7 @@ if (substr($url, 0, 8) == "https://")
                         }
 
                         $json = vsprintf($json, $array);
-                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll") {
+                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf") {
                             $json = str_replace("2020-05-16T00:00:00.000", $end, $json);
                             //echo $json;
                         }
