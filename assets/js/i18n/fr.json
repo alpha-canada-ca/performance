@@ -66,6 +66,11 @@
     "Dayofselecteddaterange" : " de l'intervalle de dates sélectionné",
     "NotAvailable" : "s/o",
     "Alpha" : "Alpha",
-    "AlphaMsg" : "Ceci est une version expérimentale du site Canada.ca destinée à être testée par le public.",
-    "Type" : "Type"
+    "alphaMsg" : "Ceci est une version expérimentale du site Canada.ca destinée à être testée par le public.",
+    "Type" : "Type",
+    "FindWhatYoureLookingFor" : "Avez-vous trouvé ce que vous cherchiez?",
+    "Yes" : "Oui",
+    "No" : "Non",
+    "Reason" : "Raison",
+    "No Clicks" : "Non clics"
 }

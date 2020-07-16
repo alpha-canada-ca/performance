@@ -66,6 +66,11 @@
     "Dayofselecteddaterange" : " of selected date range",
     "NotAvailable" : "N/A",
     "Alpha" : "Alpha",
-    "AlphaMsg" : "This is an experimental version of Canada.ca for public testing.",
-    "Type" : "Type"
+    "alphaMsg" : "This is an experimental version of Canada.ca for public testing.",
+    "Type" : "Type",
+    "FindWhatYoureLookingFor" : "Find What You Were Looking For",
+    "Yes" : "Yes",
+    "No" : "No",
+    "Reason" : "Reason",
+    "No Clicks" : "No Clicks"
 }

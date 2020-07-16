@@ -126,9 +126,9 @@ function generateTable(table, data) {
  */
 const jsonPieGenerate = (arr) => {
 
-        $("#chart").remove()
-        $("#chart-canvas").append("<canvas id='chart'></canvas>")
-        
+    $("#chart").remove()
+    $("#chart-canvas").append("<canvas id='chart'></canvas>")
+   
         val = arr;
         cnt = val.length;
 
@@ -210,7 +210,7 @@ const jsonPieGenerate = (arr) => {
             }
             per = per + end;
             val = value.toLocaleString(document.documentElement.lang+"-CA")
-            var obj = {};
+                        var obj = {};
             obj[$.i18n("DeviceType")] = lab;
             obj[$.i18n("Visits")] = val;
             obj[$.i18n("Percent")] = per;
@@ -804,6 +804,46 @@ const jsonAM = ( json, day ) => {
 
 }
 
+const jsonFWYLF = ( json, day ) => { 
+    var rows = json["rows"][0];
+    var $next = $("#fwylfReason");
+
+    if (rows != null) {
+        var array = json["rows"];
+        $next.html("");
+
+        var next = [];
+
+        $.each(array, function(index, value) {
+            term = value["value"];
+            val = value["data"][day];
+
+            //if (term != "(Low Traffic)" && term != "Unspecified" && val != "0") {
+                var obj = {};
+                obj[$.i18n("Reason")] = term;
+                obj[$.i18n("Clicks")] = val;
+                next.push(obj);
+            //}
+        });
+
+        if (next.length != 0) {
+            next.sort((a, b)=> b.NumSelected - a.NumSelected);
+
+            let table = document.querySelector("table#fwylfReason");
+            let data = Object.keys(next[0]);
+            generateTable(table, next);
+            generateTableHead(table, data, $.i18n("NoClicks"));
+
+        } else {
+            $next.html($.i18n("Nodata"));
+        }
+        
+
+    } else {
+        $next.html($.i18n("Nodata"));
+    }
+}
+
 const jsonMetrics = ( json, day ) => {
 
    var rows = json["summaryData"]["filteredTotals"];
@@ -820,6 +860,11 @@ const jsonMetrics = ( json, day ) => {
     var tabletNum = 18 + parseInt(day);
     var otherNum = 21 + parseInt(day);
 
+    var findLookingForTotalNum = 45 + parseInt(day);
+    var findLookingForNoNum = 48 + parseInt(day);
+    var findLookingForYesNum =  51 + parseInt(day);
+    var findLookingForInstancesNum = 54 + parseInt(day);
+    
     $uv.html("")
     $rap.html("")
     if (rows != null) {
@@ -827,12 +872,18 @@ const jsonMetrics = ( json, day ) => {
         uvDays = parseInt( uv / $days ).toLocaleString(document.documentElement.lang+"-CA");
         uv = parseInt(uv).toLocaleString(document.documentElement.lang+"-CA");
         $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>"+$.i18n("averageperday")+"</strong></br><span class='small'>" + uv +" "+ $.i18n("total")+"</span>");
-        
-        rap = parseInt(rows[rapNum])
-        if (day == 2) $weeks = 1;
-        rapWeeks = parseInt( rap / $weeks ).toLocaleString(document.documentElement.lang+"-CA");
-        rap = parseInt(rap).toLocaleString(document.documentElement.lang+"-CA");
-        $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>"+$.i18n("averageperweek")+"</strong></br><span class='small'>" + rap +" "+ $.i18n("total")+"</span>");
+        if (parseInt(rows[findLookingForInstancesNum]) == NaN || parseInt(rows[findLookingForTotalNum]) == 0) {
+            rap = parseInt(rows[rapNum])
+            if (day == 2) $weeks = 1;
+            rapWeeks = parseInt( rap / $weeks ).toLocaleString(document.documentElement.lang+"-CA");
+            rap = parseInt(rap).toLocaleString(document.documentElement.lang+"-CA");
+            $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>"+$.i18n("averageperweek")+"</strong></br><span class='small'>" + rap +" "+ $.i18n("total")+"</span>");
+            $("#fwylfCont").html("");
+        } else {
+            $("#fwylfYes").html(rows[findLookingForYesNum]);
+            $("#fwylfNo").html(rows[findLookingForTotalNum]);
+            $("#rapCont").html("");
+        }
 
         desktop = parseInt(rows[desktopNum])
         mobile = parseInt(rows[mobileNum])
@@ -848,7 +899,7 @@ const jsonMetrics = ( json, day ) => {
         $rap.html("0");
     }
 
-}
+} 
 
 
 
@@ -896,6 +947,7 @@ const apiCall = (d, i, a, uu, dd) => a.map( type => {
             case "activityMap" : return jsonAM(res, dd);
             case "metrics" : return jsonMetrics(res, dd);
             case "refType" : return jsonRT(res, dd);
+            case "fwylf" : return jsonFWYLF(res,dd);
             //case "dwnld" : return jsonDownload(res, uu);
             //case "outbnd" : return jsonOutbound(res, uu);
         }
@@ -1030,7 +1082,7 @@ const mainQueue = (url, start, end, lang) => {
         $("#searchBttn").prop("disabled",true);
 
         var dbCall = [ "dbGet" ];
-        var match = [ "trnd", "fle", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "refType", "metrics" ];
+        var match = [ "trnd", "fle", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "refType", "metrics", "fwylf" ];
         //var match = [ "snm", "uvrap" ];
         var previousURL = [];
         var pageURL = [  ]; //, "dwnld", "outbnd" ];
