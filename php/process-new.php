@@ -274,7 +274,7 @@ try {
                         }
 
                         $json = vsprintf($json, $array);
-                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "fwylf") {
+                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf") {
                             $json = str_replace("2020-05-16T00:00:00.000", $end, $json);
                             //echo $json;
                         }
