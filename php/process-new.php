@@ -195,7 +195,7 @@ try {
                     foreach ($type as $t) {
 
                         $sm = "single";
-                        if ( $t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll") {
+                        if ( $t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf") {
                             $oDate = $dates2[0] . "/" . $end;
                             $sm = "multi";
                         }
