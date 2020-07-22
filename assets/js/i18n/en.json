@@ -72,5 +72,6 @@
     "Yes" : "Yes",
     "No" : "No",
     "Reason" : "Reason",
-    "No Clicks" : "No Clicks"
+    "No Clicks" : "No Clicks",
+    "no selection" : "No selection"
 }
