@@ -818,12 +818,22 @@ const jsonFWYLF = ( json, day ) => {
             term = value["value"];
             val = value["data"][day];
 
-            //if (term != "(Low Traffic)" && term != "Unspecified" && val != "0") {
+            
                 var obj = {};
+                var terms = term.split("-");
+                if (terms.length > 1) {
+                    if (document.documentElement.lang == "en") {
+                        term = terms[0];
+                    } else {
+                        term = terms[1];
+                    }
+                } else {
+                    term = $.i18n(terms[0]);
+                }
                 obj[$.i18n("Reason")] = term;
                 obj[$.i18n("Clicks")] = val;
                 next.push(obj);
-            //}
+            
         });
 
         if (next.length != 0) {
@@ -845,11 +855,8 @@ const jsonFWYLF = ( json, day ) => {
 }
 
 const jsonMetrics = ( json, day ) => {
-
-   var rows = json["summaryData"]["filteredTotals"];
-
-   var $uv = $("#uv");
-    var $rap = $("#rap");
+    var rows = json["summaryData"]["filteredTotals"];
+    var $uv = $("#uv");
     var $days = parseInt( $("#numDays").html() );
     var $weeks = parseFloat( $("#numWeeks").html() );
     var uvNum = 9 + parseInt(day);
@@ -866,20 +873,21 @@ const jsonMetrics = ( json, day ) => {
     var findLookingForInstancesNum = 54 + parseInt(day);
     
     $uv.html("")
-    $rap.html("")
     if (rows != null) {
         uv = parseInt(rows[uvNum])
         uvDays = parseInt( uv / $days ).toLocaleString(document.documentElement.lang+"-CA");
         uv = parseInt(uv).toLocaleString(document.documentElement.lang+"-CA");
         $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>"+$.i18n("averageperday")+"</strong></br><span class='small'>" + uv +" "+ $.i18n("total")+"</span>");
         if (parseInt(rows[findLookingForInstancesNum]) == NaN || parseInt(rows[findLookingForTotalNum]) == 0) {
+            $("#rapCont").html('<p  class="h2">'+$.i18n("Reportaproblem")+'</p><p id="rap"></p>');
             rap = parseInt(rows[rapNum])
             if (day == 2) $weeks = 1;
             rapWeeks = parseInt( rap / $weeks ).toLocaleString(document.documentElement.lang+"-CA");
             rap = parseInt(rap).toLocaleString(document.documentElement.lang+"-CA");
-            $rap.prepend("<span class='h1'>" + rapWeeks +"</span> <strong>"+$.i18n("averageperweek")+"</strong></br><span class='small'>" + rap +" "+ $.i18n("total")+"</span>");
+            $("#rap").prepend("<span class='h1'>" + rapWeeks +"</span> <strong>"+$.i18n("averageperweek")+"</strong></br><span class='small'>" + rap +" "+ $.i18n("total")+"</span>");
             $("#fwylfCont").html("");
         } else {
+            $("#fwylfCont").html('<p  class="h2">'+$.i18n("FindWhatYoureLookingFor")+'</p><table id="fwylfTable" class="table table-striped"><thead><th>'+$.i18n("Yes")+'</th><th>'+$.i18n("No")+'</th></thead><tr><td id="fwylfYes"></td><td id="fwylfNo"></td></tr></table><table id="fwylfReason" class="table table-striped"></table>');
             $("#fwylfYes").html(rows[findLookingForYesNum]);
             $("#fwylfNo").html(rows[findLookingForTotalNum]);
             $("#rapCont").html("");
