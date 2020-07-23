@@ -112,8 +112,9 @@ function generateTable(table, data) {
             if (isInt(key)) {
                 key = key.toLocaleString(document.documentElement.lang+"-CA");
             }
-            let text = document.createTextNode(key);
-            cell.appendChild(text);
+            cell.insertAdjacentHTML('beforeend', key);
+            //let text = document.createTextNode(key);
+            //cell.appendChild(text);
         }
     }
 }
@@ -204,7 +205,7 @@ const jsonPieGenerate = (arr) => {
             lab = chart.data.labels[index]
             per = parseFloat((val * 100 / sum).toFixed(2)).toLocaleString(document.documentElement.lang+"-CA")
             if ( document.documentElement.lang == "fr" ) {
-                var end = " %"
+                var end = "&nbsp;%"
             } else {
                 var end = "%";
             }
@@ -340,12 +341,12 @@ const jsonTrendGenerate = ( json, day ) => {
             vals = val[index]
             lvals = lval[index]
             lab = chart2.data.labels[index]
-            gran = $.i18n(granularity) + " " + cntrx
+            gran = $.i18n(granularity) + "&nbsp;" + cntrx
             cntrx++
             diff = ( (vals - lvals) / lvals * 100 ).toFixed(1);
             if ( diff == "Infinity" ) diff = $.i18n("NotAvailable");
             else if ( document.documentElement.lang == "fr" ) {
-                diff = parseFloat(diff).toLocaleString(document.documentElement.lang+"-CA") + " %";
+                diff = parseFloat(diff).toLocaleString(document.documentElement.lang+"-CA") + "&nbsp;%";
             } else {
                 diff = parseFloat(diff) + "%";
             }
@@ -430,30 +431,90 @@ const getPage = url => {
     }
 };
 
-const jsonPrevious = json => {
+const jsonPrevious = (json, day) => {
     var rows = json["rows"][0];
-    var $prev = $("#pp");
+    var val = "#ppt";
+    title = $.i18n("Whereuserscamefrom");;
+    var $prev = $(val);
     
     if (rows != null) {
-        arrayP = json["rows"];
+        var arrayP = json["rows"];
         $prev.html("");
-        $prev.append($("<ul>"));
-        $prev = $("#pp ul")
+
+        var ref = [];
 
         Promise.all( getPageTitle(arrayP) ).then(res => {
             $.each(arrayP, function(index, value) {
                 url = value["value"];
                 term = (res[index] == null) ? url : res[index];
-                val = value["data"][0];
-                
+                clicks = value["data"][0];
                 f = (url == "blank page url") ? $.i18n("Directtraffic/Bookmark") : ("<a href='" + url + "'>" + term + "</a>");
-                $prev.append($("<li>").append(f));
+
+                var obj = {};
+                obj[$.i18n("PreviouspageURL")]  = f;
+                obj[$.i18n("Visits")]  = clicks;
+                ref.push(obj);
             });
+            return ref;
+        }).then(res => {
+            if (res.length != 0) {
+                res.sort((a, b)=> b.Visits - a.Visits);
+                let table = document.querySelector("table#ppt");
+                let data = Object.keys(res[0]);
+                generateTable(table, res);
+                generateTableHead(table, data, title);
+
+                $(val).trigger("wb-init.wb-tables");
+            } else {
+                $prev.html($.i18n("Nodata"));
+            }
         }).catch(console.error.bind(console));
+
+
+        //console.log(ref[0]);
+        //console.log(ref.length)
+
+        
         
     } else {
         $prev.html($.i18n("Nodata"));
     }
+
+    /*
+
+    var rows = json["rows"][0];
+    val = "#reft";
+    title = "Referring types";
+    var $ref = $(val);
+
+    if (rows != null) {
+        var array = json["rows"];
+        $ref.html("");
+
+        var ref = [];
+
+        $.each(array, function(index, value) {
+            term = value["value"];
+            clicks = value["data"][day];
+            var obj = {};
+            obj[$.i18n("Type")]  = $.i18n(term.replace(/\s/g,''));
+            obj[$.i18n("Visits")]  = clicks;
+            ref.push(obj);
+        });
+
+        if (ref.length != 0) {
+            ref.sort((a, b)=> b.Visits - a.Visits);
+            let table = document.querySelector("table#reft");
+            let data = Object.keys(ref[0]);
+            generateTable(table, ref);
+            generateTableHead(table, data, title);
+
+            $(val).trigger("wb-init.wb-tables");
+        } else {
+            $ref.html($.i18n("Nodata"));
+        }
+
+        */
 }
 
 const jsonForward = json => {
@@ -659,7 +720,7 @@ const jsonOutbound = (json, url) => {
 const jsonRT = ( json, day ) => {
     var rows = json["rows"][0];
     val = "#reft";
-    title = "Referring types";
+    title = $.i18n("Referringtypes");
     var $ref = $(val);
 
     if (rows != null) {
@@ -677,8 +738,11 @@ const jsonRT = ( json, day ) => {
             ref.push(obj);
         });
 
+        //console.log(ref);
+        //console.log(ref.length)
+
         if (ref.length != 0) {
-            ref.sort((a, b)=> b.Visits - a.Visits);
+            ref.sort((a, b)=> b[$.i18n("Visits")] - a[$.i18n("Visits")] );
             let table = document.querySelector("table#reft");
             let data = Object.keys(ref[0]);
             generateTable(table, ref);
@@ -717,7 +781,7 @@ const jsonSearch = ( json, val, title, day ) => {
         });
 
         if (srch.length != 0) {
-            srch.sort((a, b)=> b.Clicks - a.Clicks);
+            srch.sort((a, b)=> b[$.i18n("Clicks")] - a[$.i18n("Clicks")]);
             let table = document.querySelector("table"+val);
             let data = Object.keys(srch[0]);
             generateTable(table, srch);
@@ -786,7 +850,7 @@ const jsonAM = ( json, day ) => {
         });
 
         if (next.length != 0) {
-            next.sort((a, b)=> b.Clicks - a.Clicks);
+            next.sort((a, b)=> b[$.i18n("Clicks")] - a[$.i18n("Clicks")]);
 
             let table = document.querySelector("table#np");
             let data = Object.keys(next[0]);
@@ -1031,7 +1095,7 @@ const mainQueue = (url, start, end, lang) => {
 
     $success = 0;
 
-    console.log(url);
+    //console.log(url);
     url = (url.substring(0, 8) == "https://") ? url.substring(8, url.length) : url;
 
     if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html") {
