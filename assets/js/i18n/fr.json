@@ -29,6 +29,8 @@
     "Visitstrendbycurrentandpreviousyear-Table" : "Tendance des visites par année courante et année précédente - Tableau",
     "Footnotes" : "Note de bas de page",
     "Footnote1" : "Note de bas de page 1",
+    "Footnote2" : "Note de bas de page 2",
+    "Footnote3" : "Note de bas de page 3",
     "Display25" : "Affiche les 25 principaux liens sur lesquels on a cliqué pendant la consultation de la page. Tous les liens de la page sont capturés, y compris : ",
     "foreign" : "les textes de liens en langue étrangère par Google translate et autres;",
     "filedownloads" : "les téléchargements de fichiers; and",
@@ -73,5 +75,6 @@
     "No" : "Non",
     "Reason" : "Raison",
     "No Clicks" : "Non clics",
-    "no selection" : "Pas de choix"
+    "no selection" : "Pas de choix",
+    "PreviouspageURL" : "URL de la page précédente"
 }

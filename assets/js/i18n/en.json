@@ -18,7 +18,7 @@
     "Reportaproblem" : "Report a problem",
     "Phrasessearchedfromthispage" : "Phrases searched from this page",
     "Searchtermsleadingtothispage" : "Search terms leading to this page",
-    "Referringtypes" : "Referring types",
+    "Referringtypes" : "Referrer type",
     "Whereuserscamefrom" : "Where users came from",
     "Nodata" : "No data",
     "Numberofvisits(%)bydevicesused" : "Number of visits (%) by devices used",
@@ -29,6 +29,8 @@
     "Visitstrendbycurrentandpreviousyear-Table" : "Visits trend by current and previous year - Table",
     "Footnotes" : "Footnotes",
     "Footnote1" : "Footnote 1",
+    "Footnote2" : "Footnote 2",
+    "Footnote3" : "Footnote 3",
     "Display25" : "Displays the top 25 link texts that was clicked on while viewing the page. All the links on page are captured, including:",
     "foreign" : "foreign language link texts by Google translate and others;",
     "filedownloads" : "file downloads; and",
@@ -73,5 +75,6 @@
     "No" : "No",
     "Reason" : "Reason",
     "No Clicks" : "No Clicks",
-    "no selection" : "No selection"
+    "no selection" : "No selection",
+    "PreviouspageURL" : "Previous page URL"
 }
