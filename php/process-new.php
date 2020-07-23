@@ -106,10 +106,10 @@ try {
             }
             $html = file_get_html("https://" . $url);
 
-            if ($oLang) {
+           if ($oLang) {
                 foreach ($html->find('a') as $e) {
                     if ( ($e->lang == "en" || $e->lang == "fr") &&
-                       ( trim($e->innertext) == "English" || trim($e->innertext) == "Fran&ccedil;ais" )  ) {
+                       ( (strpos(trim($e->innertext), 'English') !== false ) || (strpos(trim($e->innertext), 'Fran&ccedil;ais') !== false )) ) {
                         $otherLang = $e->href;
                         break;
                     }
