@@ -163,18 +163,18 @@ try
                 }
             }
 
-            foreach ($html->find('h1') as $e) {
+            foreach ($html->find('title') as $e) {
                 $titlePage = $e->innertext;
                 break;
             }
 
             $titlePage = trim($titlePage);
-
             $titlePage = str_replace('&amp;', '', $titlePage);
             $titlePage = str_replace('&nbsp;', ' ', $titlePage);
             $titlePage = str_replace('<br>', '', $titlePage);
             $titlePage = str_replace('<br/>', '', $titlePage);
             $titlePage = str_replace('<br />', '', $titlePage);
+            $titlePage = str_replace(' - Canada.ca', '', $titlePage);
 
             #echo $html;
 
@@ -201,6 +201,8 @@ try
                     $hasContextual = true;
                 }
             }
+
+            echo "yay";
 
             foreach ($dates as $key => $start)
             {

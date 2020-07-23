@@ -106,7 +106,7 @@ try {
             }
             $html = file_get_html("https://" . $url);
 
-           if ($oLang) {
+            if ($oLang) {
                 foreach ($html->find('a') as $e) {
                     if ( ($e->lang == "en" || $e->lang == "fr") &&
                        ( (strpos(trim($e->innertext), 'English') !== false ) || (strpos(trim($e->innertext), 'Fran&ccedil;ais') !== false )) ) {
@@ -123,9 +123,7 @@ try {
             $myJSON = json_encode($myObj);
             echo $myJSON;
 
-            $html = file_get_html('https://' . $url);
-
-                        $pUrl = substr($url, 0, 255 - 8);
+            $pUrl = substr($url, 0, 255 - 8);
             $origUrl = $url;
 
             $url = substr($url, -255);
@@ -147,7 +145,7 @@ try {
                 }
             }
 
-            foreach ($html->find('h1') as $e) {
+            foreach ($html->find('title') as $e) {
                 $titlePage = $e->innertext;
                 break;
             }
@@ -158,6 +156,7 @@ try {
             $titlePage = str_replace('<br>', '', $titlePage);
             $titlePage = str_replace('<br/>', '', $titlePage);
             $titlePage = str_replace('<br />', '', $titlePage);
+            $titlePage = str_replace(' - Canada.ca', '', $titlePage);
 
             $oSearchURL = $searchURL;
 
