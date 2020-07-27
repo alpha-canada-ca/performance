@@ -42,6 +42,7 @@
     "Whatusersclickedon" : "What users clicked on",
     "Devicesused" : "Devices used",
     "averageperday" : "average per day",
+    "averageperdayacr" : "avg / day",
     "total" : "total",
     "averageperweek" : "average per week",
     "Directtraffic/Bookmark" : "Direct traffic / Bookmark",
@@ -76,5 +77,9 @@
     "Reason" : "Reason",
     "No Clicks" : "No Clicks",
     "no selection" : "No selection",
-    "PreviouspageURL" : "Previous page URL"
+    "PreviouspageURL" : "Previous page URL",
+    "hours" : " (<abbr title='Hours'>h</abbr>:<abbr title='Minutes'>mm</abbr>:<abbr title='Seconds'>ss</abbr>)",
+    "Averagevisits" : "Average visits",
+    "Averagepageviews" : "Average page views",
+    "Averagetimespent" : "Average time per visit"
 }

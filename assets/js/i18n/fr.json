@@ -76,5 +76,10 @@
     "Reason" : "Raison",
     "No Clicks" : "Non clics",
     "no selection" : "Pas de choix",
-    "PreviouspageURL" : "URL de la page précédente"
+    "PreviouspageURL" : "URL de la page précédente",
+    "PreviouspageURL" : "Previous page URL",
+    "hours" : " (<abbr title='heures'>h</abbr>:<abbr title='minutes'>mm</abbr>:<abbr title='secondes'>ss</abbr>)",
+    "Averagevisits" : "Visites moyennes",
+    "Averagepageviews" : "Pages vues moyennes",
+    "Averagetimespent" : "Temps moyen par visite"
 }
