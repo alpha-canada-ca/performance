@@ -75,6 +75,24 @@ try
         $end = (new DateTime($end))->format($iso);
 
         $dates = [$start];
+        /*
+        $iso = 'Y-m-d\TH:i:s.v';
+        $start = (new DateTime($start))->format($iso);
+        $end = (new DateTime($end));
+        $end2 = $end;
+        $end2 = ($end2->modify('+1 day'))->format($iso);
+
+        $yesterday = $end->modify('-1 day')
+            ->format($iso);
+        $week = $end->modify('-6 day')
+            ->format($iso);
+        $month = $end->modify('-23 day')
+            ->format($iso);
+
+        $end = $end2;
+
+        $dates = [$month, $week, $yesterday];
+        */
     }
 
     if ((isset($url) && !empty($url)))
@@ -202,8 +220,6 @@ try
                 }
             }
 
-            echo "yay";
-
             foreach ($dates as $key => $start)
             {
                 $oDate = "$start/$end";
@@ -220,7 +236,7 @@ try
                     foreach ($type as $t)
                     {
                         $sm = "single";
-                        if ( $t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t = "fwylf") {
+                        if ( $t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf" || $t == "prvs" || $t == "trnd" ) {
                             $oDate = $dates[0] . "/" . $end;
                             $sm = "multi";
                         }
@@ -240,7 +256,7 @@ try
                         } else if ($t == "fwylf") {
                             $array = array_merge(array($oUrl), $dates);
                         } else if ($t == "prvs") {
-                            $array = array_merge( array( $oUrl ), $array );
+                            $array = array_merge( array( $oUrl ), $dates );
                         } else if ( $t == "activityMap" ) {
                             $array = array_merge ( array($titlePage), $dates );
                         } else if ( $t == "snmAll" ) {
@@ -257,17 +273,21 @@ try
                         {
                             $iso = 'Y-m-d\TH:i:s.v';
                             $vstep = "day";
+                            $start = $dates[0];
                             $date = dateRange($start, $end, $vstep);
                             if ($date[count($date) - 1] != $end)
                             {
                                 array_push($date, $end);
                             }
-                            $start2 = new DateTime($start);
-                            $start2 = $start2->modify('-1 year')
-                                ->format($iso);
+
                             $end2 = new DateTime($end);
-                            $end2 = $end2->modify('-1 year')
+                            $end2 = $end2->modify('-1 year');
+                            $end3 = $end2->format($iso);
+
+                            $start2 = $end2->modify('-30 day')
                                 ->format($iso);
+                            $end2 = $end3;
+
                             $date2 = dateRange($start2, $end2, $vstep);
                             if ($date2[count($date2) - 1] != $end2)
                             {
@@ -305,7 +325,7 @@ try
                         }
 
                         $json = vsprintf($json, $array);
-                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf") {
+                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf" || $t == "prvs") {
                             $json = str_replace("2020-05-16T00:00:00.000", $end, $json);
                             //echo $json;
                         }

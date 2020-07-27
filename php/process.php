@@ -50,7 +50,7 @@ try {
         foreach ($dates as $key => $start) {
             $oDate = "$start/$end";
 
-            if ( $type == "activityMap" || $type == "metrics" || $type == "srchAll" || $type == "refType" || $type == "snmAll" || $type == "srchLeftAll" || $type == "fwylf" ) {
+            if ( $type == "activityMap" || $type == "metrics" || $type == "srchAll" || $type == "refType" || $type == "snmAll" || $type == "srchLeftAll" || $type == "fwylf" || $type == "prvs" || $type == "trnd") {
                 $oDate = $dates2[0] . "/" . $end;
                 $sm = "multi";
             } else {
