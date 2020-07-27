@@ -253,8 +253,19 @@ const jsonTrendGenerate = ( json, day ) => {
         val = arr.slice(0, $cnt/2);
         lval = arr.slice($cnt/2, $cnt);
 
-        $rng = RANGE(1, $cnt/2);
-        const granularity = day.replace(/^\w/, c => c.toUpperCase());
+        if (day == 1) {
+            val = val.slice(-7);
+            lval = lval.slice(-7);
+        } else if ( day == 2) {
+            val = val.slice(-1);
+            lval = lval.slice(-1);
+        }
+
+        $cnt = val.length;
+
+        $rng = RANGE(1, $cnt);
+        var dd = "day"
+        const granularity = dd.replace(/^\w/, c => c.toUpperCase());
 
         //console.log($rng);
 
@@ -447,7 +458,7 @@ const jsonPrevious = (json, day) => {
             $.each(arrayP, function(index, value) {
                 url = value["value"];
                 term = (res[index] == null) ? url : res[index];
-                clicks = value["data"][0];
+                clicks = value["data"][day];
                 f = (url == "blank page url") ? $.i18n("Directtraffic/Bookmark") : ("<a href='" + url + "'>" + term + "</a>");
 
                 var obj = {};
@@ -458,7 +469,8 @@ const jsonPrevious = (json, day) => {
             return ref;
         }).then(res => {
             if (res.length != 0) {
-                res.sort((a, b)=> b.Visits - a.Visits);
+                res.sort((a, b)=> b[$.i18n("Visits")] - a[$.i18n("Visits")]);
+                res = res.slice(0, 5);
                 let table = document.querySelector("table#ppt");
                 let data = Object.keys(res[0]);
                 generateTable(table, res);
@@ -921,9 +933,18 @@ const jsonFWYLF = ( json, day ) => {
 const jsonMetrics = ( json, day ) => {
     var rows = json["summaryData"]["filteredTotals"];
     var $uv = $("#uv");
+    var $visit = $("#visit");
+    var $pagev = $("#pagev");
+    var $avgtime = $("#avgtime");
+
     var $days = parseInt( $("#numDays").html() );
     var $weeks = parseFloat( $("#numWeeks").html() );
+
+    var pvNum = 0 + parseInt(day);
+    var vNum = 6 + parseInt(day);
     var uvNum = 9 + parseInt(day);
+
+    var avgtimeNum = 24 + parseInt(day);
     var rapNum = 36 + parseInt(day);
 
     var desktopNum = 12 + parseInt(day);
@@ -937,11 +958,33 @@ const jsonMetrics = ( json, day ) => {
     var findLookingForInstancesNum = 54 + parseInt(day);
     
     $uv.html("")
+    $visit.html("")
+    $pagev.html("")
+    $avgtime.html("")
+
     if (rows != null) {
+
         uv = parseInt(rows[uvNum])
         uvDays = parseInt( uv / $days ).toLocaleString(document.documentElement.lang+"-CA");
         uv = parseInt(uv).toLocaleString(document.documentElement.lang+"-CA");
         $uv.prepend("<span class='h1'>" + uvDays +"</span> <strong>"+$.i18n("averageperday")+"</strong></br><span class='small'>" + uv +" "+ $.i18n("total")+"</span>");
+
+        visit = parseInt(rows[vNum])
+        vDays = parseInt( visit / $days ).toLocaleString(document.documentElement.lang+"-CA");
+        visit = parseInt(visit).toLocaleString(document.documentElement.lang+"-CA");
+        $visit.prepend("<span class='h2'>" + vDays +"</span></br><span class='small'>" + visit +" "+ $.i18n("total")+"</span>");
+
+        pv = parseInt(rows[pvNum])
+        pvDays = parseInt( pv / $days ).toLocaleString(document.documentElement.lang+"-CA");
+        pv = parseInt(pv).toLocaleString(document.documentElement.lang+"-CA");
+        $pagev.prepend("<span class='h2'>" + pvDays +"</span></br><span class='small'>" + pv +" "+ $.i18n("total")+"</span>");
+
+        at = moment.utc( rows[avgtimeNum] * 1000).format('H:mm:ss'); //parseInt(rows[uvNum])
+        //uvDays = parseInt( uv / $days ).toLocaleString(document.documentElement.lang+"-CA");
+        //uv = parseInt(uv).toLocaleString(document.documentElement.lang+"-CA");
+        $avgtime.prepend("<span class='h2'>" + at +"</span></br><span class'small'>"+$.i18n("hours")+"</span>"); //</br><span class='small'>" + uv +" "+ $.i18n("total")+"</span>");
+
+
         if (parseInt(rows[findLookingForInstancesNum]) == NaN || parseInt(rows[findLookingForTotalNum]) == 0) {
             $("#rapCont").html('<p  class="h2">'+$.i18n("Reportaproblem")+'</p><p id="rap"></p>');
             rap = parseInt(rows[rapNum])
@@ -951,7 +994,7 @@ const jsonMetrics = ( json, day ) => {
             $("#rap").prepend("<span class='h1'>" + rapWeeks +"</span> <strong>"+$.i18n("averageperweek")+"</strong></br><span class='small'>" + rap +" "+ $.i18n("total")+"</span>");
             $("#fwylfCont").html("");
         } else {
-            $("#fwylfCont").html('<p  class="h2">'+$.i18n("FindWhatYoureLookingFor")+'</p><table id="fwylfTable" class="table table-striped"><thead><th>'+$.i18n("Yes")+'</th><th>'+$.i18n("No")+'</th></thead><tr><td id="fwylfYes"></td><td id="fwylfNo"></td></tr></table><table id="fwylfReason" class="table table-striped"></table>');
+            $("#fwylfCont").html('<p class="h2">'+$.i18n("FindWhatYoureLookingFor")+'</p><table id="fwylfTable" class="table table-striped"><thead><th>'+$.i18n("Yes")+'</th><th>'+$.i18n("No")+'</th></thead><tr><td id="fwylfYes"></td><td id="fwylfNo"></td></tr></table><table id="fwylfReason" class="table table-striped"></table>');
             $("#fwylfYes").html(rows[findLookingForYesNum]);
             $("#fwylfNo").html(rows[findLookingForTotalNum]);
             $("#rapCont").html("");
@@ -971,9 +1014,7 @@ const jsonMetrics = ( json, day ) => {
         $rap.html("0");
     }
 
-} 
-
-
+}
 
 function fetchWithTimeout(url, options, delay, onTimeout) {
    const timer = new Promise((resolve) => {
@@ -1004,16 +1045,16 @@ const apiCall = (d, i, a, uu, dd) => a.map( type => {
 
     return fetch(request).then(res => res.json()).then(res => {
         //cnt++; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
-        //console.log(type);
-        //console.log(res);
+        console.log(type);
+        console.log(res);
         switch (type) {
             //case "uvrap" : return jsonUv(res);
             case "fle" : return jsonFile(res);
             case "snmAll" : return jsonSnum(res, dd);
             case "srchLeftAll" : return jsonSearches(res, dd);
-            case "trnd" : return jsonTrendGenerate(res, "day");
+            case "trnd" : return jsonTrendGenerate(res, dd);
             //case "pltfrm" : return jsonPieGenerate(res);
-            case "prvs" : return jsonPrevious(res);
+            case "prvs" : return jsonPrevious(res, dd);
             case "frwrd" : return jsonForward(res);
             case "srchAll" : return jsonSearchesAll(res, dd);
             case "activityMap" : return jsonAM(res, dd);
