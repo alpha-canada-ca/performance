@@ -195,7 +195,7 @@ try
             $titlePage = str_replace(' - Canada.ca', '', $titlePage);
 
             #echo $html;
-
+            $api = array();
             $oSearchURL = $searchURL;
 
             $searchURL = "www.canada.ca" . $searchURL;
@@ -336,14 +336,13 @@ try
                             //echo $json;
                         }
 
-                        //echo "<br /><br />$t&nbsp;&nbsp;&nbsp;$start&nbsp;&nbsp;&nbsp;&nbsp;$end&nbsp;&nbsp;&nbsp;&nbsp;$oDate";
+                        echo "<br /><br />$t&nbsp;&nbsp;&nbsp;$start&nbsp;&nbsp;&nbsp;&nbsp;$end&nbsp;&nbsp;&nbsp;&nbsp;$oDate";
 
-                        $api = api_post($config['ADOBE_API_KEY'], $config['COMPANY_ID'], $_SESSION['token'], $json);
+                        $api[] = $json;
 
-                            //echo "<br />JSON:<br />$json<br />";
-                            //echo "<br />API:<br />$api<br />";
+                            echo "<br />JSON:<br />$json<br />";
 
-                        $api2 = json_decode($api);
+                        //$api2 = json_decode($api);
 
                         /*
                         if ($api2->error_code) {
@@ -382,7 +381,7 @@ try
                         */
                         
 
-                        mongoUpdate($oUrl, $oDate, $t, $api, $sm);
+                        //mongoUpdate($oUrl, $oDate, $t, $api, $sm);
                         
                     }
 
@@ -398,5 +397,10 @@ catch(Exception $ex)
     ));
 }
 
+$result = api_post($config['ADOBE_API_KEY'], $config['COMPANY_ID'], $_SESSION['token'], $api);
+
+foreach($result as $r => $res) {
+    mongoUpdate($oUrl, $oDate, $type[$r], $res, "multi");
+}
 
 ?>

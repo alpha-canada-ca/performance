@@ -8,15 +8,22 @@ try {
     $url = $d->oUrl;
     $date = $d->dates;
     $type = $d->type;
+    $field =  $d->field;
     $start = $date[0];
     $end = $date[1];
 
     $mode = (empty($_REQUEST["mode"])) ? "update" : $_REQUEST["mode"];
 
-    $iso = 'Y-m-d\TH:i:s.v';
-    $start = (new DateTime($start))->format($iso);
     $today = new DateTime("today");
-    $end = $today->format($iso);
+
+    if ($field == "aa") {
+        $iso = 'Y-m-d\TH:i:s.v';
+        $end = $today->format($iso);
+    } else {
+        $iso = 'Y-m-d';
+        $end = (new DateTime($end))->format($iso);
+    }
+    $start = (new DateTime($start))->format($iso);    
 
     $yesterday = $today->modify('-1 day')
         ->format($iso);
@@ -32,12 +39,12 @@ try {
     if ((isset($url) && !empty($url))) {
 
         require_once('mongodb_get.php');
+        $origUrl = $url;
 
         if (substr($url, 0, 8) == "https://") {
             $url = substr($url, 8, strlen($url));
         }
         $pUrl = substr($url, 0, 255 - 8);
-        $origUrl = $url;
 
         $url = substr($url, -255);
         $oUrl = $url;
@@ -48,7 +55,11 @@ try {
         }
 
         foreach ($dates as $key => $start) {
-            $oDate = "$start/$end";
+            if ($field == "aa") {
+                $oDate = "$start/$end";
+            } else {
+                $oDate = "$start/$end";
+            }
 
             if ( $type == "activityMap" || $type == "metrics" || $type == "srchAll" || $type == "refType" || $type == "snmAll" || $type == "srchLeftAll" || $type == "fwylf" || $type == "prvs" || $type == "trnd") {
                 $oDate = $dates2[0] . "/" . $end;
@@ -57,7 +68,11 @@ try {
                 $sm = "single";
             }
             if ($mode == "update") {
-                $md = mongoGet($oUrl, $oDate, $type, $sm);
+                if ($field == "aa") {
+                    $md = mongoGet($oUrl, $oDate, $type, $sm);
+                } else {
+                    $md = mongoGet($origUrl, $oDate, $type, "multi");
+                }
                 if ($md) {
                     echo ($md);
                     return;

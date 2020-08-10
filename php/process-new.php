@@ -104,6 +104,8 @@ try {
             if (substr($url, 0, 8) == "https://") {
                 $url = substr($url, 8, strlen($url));
             }
+
+            /*
             $html = file_get_html("https://" . $url);
 
             if ($oLang) {
@@ -122,6 +124,8 @@ try {
             $myObj->url = $url;
             $myJSON = json_encode($myObj);
             echo $myJSON;
+
+            */
 
             $pUrl = substr($url, 0, 255 - 8);
             $origUrl = $url;
@@ -180,6 +184,8 @@ try {
                     $hasContextual = true;
                 }
             }
+
+            $api = array();
 
             foreach ($dates as $key => $start) {
                 $oDate = "$start/$end";
@@ -288,7 +294,7 @@ try {
                         
                         //echo "<br /><br />$t&nbsp;&nbsp;&nbsp;$start&nbsp;&nbsp;&nbsp;&nbsp;$end&nbsp;&nbsp;&nbsp;&nbsp;$oDate";
                         
-                        $api = api_post($config['ADOBE_API_KEY'], $config['COMPANY_ID'], $_SESSION['token'], $json);
+                        $api[] = $json;
                         //echo "<br />$api<br />";
                         /*
                           if ($t == "prevp" || $t == "trnd" || $t == "srch")
@@ -307,7 +313,7 @@ try {
                         }
 */
 
-                        mongoUpdate($oUrl, $oDate, $t, $api, $sm);
+                        //mongoUpdate($oUrl, $oDate, $t, $api, $sm);
 
                     }
 
@@ -319,5 +325,13 @@ try {
 catch(Exception $ex) {
     echo json_encode(array('error' => $ex));
 }
+
+$result = api_post($config['ADOBE_API_KEY'], $config['COMPANY_ID'], $_SESSION['token'], $api);
+
+foreach($result as $r => $res) {
+    mongoUpdate($oUrl, $oDate, $type[$r], $res, "multi");
+}
+
+
 
 ?>
