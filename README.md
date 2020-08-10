@@ -16,5 +16,5 @@
 * PHP with the extensions enabled:
   * curl; and
   * openssl
-* OpenSSL above 1.0.1 (latest)
+* OpenSSL above 1.0.1 (or latest)
 * MongoDB
