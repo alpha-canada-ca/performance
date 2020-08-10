@@ -81,5 +81,22 @@
     "hours" : " (<abbr title='heures'>h</abbr>:<abbr title='minutes'>mm</abbr>:<abbr title='secondes'>ss</abbr>)",
     "Averagevisits" : "Visites moyennes",
     "Averagepageviews" : "Pages vues moyennes",
-    "Averagetimespent" : "Temps moyen par visite"
+    "Averagetimespent" : "Temps moyen par visite",
+    "Totalclicks" : "Clics totales",
+    "Totalimpressions" : "Impressions totales",
+    "Averagectr" : "CTR moyen",
+    "Averageposition" : "Position moyenne",
+    "Tableclicksimp" : "Clics et impressions par jour",
+    "Tableclicksimp-Table" : "Clics et impressions par jour - Tableau",
+    "MobileQuery" : "Requêtes pour téléphone mobile",
+    "DesktopQuery" : "Requêtes pour ordinateur",
+    "TabletQuery" : "Requêtes pour tablette",
+    "Countrieswhereuserscamefrom" : "Des pays",
+    "ThedatesshownFootnote" : "Les dates indiquées sont actuellement les dates les plus récentes et les plus importantes que Google Search Console peut fournir pour le moment. Pour le plus récent, il faudrait environ 24 à 48 heures pour que les données finales soient reçues.",
+    "ReferringlinkFootnote" : "Le référent est le lien de référence externe de la première page sur laquelle un visiteur atterrit lors de la visite et accède finalement au lien fourni.",
+    "PreviouspageFootnote" : "La page précédente est la page sur laquelle un visiteur se trouvait auparavant pour le lien fourni.",
+    "FetchdataGSC" : "Récupération des données depuis Google Search Console ... (1/3)",
+    "FetchdataAA" : "Récupération des données d'Adobe Analytics ... (2/3)",
+    "FetchdataFD" : "Finalisation des graphiques et des tableaux ... (3/3)"
+
 }

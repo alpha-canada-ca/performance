@@ -81,5 +81,22 @@
     "hours" : " (<abbr title='Hours'>h</abbr>:<abbr title='Minutes'>mm</abbr>:<abbr title='Seconds'>ss</abbr>)",
     "Averagevisits" : "Average visits",
     "Averagepageviews" : "Average page views",
-    "Averagetimespent" : "Average time per visit"
+    "Averagetimespent" : "Average time per visit",
+    "Totalclicks" : "Total clicks",
+    "Totalimpressions" : "Total impressions",
+    "Averagectr" : "Average CTR",
+    "Averageposition" : "Average position",
+    "Tableclicksimp" : "Clicks and impressions by day",
+    "Tableclicksimp-Table" : "Clicks and impressions by day - Table",
+    "MobileQuery" : "Queries for mobile phone",
+    "DesktopQuery" : "Queries for desktop",
+    "TabletQuery" : "Queries for tablet",
+    "Countrieswhereuserscamefrom" : "Countries",
+    "ThedatesshownFootnote" : "The dates shown are currently the latest and greatest dates that Google Search Console can provide at this time. For the most recent, it would take around 24 to 48 hours for the final data to be received.",
+    "ReferringlinkFootnote" : "The referrer is the external referring link of the first page a visitor lands on in the visit and eventually gets to the supplied link.",
+    "PreviouspageFootnote" : "The previous page is the page a visitor was previously on for the supplied link.",
+    "FetchdataGSC" : "Fetching data from Google Search Console... (1/3)",
+    "FetchdataAA" : "Fetching data from Adobe Analytics... (2/3)",
+    "FetchdataFD" : "Finalizing graphs and charts... (3/3)"
+
 }
