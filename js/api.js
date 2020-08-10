@@ -427,6 +427,7 @@ const getPageTitle = a => Object.keys(a).map( (key, index) => {
 });
 
 const getPageH1 = url => {
+    console.log("1: " + url);
     url = ( url.indexOf("https://") !== -1 ) ? url : "https://" + url;
     if ( url.indexOf("canada.ca") !== -1) {
         let request = new Request(url, { method: "GET" });
@@ -469,14 +470,15 @@ const jsonPrevious = (json, day) => {
             return ref;
         }).then(res => {
             if (res.length != 0) {
-                res.sort((a, b)=> b[$.i18n("Visits")] - a[$.i18n("Visits")]);
-                res = res.slice(0, 5);
-                let table = document.querySelector("table#ppt");
+                //res.sort((a, b)=> b[$.i18n("Visits")] - a[$.i18n("Visits")]);
+
+                $(val).html( getTable() );
+                let table = document.querySelector(val + " table");
                 let data = Object.keys(res[0]);
                 generateTable(table, res);
                 generateTableHead(table, data, title);
 
-                $(val).trigger("wb-init.wb-tables");
+                $(val + " table").trigger("wb-init.wb-tables");
             } else {
                 $prev.html($.i18n("Nodata"));
             }
@@ -754,13 +756,25 @@ const jsonRT = ( json, day ) => {
         //console.log(ref.length)
 
         if (ref.length != 0) {
-            ref.sort((a, b)=> b[$.i18n("Visits")] - a[$.i18n("Visits")] );
-            let table = document.querySelector("table#reft");
+            //ref.sort((a, b)=> b[$.i18n("Visits")] - a[$.i18n("Visits")] );
+
+            /*let div = document.querySelector("div#reft");
+            let tbl = div.html('<table></table>').addClass('wb-table');
+            let data = Object.keys(ref[0]);
+            generateTable(tbl, ref);
+            generateTableHead(tbl, data, title);
+
+            $(val).trigger("wb-init.wb-tables");
+            */
+
+            $(val).html( getTable() );
+            let table = document.querySelector(val + " table");
             let data = Object.keys(ref[0]);
             generateTable(table, ref);
             generateTableHead(table, data, title);
 
-            $(val).trigger("wb-init.wb-tables");
+            $(val + " table").trigger("wb-init.wb-tables");
+
         } else {
             $ref.html($.i18n("Nodata"));
         }
@@ -769,6 +783,81 @@ const jsonRT = ( json, day ) => {
         $ref.html($.i18n("Nodata"));
     }
 }
+
+function getTable($pageLength=null, $order=null, $length=null, $display=null, $class=null) {
+    if (!$class) { $class = "wb-tables table table-responsive"; }
+    if (!$pageLength) { $pageLength = 5; }
+    if (!$order) { $order = [1, "&quot;desc&quot;"]; }
+    if (!$length) { $length = [5, 10, 25, -1]; }
+    if (!$display) { $display = [5, 10, 25, "&quot;All&quot;"]; }
+
+    return  '<table class="' + $class + '" data-wb-tables=\'{ ' +
+                '&quot;pageLength&quot; : ' + $pageLength + ', ' +
+                '&quot;order&quot; : [ ' + $order + ' ] , ' +
+                '&quot;lengthMenu&quot; : [ [ ' + $length + ' ], [ ' + $display + ' ] ]' +
+             '}\'>' +
+             '</table>';
+}
+
+/*
+function makeTableHead(table, data, title) {
+
+    var result = '<table class="wb-tables table" data-wb-tables=\'{ ' +
+                    '&quot;pageLength&quot; : 5, ' +
+                    '&quot;order&quot; : [ 1, &quot;desc&quot;], ' +
+                    '&quot;lengthMenu&quot; : [ [5, 10, 25, -1], [5, 10, 25, &quot;All&quot;] ]' +
+                 '}\'>';
+    result += "<caption><div class='wb-inv'>"+title+"</div></caption>";
+
+    result += "<thead>";
+    for (let key of data) {
+        result += "<th width='50%'>" + key + "</th>";
+    }
+    console.log(result)
+    result += "</thead>" + table + "</table>";
+
+    console.log(result)
+    console.log(table)
+
+    return result;
+
+}
+
+function makeTable(data) {
+
+    var result = "<tbody>";
+    for (let element of data) {
+        result += "<tr>";
+        for (key in element) {
+            var key = element[key];
+            result += "<td>";
+            if (isInt(key)) {
+                key = key.toLocaleString(document.documentElement.lang+"-CA");
+            }
+            result += key + "</td>";
+        }
+        result += "</tr>";
+    }
+    result += "</tbody>";
+    //result += "</table>";
+    console.log(result)
+
+    return result;
+
+/*
+    for(var i=0; i<myArray.length; i++) {
+        result += "<tr>";
+        for(var j=0; j<myArray[i].length; j++){
+            result += "<td>"+myArray[i][j]+"</td>";
+        }
+        result += "</tr>";
+    }
+    result += "</table>";
+
+    return result;
+    
+}
+*/
 
 const jsonSearch = ( json, val, title, day ) => {
     var rows = json["rows"][0];
@@ -793,11 +882,15 @@ const jsonSearch = ( json, val, title, day ) => {
         });
 
         if (srch.length != 0) {
-            srch.sort((a, b)=> b[$.i18n("Clicks")] - a[$.i18n("Clicks")]);
-            let table = document.querySelector("table"+val);
+            //srch.sort((a, b)=> b[$.i18n("Clicks")] - a[$.i18n("Clicks")]);
+
+            var $pageLength = 10;
+            $(val).html( getTable( $pageLength ) );
+            let table = document.querySelector(val + " table");
             let data = Object.keys(srch[0]);
             generateTable(table, srch);
             generateTableHead(table, data, title);
+
         } else {
             $search.html($.i18n("Nodata"));
         }
@@ -814,7 +907,7 @@ const jsonSearchesAll = ( json, day ) => {
     var val = "#srchA";
     jsonSearch(json, val, title, day);
 
-    $(val).trigger("wb-init.wb-tables");
+    $(val + " table").trigger("wb-init.wb-tables");
 }
 
 const jsonSearchesInstitution = json => {
@@ -840,7 +933,8 @@ function sortByCol(arr) {
 
 const jsonAM = ( json, day ) => {
 
-   var rows = json["rows"][0];
+    var rows = json["rows"][0];
+    var val = "#np";
     var $next = $("#np");
 
     if (rows != null) {
@@ -851,23 +945,27 @@ const jsonAM = ( json, day ) => {
 
         $.each(array, function(index, value) {
             term = value["value"];
-            val = value["data"][day];
+            clicks = value["data"][day];
 
             if (term != "(Low Traffic)" && term != "Unspecified" && val != "0") {
                 var obj = {};
                 obj[$.i18n("LinkText")] = term;
-                obj[$.i18n("Clicks")] = val;
+                obj[$.i18n("Clicks")] = clicks;
                 next.push(obj);
             }
         });
 
         if (next.length != 0) {
-            next.sort((a, b)=> b[$.i18n("Clicks")] - a[$.i18n("Clicks")]);
+            //next.sort((a, b)=> b[$.i18n("Clicks")] - a[$.i18n("Clicks")]);
 
-            let table = document.querySelector("table#np");
+            var $pageLength = 10;
+            $next.html( getTable( $pageLength ) );
+            let table = document.querySelector(val + " table");
             let data = Object.keys(next[0]);
             generateTable(table, next);
             generateTableHead(table, data, $.i18n("OutboundClicksonPage"));
+
+            $(val + " table").trigger("wb-init.wb-tables");
 
         } else {
             $next.html($.i18n("Nodata"));
@@ -883,6 +981,8 @@ const jsonAM = ( json, day ) => {
 const jsonFWYLF = ( json, day ) => { 
     var rows = json["rows"][0];
     var $next = $("#fwylfReason");
+    var val = "#fwylfReason";
+    var title = $.i18n("NoClicks");
 
     if (rows != null) {
         var array = json["rows"];
@@ -892,7 +992,7 @@ const jsonFWYLF = ( json, day ) => {
 
         $.each(array, function(index, value) {
             term = value["value"];
-            val = value["data"][day];
+            clicks = value["data"][day];
 
             
                 var obj = {};
@@ -907,26 +1007,37 @@ const jsonFWYLF = ( json, day ) => {
                     term = $.i18n(terms[0]);
                 }
                 obj[$.i18n("Reason")] = term;
-                obj[$.i18n("Clicks")] = val;
+                obj[$.i18n("Clicks")] = clicks;
                 next.push(obj);
             
         });
 
         if (next.length != 0) {
-            next.sort((a, b)=> b.NumSelected - a.NumSelected);
+            //next.sort((a, b)=> b.NumSelected - a.NumSelected);
 
+            /*
             let table = document.querySelector("table#fwylfReason");
             let data = Object.keys(next[0]);
             generateTable(table, next);
             generateTableHead(table, data, $.i18n("NoClicks"));
+
+            var $pageLength = 10;
+            $(val).html( getTable( $pageLength ) );
+            */
+            var $pageLength = 10;
+            $next.html( getTable( $pageLength ) );
+            let table = document.querySelector(val + " table");
+            let data = Object.keys(next[0]);
+            generateTable(table, next);
+            generateTableHead(table, data, title);
+
+            $(val + " table").trigger("wb-init.wb-tables");
 
         } else {
             $next.html($.i18n("Nodata"));
         }
         
 
-    } else {
-        $next.html($.i18n("Nodata"));
     }
 }
 
@@ -992,9 +1103,11 @@ const jsonMetrics = ( json, day ) => {
             rapWeeks = parseInt( rap / $weeks ).toLocaleString(document.documentElement.lang+"-CA");
             rap = parseInt(rap).toLocaleString(document.documentElement.lang+"-CA");
             $("#rap").prepend("<span class='h1'>" + rapWeeks +"</span> <strong>"+$.i18n("averageperweek")+"</strong></br><span class='small'>" + rap +" "+ $.i18n("total")+"</span>");
-            $("#fwylfCont").html("");
+            $("#fwylfCont").html('<div id="fwylfTable"></div><div id="fwylfReason"></div>');
         } else {
-            $("#fwylfCont").html('<p class="h2">'+$.i18n("FindWhatYoureLookingFor")+'</p><table id="fwylfTable" class="table table-striped"><thead><th>'+$.i18n("Yes")+'</th><th>'+$.i18n("No")+'</th></thead><tr><td id="fwylfYes"></td><td id="fwylfNo"></td></tr></table><table id="fwylfReason" class="table table-striped"></table>');
+            $("#fwylfCont").html('<div id="fwylfTable"></div><div id="fwylfReason"></div>');
+            $("#fwylfCont").prepend('<p class="h2">'+$.i18n("FindWhatYoureLookingFor")+'</p>');
+            $("#fwylfTable").html('<table class="table table-striped"><thead><th>'+$.i18n("Yes")+'</th><th>'+$.i18n("No")+'</th></thead><tr><td id="fwylfYes"></td><td id="fwylfNo"></td></tr></table>');
             $("#fwylfYes").html(rows[findLookingForYesNum]);
             $("#fwylfNo").html(rows[findLookingForTotalNum]);
             $("#rapCont").html("");
@@ -1016,6 +1129,308 @@ const jsonMetrics = ( json, day ) => {
 
 }
 
+function nFormatter(num, digits) {
+  var si = [
+    { value: 1, symbol: "" },
+    { value: 1E3, symbol: "k" },
+    { value: 1E6, symbol: "M" },
+    { value: 1E9, symbol: "G" },
+    { value: 1E12, symbol: "T" },
+    { value: 1E15, symbol: "P" },
+    { value: 1E18, symbol: "E" }
+  ];
+  var rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  var i;
+  for (i = si.length - 1; i > 0; i--) {
+    if (num >= si[i].value) {
+      break;
+    }
+  }
+  var num = parseFloat( (num / si[i].value).toFixed(digits) ).toLocaleString(document.documentElement.lang+"-CA");
+  return num.replace(rx, "$1") + si[i].symbol;
+}
+
+const jsonGSCTotal = ( json, day ) => {
+    var rows = json["rows"];
+    var $clicks = $("#gsc-clicks");
+    var $imp = $("#gsc-imp");
+    var $ctr = $("#gsc-ctr");
+    var $pos = $("#gsc-pos");
+    
+    $clicks.html("")
+    $imp.html("")
+    $ctr.html("")
+    $pos.html("")
+
+    if (rows != null) {
+
+        for (let r of rows) {
+            clicks = parseInt(r["clicks"]);
+            fClicks = nFormatter( clicks, 1); //.toLocaleString(document.documentElement.lang+"-CA");
+            $clicks.prepend("<span class='h1'>" + fClicks +"</span>"); //" <strong>Total clicks"+$.i18n("averageperday")+"</strong></br><span class='small'>" + clicks +" "+ $.i18n("total")+"</span>");
+
+            imp = parseInt(r["impressions"])
+            fImp = nFormatter( imp, 1);
+            $imp.prepend("<span class='h1'>" + fImp +"</span>"); //</br><span class='small'>" + visit +" "+ $.i18n("total")+"</span>");
+
+            ctr = parseFloat(r["ctr"])
+            if ( document.documentElement.lang == "fr" ) {
+                var end = "&nbsp;%"
+            } else {
+                var end = "%";
+            }
+            fCtr = parseFloat( (ctr * 100).toFixed(1)).toLocaleString(document.documentElement.lang+"-CA") + end;
+            $ctr.prepend("<span class='h1'>" + fCtr +"</span>"); //</br><span class='small'>" + pv +" "+ $.i18n("total")+"</span>");
+
+            pos = parseFloat(r["position"])
+            fPos = nFormatter( pos, 1);
+            $pos.prepend("<span class='h1'>" + fPos +"</span>"); //</br><span class='small'>" + pv +" "+ $.i18n("total")+"</span>");
+        }
+
+    } else {
+        $uv.html("0");
+        $rap.html("0");
+    }
+
+}
+
+const jsonGSCGenerate = ( json, day ) => {
+    var rows = json["rows"];
+    
+    if (rows != null) {
+        $("#gsc").remove()
+        $("#gsc-canvas").append("<canvas id='gsc'></canvas>")
+        
+        $cnt = rows.length;
+
+        var clicks = [], imp = [], keys = [], $obj = [];
+
+        $.each(rows, function(index, value) {
+            val = value
+            clicks.push(parseInt(val['clicks']));
+            imp.push(parseInt(val['impressions']));
+            keys.push(val['keys'][0]);
+
+            var obj = {};
+            obj[$.i18n("Day")] = val['keys'][0];
+            obj[$.i18n("Clicks")] = val['clicks'].toLocaleString(document.documentElement.lang+"-CA");
+            obj[$.i18n("Impressions")] = val['impressions'].toLocaleString(document.documentElement.lang+"-CA");
+
+            $obj.push(obj);
+        });
+
+        var options = {
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
+           
+            scales: {
+                yAxes: [{
+                    id: 'y-axis-0',
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: $.i18n("Clicks")
+                    }
+                  }, {
+
+                    id: 'y-axis-1',
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: $.i18n("Impressions")
+                    }
+                  }],
+                xAxes: [ {
+                  scaleLabel: {
+                    display: true,
+                    labelString: $.i18n("Day")
+                  }
+                }]
+            },
+            tooltips: {
+                mode: "index",
+                intersect: false,
+            },
+            hover: {
+                mode: "nearest",
+                intersect: true
+            },
+            legend: {
+                position: "top",
+                labels: {
+                    usePointStyle: true
+                }
+            },
+            layout: {
+                padding: {
+                    top: 25
+                }
+            }
+        };
+
+        var ctx3 = document.getElementById("gsc").getContext("2d");
+        var chart3 = new Chart(ctx3, {
+            type: "line",
+            data: {
+                labels: keys,
+                datasets: [{
+                    yAxisID : 'y-axis-0',
+                    label: $.i18n("Clicks"),
+                    data: clicks,
+                    fill: false,
+                    borderColor: "#4285f4"
+                }, {
+                    yAxisID : 'y-axis-1',
+                    label: $.i18n("Impressions"),
+                    data: imp,
+                    fill: false,
+                    borderColor: "#5e35b1"
+                }]
+            },
+            options: options
+        });
+
+        let table = document.querySelector("table#tbl-gsc");
+        let dtx = Object.keys($obj[0]);
+        table.innerHTML = ""
+        generateTable(table, $obj);
+        generateTableHead(table, dtx, $.i18n("Visitstrendbycurrentyearandpreviousyear"));
+
+        $("#chart-gsc").show();
+        $("#chrtgsc").hide();
+    } else {
+        $("#chart-gsc").hide();
+        $("#chrtgsc").show();
+    }
+}
+
+const jsonGSC = ( json, val, title, lang ) => {
+
+    var rows = json["rows"];
+    var $qry = $(val);
+
+    console.log(rows);
+
+    if (rows != null) {
+        var array = json["rows"];
+        $qry.html("");
+
+        var srch = [];
+
+        $.each(array, function(index, value) {
+            term = value["keys"][lang];
+            clicks = value["clicks"];
+            imp = value["impressions"];
+
+            var obj = {};
+            obj[$.i18n("Term")] = term;
+            obj[$.i18n("Clicks")] = clicks;
+            obj[$.i18n("Impressions")] = imp;
+            srch.push(obj);
+        });
+
+        if (srch.length != 0) {
+            //srch.sort((a, b)=> b[$.i18n("Clicks")] - a[$.i18n("Clicks")]);
+
+            var $pageLength = 10;
+            $(val).html( getTable( $pageLength ) );
+            let table = document.querySelector(val + " table");
+            let data = Object.keys(srch[0]);
+            generateTable(table, srch);
+            generateTableHead(table, data, title);
+
+        } else {
+            $qry.html($.i18n("Nodata"));
+        }
+
+    } else {
+        $qry.html($.i18n("Nodata"));
+    }
+}
+
+const jsonGSCQryMobile = ( json, day ) => {
+    
+    var title = $.i18n("Mobile - Queries");
+    var val = "#gscQryMob";
+    jsonGSC(json, val, title, 0);
+
+    $(val + " table").trigger("wb-init.wb-tables");
+}
+
+const jsonGSCQryDesktop = ( json, day ) => {
+    
+    var title = $.i18n("Desktop - Queries");
+    var val = "#gscQryDesk";
+    jsonGSC(json, val, title, 0);
+
+    $(val + " table").trigger("wb-init.wb-tables");
+}
+
+const jsonGSCQryTablet = ( json, day ) => {
+    
+    var title = $.i18n("Desktop - Queries");
+    var val = "#gscQryTab";
+    jsonGSC(json, val, title, 0);
+
+    $(val + " table").trigger("wb-init.wb-tables");
+}
+
+const jsonGSCCountry = ( json, day ) => {
+
+    if ( document.documentElement.lang == "en" ) {
+        lang = 0;
+    } else {
+        lang = 1;
+    }
+    
+    var title = $.i18n("Countries");
+    var val = "#gscCountry";
+    jsonGSC(json, val, title, lang);
+
+    $(val + " table").trigger("wb-init.wb-tables");
+}
+
+//  returns an object with the sought country's data if the search yields a result
+//  returns undefined if no results could be found or if argument is incorrect
+function search_country(query) {
+
+    var countries = JSON.parse("../assets/js/json/country-en.json");
+    condole.log(countries);
+
+    // if argument is not valid return false
+    if (undefined === query.id && undefined === query.alpha2 && undefined === query.alpha3) return undefined;
+
+    // iterate over the array of countries
+    return countries.filter(function(country) {
+
+        // return country's data if
+        return (
+            // we are searching by ID and we have a match
+            (undefined !== query.id && parseInt(country.id, 10) === parseInt(query.id, 10))
+            // or we are searching by alpha2 and we have a match
+            || (undefined !== query.alpha2 && country.alpha2 === query.alpha2.toLowerCase())
+            // or we are searching by alpha3 and we have a match
+            || (undefined !== query.alpha3 && country.alpha3 === query.alpha3.toLowerCase())
+        )
+
+    // since "filter" returns an array we use pop to get just the data object
+    }).pop()
+
+}
+
 function fetchWithTimeout(url, options, delay, onTimeout) {
    const timer = new Promise((resolve) => {
       setTimeout(resolve, delay, {
@@ -1033,10 +1448,10 @@ function fetchWithTimeout(url, options, delay, onTimeout) {
    })
 }
 
-const apiCall = (d, i, a, uu, dd) => a.map( type => {
+const apiCall = (d, i, a, uu, dd, fld) => a.map( type => {
     url = ( type == "fle" ) ? "php/file.php" : "php/process.php"
     
-    post = { dates: d, url: i, type: type, oUrl: uu };
+    post = { dates: d, url: i, type: type, oUrl: uu, field: fld };
 
     let request = new Request(url, { 
         method: "POST",
@@ -1063,6 +1478,12 @@ const apiCall = (d, i, a, uu, dd) => a.map( type => {
             case "fwylf" : return jsonFWYLF(res,dd);
             //case "dwnld" : return jsonDownload(res, uu);
             //case "outbnd" : return jsonOutbound(res, uu);
+            case 'cntry' : return jsonGSCCountry(res, dd);;
+            case 'qryMobile' : return jsonGSCQryMobile(res, dd);
+            case 'qryDesktop' : return jsonGSCQryDesktop(res, dd);
+            case 'qryTablet' : return jsonGSCQryTablet(res, dd);;
+            case 'totals' : return jsonGSCTotal(res);
+            case 'totalDate' : return jsonGSCGenerate(res, dd);
         }
     }).catch(function (err) {
         console.log(type);
@@ -1088,7 +1509,47 @@ const apiCall2 = (d, i, a, uu, lg) => a.map( type => {
         //console.log(res);
 
         $("#urlStatic").html("https://" + res['url']);
-        return res['url'];
+        return res;
+    }).catch(function (err) {
+        console.log(type);
+        console.log(err.message);
+        console.log(err.stack);
+    });
+
+});
+
+const apiCallGSC2 = (d, i, a, uu, dd, lg) => a.map( type => {    
+    url = "php/process-gsc.php";
+    
+    post = { dates: d, url: i, oUrl: uu, day: dd, lang: lg };
+
+    let request = new Request(url, { 
+        method: "POST",
+        body: JSON.stringify(post)
+    });
+
+    return fetch(request).then(res => res.json()).then(res => {
+
+        var localLocaleStart = moment(res['start']);
+        var localLocaleEnd = moment(res['end']);
+
+        $("#urlStatic").html(res['url']);
+        $("#fromGSC").html(res['start']);
+        $("#toGSC").html(res['end']);
+
+        localLocaleStart.locale(document.documentElement.lang);
+        localLocaleEnd.locale(document.documentElement.lang);
+
+        var fromdaterange = localLocaleStart.format("dddd MMMM DD, YYYY");
+        var todaterange = localLocaleEnd.format("dddd MMMM DD, YYYY");
+        
+        $("#fromdaterangegsc").html("<strong>"+fromdaterange+"</strong>");
+        $("#todaterangegsc").html("<strong>"+todaterange+"</strong>");
+
+        $("#numDaysgsc").html(dd);
+
+        
+        return res;
     }).catch(function (err) {
         console.log(type);
         console.log(err.message);
@@ -1131,6 +1592,7 @@ const mainQueue = (url, start, end, lang) => {
 
     url = removeQueryString(url);
     $("#canvas-container").addClass("hidden");
+    $("#whole-canvas").addClass("hidden");
     $("#notfound").addClass("hidden")
     $("#loading").removeClass("hidden");
 
@@ -1196,6 +1658,7 @@ const mainQueue = (url, start, end, lang) => {
 
         var dbCall = [ "dbGet" ];
         var match = [ "trnd", "fle", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "refType", "metrics", "fwylf" ];
+        var gsc = [ 'cntry', 'qryMobile', 'qryDesktop', 'qryTablet', 'totals', 'totalDate'  ];
         //var match = [ "snm", "uvrap" ];
         var previousURL = [];
         var pageURL = [  ]; //, "dwnld", "outbnd" ];
@@ -1203,13 +1666,31 @@ const mainQueue = (url, start, end, lang) => {
         let aa = (match.concat(previousURL).concat(pageURL)).length;
         cnt = 0; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
         */
-        const dbGetMatch= () => { return Promise.all( apiCall2(d, url, dbCall, oUrl, lang)) }
-        const getMatch = () => { 
+        const dbGetMatch= () => { 
+            $("#loadGSC").addClass("hidden");
+            $("#loadAA").removeClass("hidden");
             url = $("#urlStatic").html();
             oUrl = $("#urlStatic").html();
-            return Promise.all( apiCall(d, url, match, oUrl, $dd))
+            return Promise.all( apiCall2(d, url, dbCall, oUrl, lang)) 
         }
-        const getTitle = h2 => { return Promise.all( [ getPageH1(h2) ] ) }
+        const dbGetGSC= () => { 
+            $("#loadGSC").removeClass("hidden");
+            return Promise.all( apiCallGSC2(d, url, dbCall, oUrl, dDay, lang))
+        }
+        const getMatch = () => { 
+            $("#loadAA").addClass("hidden");
+            $("#loadFD").removeClass("hidden");
+            url = $("#urlStatic").html();
+            oUrl = $("#urlStatic").html();
+            return Promise.all( apiCall(d, url, match, oUrl, $dd, "aa"))
+        }
+        const getGSC = () => { 
+            url = $("#urlStatic").html();
+            oUrl = $("#urlStatic").html();
+            d = [ $("#fromGSC").text(), $("#toGSC").text() ];
+            return Promise.all( apiCall(d, url, gsc, oUrl, $dd, "gsc"))
+        }
+        const getTitle = h2 => { return Promise.all( [ getPageH1( h2[0]['url'] ) ] ) }
 
         /*
         const getPreviousPage = id => {
@@ -1222,13 +1703,15 @@ const mainQueue = (url, start, end, lang) => {
         }
         */
         
-        dbGetMatch()
+        dbGetGSC()
             .then( res => getTitle(res) )
             .then( res => { $("#h2title").html(res); } )
-            .then ( () => getMatch() )
+            .then( () => dbGetMatch() )
+            .then( () => getMatch() )
+            .then( () => getGSC() )
         /*.then( res => { getPreviousPage(res[0]); return res; })
                 */
-                .then( () => { $("#loading").addClass("hidden"); $("#notfound").addClass("hidden"); $("#canvas-container").removeClass("hidden"); $("#searchBttn").prop("disabled",false); })
+                .then( () => { $("#loading").addClass("hidden"); $("#loadFD").addClass("hidden"); $("#notfound").addClass("hidden"); $("#whole-canvas").removeClass("hidden"); $("#canvas-container").removeClass("hidden"); $("#searchBttn").prop("disabled",false); $('#urlval').val( $('#urlStatic').text()); })
                 .catch(console.error.bind(console));
 
         $success = 1;
