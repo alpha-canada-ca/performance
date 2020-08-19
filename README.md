@@ -1,4 +1,4 @@
-# Analytics API
+# Page Performance Measurement Tool (PPMT)
 
 # Table of Contents #
   * [Setup](#setup)
