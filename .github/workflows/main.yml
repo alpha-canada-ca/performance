@@ -38,9 +38,9 @@ jobs:
     - uses: Azure/k8s-deploy@v1
       with:
         manifests: |
-          kubernetes/performance-nginx-configmap.yaml
-          kubernetes/performance-nginx-deployment.yaml
-          kubernetes/performance-nginx-service.yaml
+          kubernetes/performance-nginx-configmap.yml
+          kubernetes/performance-nginx-deployment.yml
+          kubernetes/performance-nginx-service.yml
         images: |
           tbsacr.azurecr.io/performance_nginx:1.0.0
         namespace: |
@@ -49,8 +49,8 @@ jobs:
     - uses: Azure/k8s-deploy@v1
       with:
         manifests: |
-          kubernetes/performance-php-deployment.yaml
-          kubernetes/performance-php-service.yaml
+          kubernetes/performance-php-deployment.yml
+          kubernetes/performance-php-service.yml
         images: |
           tbsacr.azurecr.io/performance_nginx:1.0.0
         namespace: |
