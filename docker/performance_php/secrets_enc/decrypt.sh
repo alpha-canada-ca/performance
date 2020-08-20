@@ -1,5 +1,6 @@
 #!/bin/sh
 export GPG_TTY=$(tty)
+mkdir ./docker/performance_php/secrets
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
 --output ./docker/performance_php/secrets/keys/certificate.pem ./docker/performance_php/secrets_enc/keys/certificate.pem.gpg
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
