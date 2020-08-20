@@ -14,7 +14,7 @@ jobs:
     - name: Decrypt large secret
       run: ./docker/performance_php/secrets_enc/decrypt.sh
       env:
-        CONFIG_INI_PASSPHRASE: ${{ secrets.SECRETS_PASSPHRASE }}
+        SECRETS_PASSPHRASE: ${{ secrets.SECRETS_PASSPHRASE }}
     
     - uses: Azure/docker-login@v1
       with:
