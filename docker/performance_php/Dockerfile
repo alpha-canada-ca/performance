@@ -1,14 +1,4 @@
-#FROM drupalwxt/site-wxt:latest
-FROM php:fpm-alpine
-RUN apk update
-RUN apk add nano
-RUN apk add curl
-RUN apk add php-curl
-RUN apk add openssl
-RUN apk add php-openssl
-RUN apk add --no-cache $PHPIZE_DEPS
-RUN pecl install mongodb
-RUN docker-php-ext-install opcache
+FROM dtobtn/performance_base:1.0.0
 COPY docker/performance_php/php.ini /usr/local/etc/php/php.ini
 COPY docker/performance_php/www.conf /usr/local/etc/php-fpm.d
 RUN yes | rm -R /var/www/html
@@ -21,8 +11,6 @@ COPY docker/performance_php/secrets/keys /var/www/html/keys
 #COPY docker/performance_php/mongo_connect.php /var/www/html/php/mongo_connect.php
 #COPY docker/performance_php/helloworld.php /var/www/html/php/helloworld.php
 COPY index.html /var/www/html/index.html
-RUN chown -R -f www-data:www-data /var/www/html/
-RUN chmod -R ug+rwx /var/www/html
 
 # Reset Cache
 RUN php -version
