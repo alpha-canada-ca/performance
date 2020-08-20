@@ -1,21 +1,17 @@
 #!/bin/sh
 export GPG_TTY=$(tty)
-ls -la
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
---output ../secrets/keys/certificate.pem ./keys/certificate.pem.gpg
+--output ./docker/performance_php/secrets/keys/certificate.pem ./docker/performance_php/secrets_enc/keys/certificate.pem.gpg
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
---output ../secrets/keys/secret.key ./keys/secret.key.gpg
+--output ./docker/performance_php/secrets/keys/secret.key ./docker/performance_php/secrets_enc/keys/secret.key.gpg
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
---output ../secrets/keys/secret.pem ./keys/secret.pem.gpg
+--output ./docker/performance_php/secrets/keys/secret.pem ./docker/performance_php/secrets_enc/keys/secret.pem.gpg
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
---output ../secrets/php/config.php ./php/config.php.gpg
+--output ./docker/performance_php/secrets/php/config.php ./docker/performance_php/secrets_enc/php/config.php.gpg
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
---output ../secrets/php/service-account-credentials.json ./php/service-account-credentials.json.gpg
-cd ../secrets/keys
-ls -la
-cd ..
-cd ../secrets/php
-ls -la
+--output ./docker/performance_php/secrets/php/service-account-credentials.json ./docker/performance_php/secrets_enc/php/service-account-credentials.json.gpg
+ls -la ./docker/performance_php/secrets/keys
+ls -la ./docker/performance_php/secrets/php
 
 
 
