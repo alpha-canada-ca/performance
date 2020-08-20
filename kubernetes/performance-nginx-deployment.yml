@@ -4,8 +4,8 @@ metadata:
   annotations:
     deployment.kubernetes.io/revision: "3"
   generation: 1
-  name: pageperformance-nginx
-  namespace: pageperformance
+  name: performance-nginx
+  namespace: performance
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -25,7 +25,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: tbsacr.azurecr.io/pageperformance_nginx:1.0.0
+      - image: tbsacr.azurecr.io/performance_nginx:1.0.0
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
@@ -77,6 +77,6 @@ spec:
       volumes:
       - configMap:
           defaultMode: 420
-          name: pageperformance-nginx
+          name: performance-nginx
         name: cm-nginx
-  replicas: 1
+  
