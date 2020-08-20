@@ -1,5 +1,6 @@
 #!/bin/sh
 export GPG_TTY=$(tty)
+ls -la
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
 --output ../secrets/keys/certificate.pem ./keys/certificate.pem.gpg
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
