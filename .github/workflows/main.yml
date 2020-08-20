@@ -23,8 +23,10 @@ jobs:
         password: ${{ secrets.ACR_PASSWORD }}
     
     - run: |
-        docker build -f ./docker/both/Dockerfile . -t tbsacr.azurecr.io/performance_php:1.0.0
-        docker push tbsacr.azurecr.io/performance:1.0.0
+        docker build -f ./docker/performance_php/Dockerfile . -t tbsacr.azurecr.io/performance_php:1.0.0
+        docker push tbsacr.azurecr.io/performance_php:1.0.0
+        docker build -f ./docker/performance_nginx/Dockerfile . -t tbsacr.azurecr.io/performance_nginx:1.0.0
+        docker push tbsacr.azurecr.io/performance_nginx:1.0.0
       
     # Set the target AKS cluster.
     - uses: Azure/aks-set-context@v1
