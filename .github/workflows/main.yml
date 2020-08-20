@@ -12,9 +12,9 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Decrypt large secret
-      run: ./decrypt.sh
+      run: ./docker/secrets_enc/decrypt.sh
       env:
-        CONFIG_INI_PASSPHRASE: ${{ secrets.CONFIG_INI_PASSPHRASE }}
+        CONFIG_INI_PASSPHRASE: ${{ secrets.SECRETS_PASSPHRASE }}
     
     - uses: Azure/docker-login@v1
       with:
