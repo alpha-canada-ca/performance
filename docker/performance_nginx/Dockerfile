@@ -1,6 +1,5 @@
 FROM nginx:alpine
 COPY docker/performance_nginx/nginx.conf /etc/nginx/nginx.conf
-RUN mkdir -p /var/www/html
 COPY assets/ /var/www/html/assets/
 COPY js/ /var/www/html/js/
 COPY php/ /var/www/html/php/
