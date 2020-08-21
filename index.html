@@ -2,57 +2,62 @@
 <!--[if lt IE 9]>
 <html class="no-js lt-ie9" lang="en" dir="ltr">
    <![endif]-->
-   <!--[if gt IE 8]><!-->
-   <html class="no-js" lang="en" dir="ltr">
-      <!--<![endif]-->
-      <head>
-         <meta charset="utf-8">
-         <!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW) wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html -->
-         <title data-i18n="app-title"></title>
-         <!-- Meta data -->
-         <meta content="width=device-width,initial-scale=1" name="viewport">
-         <!-- Meta data -->
-         <meta name="description" content="Page performance management tool (PPMT)">
-         <!-- Load closure template scripts -->
-         <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/soyutils.js"></script>
-         <script>
-            var altLang = "fr"
-            var altLangText = "Français";
-            if (location.search.indexOf("lang=fr") > -1) {
-                document.documentElement.lang = "fr";
-                altLang = "en";
-                altLangText = "English";
-            }
-            const inlineScript = document.createElement('script');
-            inlineScript.src = "https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/wet-"+document.documentElement.lang+".js";
-            document.write(inlineScript.outerHTML);
-         </script>
-         <noscript>
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en" dir="ltr">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW) wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html -->
+    <title data-i18n="app-title"></title>
+    <!-- Meta data -->
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <!-- Meta data -->
+    <meta name="description" content="Page performance management tool (PPMT)">
+    <!-- Load closure template scripts -->
+    <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/soyutils.js"></script>
+    <script>
+        var altLang = "fr"
+        var altLangText = "Français";
+        if (location.search.indexOf("lang=fr") > -1) {
+            document.documentElement.lang = "fr";
+            altLang = "en";
+            altLangText = "English";
+        }
+        const inlineScript = document.createElement('script');
+        inlineScript.src = "https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/wet-" + document.documentElement.lang + ".js";
+        document.write(inlineScript.outerHTML);
+    </script>
+    <noscript>
             <link rel="stylesheet" href="gcweb/wet-boew/css/noscript.min.css" />
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
          </noscript>
-         <style>
-            canvas {
+    <style>
+        canvas {
             padding: 1em;
             border: 1px solid lightgrey;
-            }
-            html {
-            font-family:sans-serif;
-            -ms-text-size-adjust:100%;
-            -webkit-text-size-adjust:100%
-            }
-            p.h2 sup {
+        }
+        
+        html {
+            font-family: sans-serif;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%
+        }
+        
+        p.h2 sup {
             font-size: 16px;
-            }
-            /* Dropdown */
-            .dropdown {
+        }
+        /* Dropdown */
+        
+        .dropdown {
             display: inline-block;
             position: relative;
             color: #333;
             font-family: Sans-Serif;
             background-color: #f6f6f6;
-            }
-            .dd-button {
+        }
+        
+        .dd-button {
             display: inline-block;
             border: 1px solid gray;
             border-radius: 4px;
@@ -63,8 +68,9 @@
             z-index: 999;
             font-size: 16px;
             font-weight: 100;
-            }
-            .dd-button::after {
+        }
+        
+        .dd-button::after {
             content: '';
             position: absolute;
             top: 50%;
@@ -75,14 +81,17 @@
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
             border-top: 5px solid black;
-            }
-            .dd-button:hover {
+        }
+        
+        .dd-button:hover {
             background-color: #eeeeee;
-            }
-            .dd-input {
+        }
+        
+        .dd-input {
             display: none;
-            }
-            .dd-menu {
+        }
+        
+        .dd-menu {
             position: absolute;
             top: 100%;
             border: 1px solid #ccc;
@@ -95,85 +104,100 @@
             z-index: 9;
             font-size: 16px;
             font-weight: 100;
-            }
-            .dd-input + .dd-menu {
+        }
+        
+        .dd-input+.dd-menu {
             display: none;
-            }
-            .dd-input:checked + .dd-menu {
+        }
+        
+        .dd-input:checked+.dd-menu {
             display: block;
-            }
-            .dd-menu li {
+        }
+        
+        .dd-menu li {
             padding: 10px 20px;
             cursor: pointer;
             white-space: nowrap;
-            }
-            .dd-menu li:hover {
+        }
+        
+        .dd-menu li:hover {
             background-color: #f6f6f6;
-            }
-            .dd-menu li a {
+        }
+        
+        .dd-menu li a {
             display: block;
             margin: -10px -20px;
             padding: 5px 20px;
-            }
-            .dd-menu li.divider{
+        }
+        
+        .dd-menu li.divider {
             padding: 0;
             border-bottom: 1px solid #cccccc;
-            }
+        }
+        
+        .bg-success-c {
+            background-color: #4285f4 !important;
+            color: #FFF !important;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .bg-info-c {
+            background-color: #5e35b1 !important;
+            color: #FFF !important;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .bg-warning-c {
+            background-color: #18897b !important;
+            color: #FFF !important;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .bg-danger-c {
+            background-color: #e8710a !important;
+            color: #000 !important;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    <!-- Write closure template -->
+    <script>
+        //script.onreadystatechange = script.onload = null;
+        document.write(wet.builder.refTop({
+            "isApplication": true
+        }));
+    </script>
+</head>
 
-            .bg-success-c {
-              background-color: #4285f4 !important;
-              color: #FFF !important;
-              box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
-            }
-
-            .bg-info-c {
-              background-color: #5e35b1 !important;
-              color: #FFF !important;
-              box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
-            }
-
-            .bg-warning-c {
-              background-color: #18897b !important;
-              color: #FFF !important;
-              box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
-            }
-
-            .bg-danger-c {
-              background-color: #e8710a !important;
-              color: #000 !important;
-              box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
-            }
-         </style>
-         <!-- Write closure template -->
-         <script>
-            //script.onreadystatechange = script.onload = null;
-            document.write(wet.builder.refTop({
-               "isApplication": true
-            }));
-         </script>
-      </head>
-      <body vocab="http://schema.org/" typeof="WebPage">
-         <span id="allspan" class="hidden">
+<body vocab="http://schema.org/" typeof="WebPage">
+    <span id="allspan" class="hidden">
             <section class="experimental alpha-top">
                <h2 class="wb-inv" data-i18n="Alpha"></h2>
-               <div class="container"><small><label class="alpha-label" data-i18n="Alpha"></label>&nbsp;&nbsp; <span data-i18n="alphaMsg"></span> </small></div>
-            </section >
-            <div id="def-top">
-               <!-- Write closure fall-back static file -->
-               <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/appTop-en.html -->
-            </div>
-            <!-- Write closure template -->
-            <script>
-               var defTop = document.getElementById("def-top");
-               defTop.outerHTML = wet.builder.appTop({
-                   "appName": [{"text": "APPNAME", "href": "https://pageperformance.alpha.canada.ca"}],
-                   "lngLinks": [{"lang": altLang, "href": "?lang="+altLang, "text": altLangText}]
-               });
-            </script>
-            <main property="mainContentOfPage" class="container" typeof="WebPageElement">
-               <br/>
-               <div class="pull-right">
-                  <label class="dropdown">
+               <div class="container"><small><label class="alpha-label" data-i18n="Alpha"></label>&nbsp;&nbsp; <span data-i18n="alphaMsg"></span> </small>
+    </div>
+    </section>
+    <div id="def-top">
+        <!-- Write closure fall-back static file -->
+        <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/appTop-en.html -->
+    </div>
+    <!-- Write closure template -->
+    <script>
+        var defTop = document.getElementById("def-top");
+        defTop.outerHTML = wet.builder.appTop({
+            "appName": [{
+                "text": "APPNAME",
+                "href": "https://pageperformance.alpha.canada.ca"
+            }],
+            "lngLinks": [{
+                "lang": altLang,
+                "href": "?lang=" + altLang,
+                "text": altLangText
+            }]
+        });
+    </script>
+    <main property="mainContentOfPage" class="container" typeof="WebPageElement">
+        <br/>
+        <div class="pull-right">
+            <label class="dropdown">
                      <div class="dd-button"><i class="fas fa-calendar"></i>&nbsp;<span data-i18n="select-date"></span></div>
                      <input type="checkbox" class="dd-input" />
                      <ul class="dd-menu">
@@ -182,316 +206,318 @@
                         <li data-value="2" data-index="2"><i class="fas fa-calendar-day"></i>&nbsp;<span data-i18n="Yesterday"></span></li>
                      </ul>
                   </label>
-               </div>
-               <div class="clearfix"></div>
-               <form id="urlform" action="#" method="post">
-                  <input type='hidden' name='dd-value'>
-                  <label for="btngrp-search2" class="wb-inv" data-i18n="Search"></label>
-                  <p data-i18n="EnterthepageURL"></p>
-                  <div class="input-group">
-                     <input type="search" id="urlval" name="urlval" class="form-control" data-i18n="[placeholder]PlaceURL" size="6" />
-                     <span class="input-group-btn">
+        </div>
+        <div class="clearfix"></div>
+        <form id="urlform" action="#" method="post">
+            <input type='hidden' name='dd-value'>
+            <label for="btngrp-search2" class="wb-inv" data-i18n="Search"></label>
+            <p data-i18n="EnterthepageURL"></p>
+            <div class="input-group">
+                <input type="search" id="urlval" name="urlval" class="form-control" data-i18n="[placeholder]PlaceURL" size="6" />
+                <span class="input-group-btn">
                      <button class="btn btn-default" id="searchBttn" type="submit"><span class="glyphicon-search glyphicon"></span><span class="wb-inv" data-i18n="Search"></span></button>
-                     </span>
-                  </div>
-               </form>
-               <div id="loading" class="hidden">
-                  <p id="loadGSC" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataGSC"></span> </p>
-                  <p id="loadAA" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataAA"></span> </p>
-                  <p id="loadFD" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataFD"></span> </p>
-               </div>
-               <div id="notfound" class="hidden">
-                  <p><i class="fas fa-exclamation-triangle"></i><span data-i18n="Opps"></span></p>
-               </div>
-
-               <div id="whole-canvas" class="hidden">
-
-               <span id="numWeeks" class="hidden"></span>
-                  <h2><span id="h2title" data-i18n="Page-levelstatistics"></span> <sup class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></sup></h2>
-                  <p id="urlStatic" class="small"></p>
-
-               <div class="wb-tabs">
-                <div class="tabpanels">
-                <details id="details-panel1">
-                <summary>Adobe Analytics</summary>
-                <div id="canvas-container" class="hidden">
-                  <p>
-                    <span id="fromGSC" class="hidden"></span>
-                    <span id="toGSC" class="hidden"></span>
-                     <strong data-i18n="Period:"></strong> <span id="numDays"></span> <span data-i18n="days-"></span> <span id="fromdaterange"></span> <span data-i18n="to"></span> <span id="todaterange"></span> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
-                  </p>
-                  <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
-                     <section class="bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                        <p><strong data-i18n="Averagevisits"></strong></p>
-                        <p class="mrgn-tp-md" id="visit"></p>
-                     </section>
-                  </div>
-                  <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
-                     <section class="bg-info text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                        <p><strong data-i18n="Averagepageviews"></strong></p>
-                        <p class="mrgn-tp-md" id="pagev"></p>
-                     </section>
-                  </div>
-                  <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
-                     <section class="bg-warning text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                        <p><strong data-i18n="Averagetimespent"></strong></p>
-                        <p class="mrgn-tp-md" id="avgtime"></p>
-                     </section>
-                  </div>
-                  <div class="row">
-                     <div class="col-md-6">
-                        <p class="h2" data-i18n="Uniquevisitors"></p>
-                        <p id="uv"></p>
-                     </div>
-                     <div class="col-md-6">
-                        <p class="h2" data-i18n="Searchesstartedfromthispage"></p>
-                        <p id="snum"></p>
-                     </div>
-                  </div>
-                  <div class="row">
-                     <div class="col-md-6">
-                        <div id="rapCont">
-                        </div>
-                        <div id="fwylfCont">
-                           <div id="fwylfTable"></div>
-                           <div id="fwylfReason"></div>
-                        </div>
-                     </div>
-                     <div class="col-md-6">
-                        <p class="h2" data-i18n="Phrasessearchedfromthispage"></p>
-                        <div class="row">
-                           <div class="col-md-6">
-                              <div id="search0"></div>
-                           </div>
-                           <div class="col-md-6">
-                              <div id="search1"></div>
-                           </div>
-                        </div>
-                        <div class="row">
-                           <div class="col-md-6">
-                              <div id="search2"></div>
-                           </div>
-                           <div class="col-md-6">
-                              <div id="search3"></div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="row">
-                     <div class="col-md-6">
-                        <p class="h2"><span data-i18n="Referringtypes"></span> <sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></p>
-                        <div id="reft"></div>
-                     </div>
-                     <div class="col-md-6">
-                        <p class="h2"><span data-i18n="Whereuserscamefrom"></span> <sup id="fn2-rf"><a class="fn-lnk" href="#fn2"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup></p>
-                        <div id="ppt"></div>
-                        <!--<p id="pp" data-i18n="Nodata"></p>-->
-                     </div>
-                  </div>
-                  <div class="row">
-                     <div class="col-md-6">
-                        <p class="h2" data-i18n="Searchtermsleadingtothispage"></p>
-                        <div id="srchA"></div>
-                     </div>
-                     <div class="col-md-6">
-                        <p class="h2"><span data-i18n="Whatusersclickedon"></span> <sup id="fn3-rf"><a class="fn-lnk" href="#fn3"><span class="wb-inv" data-i18n="Footnote"> </span>3</a></sup></p>
-                        <div id="np"></div>
-                     </div>
-                  </div>
-                  <div class="row">
-                     <div class="col-md-6">
-                        <p class="h2" data-i18n="Devicesused"></p>
-                        <div id="chrtp" data-i18n="Nodata"></div>
-                        <div id="chart-pltfrms">
-                           <p class="h3" data-i18n="Numberofvisits(%)bydevicesused"></p>
-                           <div id="chart-canvas">
-                              <canvas id="chart" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow."></canvas>
-                           </div>
-                           <details>
-                              <summary id="tbl-pltfrm-sumary" data-i18n="Numberofvisits(%)bydevicesused-Table"></summary>
-                              <table id="tbl-pltfrm" class="table table-border">
-                              </table>
-                           </details>
-                        </div>
-                     </div>
-                     <div class="col-md-6">
-                        <p class="h2" data-i18n="Visitstrend"></p>
-                        <div id="chrtt" data-i18n="Nodata"></div>
-                        <div id="chart-trnds">
-                           <p class="h3" data-i18n="Visitstrendbycurrentyearandpreviousyear"></p>
-                           <div id="trends-canvas">
-                              <canvas id="trends" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow."></canvas>
-                           </div>
-                           <details>
-                              <summary data-i18n="Visitstrendbycurrentandpreviousyear-Table"></summary>
-                              <table id="tbl-trnds" class="table table-border">
-                              </table>
-                           </details>
-                        </div>
-                     </div>
-                  </div>
-                  <aside class="wb-fnote" role="note">
-                     <h2 id="fn" data-i18n="Footnotes"></h2>
-                     <dl>
-                        <dt data-i18n="Footnote1"></dt>
-                        <dd id="fn1">
-                           <p data-i18n="ReferringlinkFootnote"></p>
-                           <p class="fn-rtn"><a href="#fn1-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>1<span class="wb-inv" data-i18n="referrer"> </span></a></p>
-                        </dd>
-                        <dt data-i18n="Footnote2"></dt>
-                        <dd id="fn2">
-                           <p data-i18n="PreviouspageFootnote"></p>
-                           <p class="fn-rtn"><a href="#fn2-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>2<span class="wb-inv" data-i18n="referrer"> </span></a></p>
-                        </dd>
-                        <dt data-i18n="Footnote3"></dt>
-                        <dd id="fn3">
-                           <p data-i18n="Display25"></p>
-                           <ul>
-                              <li data-i18n="foreign"></li>
-                              <li data-i18n="filedownloads"></li>
-                              <li data-i18n="pageswhere"></li>
-                           </ul>
-                           <p><strong data-i18n="Notice:"></strong> <span data-i18n="Depending"></span></p>
-                           <p class="fn-rtn"><a href="#fn3-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>3<span class="wb-inv" data-i18n="referrer"> </span></a></p>
-                        </dd>
-                     </dl>
-                  </aside>
-               </div>
-                </details>
-                <details id="details-panel2" open="open">
-                <summary>Google Search Console</summary>
-
-                <p>
-                     <strong data-i18n="Period:"></strong> <span id="numDaysgsc"></span> <span data-i18n="days-"></span> <span id="fromdaterangegsc"></span> <span data-i18n="to"></span> <span id="todaterangegsc"></span> <sup id="fn1b-rf"><a class="fn-lnk" href="#fn1b"><span class="wb-inv">Footnote </span>1</a></sup>
-                  </p>
-                <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                     <section class="bg-success-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                        <p><strong data-i18n="Totalclicks"></strong></p>
-                        <p class="mrgn-tp-md" id="gsc-clicks"></p>
-                     </section>
-                  </div>
-                  <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                     <section class="bg-info-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                        <p><strong data-i18n="Totalimpressions"></strong></p>
-                        <p class="mrgn-tp-md" id="gsc-imp"></p>
-                     </section>
-                  </div>
-                  <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                     <section class="bg-warning-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                        <p><strong data-i18n="Averagectr"></strong></p>
-                        <p class="mrgn-tp-md" id="gsc-ctr"></p>
-                     </section>
-                  </div>
-                  <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                     <section class="bg-danger-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                        <p><strong data-i18n="Averageposition"></strong></p>
-                        <p class="mrgn-tp-md" id="gsc-pos"></p>
-                     </section>
-                  </div>
-
-                  <div class="col-md-8 ceenter-block col-md-offset-2">
-                        <p class="h2 hidden"><strong data-i18n="Tableclicksimp"></strong></p>
-                        <div id="chrtgsc" data-i18n="Nodata"></div>
-                        <div id="chartgsc">
-                           <p class="h3 hidden" data-i18n="Visitstrendbycurrentyearandpreviousyear"></p>
-                           <div id="gsc-canvas">
-                              <canvas id="gsc" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow."></canvas>
-                           </div>
-                           <details>
-                              <summary><strong data-i18n="Tableclicksimp-Table"></strong></summary>
-                              <table id="tbl-gsc" class="table table-border">
-                              </table>
-                           </details>
-                        </div>
-                </div>
-
-                <div class="row">
-                     <div class="col-md-6">
-                        <p class="h2"><span data-i18n="MobileQuery"></span></p>
-                        <div id="gscQryMob"></div>
-                     </div>
-                     <div class="col-md-6">
-                        <p class="h2"><span data-i18n="DesktopQuery"></span></p>
-                        <div id="gscQryDesk"></div>
-                     </div>
-                  </div>
-
-                   <div class="row">
-                     <div class="col-md-6">
-                        <p class="h2"><span data-i18n="TabletQuery"></span></p>
-                        <div id="gscQryTab"></div>
-                     </div>
-                     <div class="col-md-6">
-                        <p class="h2"><span data-i18n="Countrieswhereuserscamefrom"></span></p>
-                        <div id="gscCountry"></div>
-                     </div>
-                  </div>
-
-                   <aside class="wb-fnote" role="note">
-                     <h2 id="fnb" data-i18n="Footnotes"></h2>
-                     <dl>
-                        <dt data-i18n="Footnote1"></dt>
-                        <dd id="fn1b">
-                           <p data-i18n="ThedatesshownFootnote"></p>
-                           <p class="fn-rtn"><a href="#fn1b-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>1<span class="wb-inv" data-i18n="referrer"> </span></a></p>
-                        </dd>
-                        
-                     </dl>
-                  </aside>
-
-                </details>
-                </div>
-              </div>
-              </div>
-
-               
-               <div id="def-preFooter">
-                  <!-- Write closure fall-back static file -->
-                  <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/preFooter-fr.html -->
-               </div>
-               <!-- Write closure template -->
-               <script>
-                  var defPreFooter = document.getElementById("def-preFooter");
-                  defPreFooter.outerHTML = wet.builder.preFooter({
-                          "dateModified": "2020-07-15"
-                  });
-               </script>
-            </main>
-            <div id="def-footer">
-               <!-- Write closure fall-back static file -->
-               <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/appFooter-fr.html -->
+                </span>
             </div>
-            <!-- Write closure template -->
-            <script>
-               var defFooter = document.getElementById("def-footer");
-               defFooter.outerHTML = wet.builder.appFooter({
-                   "showFeatures": false
-               });
-            </script>
-            <!-- Write closure template -->
-            <script>
-               document.write(wet.builder.refFooter({
-                   "isApplication": true
-               }));
-            </script>
-            <script type="text/javascript" src="assets/js/Chart.min.js"></script>
-            <script type="text/javascript" src="assets/js/chartjs-plugin-datalabels.min.js"></script>
-            <script type="text/javascript" src="assets/js/moment.min.js"></script>
-            <script type="text/javascript" src="assets/js/moment-with-locales.min.js"></script>
-            <script type="text/javascript" src="assets/js/jquery.i18n.min.js"></script>
-            <script type="text/javascript" src="assets/js/jquery.i18n.messagestore.min.js"></script>
-            <script type="text/javascript" src="assets/js/jquery.i18n.fallbacks.min.js"></script>
-            <script type="text/javascript" src="assets/js/jquery.i18n.language.min.js"></script>
-            <script type="text/javascript" src="assets/js/jquery.i18n.parser.min.js"></script>
-            <script type="text/javascript" src="assets/js/jquery.i18n.emitter.min.js"></script>
-            <script type="text/javascript" src="assets/js/jquery.i18n.emitter.bidi.min.js"></script>
-            <script>
-               $('.dd-menu li').click(function(){
-                 $(this).parents('.dropdown').find('.dd-button').html($(this).html());
-                 $("input[name='dd-value']").val( $(this).attr("data-index") );;
-               });
-            </script>
-            <script type="text/javascript" src="js/api.min.js"></script>
-         </span>
-      </body>
-   </html>
+        </form>
+        <div id="loading" class="hidden">
+            <p id="loadGSC" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataGSC"></span> </p>
+            <p id="loadAA" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataAA"></span> </p>
+            <p id="loadFD" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataFD"></span> </p>
+        </div>
+        <div id="notfound" class="hidden">
+            <p><i class="fas fa-exclamation-triangle"></i><span data-i18n="Opps"></span></p>
+        </div>
+
+        <div id="whole-canvas" class="hidden">
+
+            <span id="numWeeks" class="hidden"></span>
+            <h2><span id="h2title" data-i18n="Page-levelstatistics"></span> <sup class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></sup></h2>
+            <p id="urlStatic" class="small"></p>
+
+            <div class="wb-tabs">
+                <div class="tabpanels">
+                    <details id="details-panel1">
+                        <summary>Adobe Analytics</summary>
+                        <div id="canvas-container" class="hidden">
+                            <p>
+                                <span id="fromGSC" class="hidden"></span>
+                                <span id="toGSC" class="hidden"></span>
+                                <strong data-i18n="Period:"></strong> <span id="numDays"></span> <span data-i18n="days-"></span> <span id="fromdaterange"></span> <span data-i18n="to"></span> <span id="todaterange"></span>
+                                <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
+                            </p>
+                            <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
+                                <section class="bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                    <p><strong data-i18n="Averagevisits"></strong></p>
+                                    <p class="mrgn-tp-md" id="visit"></p>
+                                </section>
+                            </div>
+                            <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
+                                <section class="bg-info text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                    <p><strong data-i18n="Averagepageviews"></strong></p>
+                                    <p class="mrgn-tp-md" id="pagev"></p>
+                                </section>
+                            </div>
+                            <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
+                                <section class="bg-warning text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                    <p><strong data-i18n="Averagetimespent"></strong></p>
+                                    <p class="mrgn-tp-md" id="avgtime"></p>
+                                </section>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="h2" data-i18n="Uniquevisitors"></p>
+                                    <p id="uv"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="h2" data-i18n="Searchesstartedfromthispage"></p>
+                                    <p id="snum"></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div id="rapCont">
+                                    </div>
+                                    <div id="fwylfCont">
+                                        <div id="fwylfTable"></div>
+                                        <div id="fwylfReason"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="h2" data-i18n="Phrasessearchedfromthispage"></p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div id="search0"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div id="search1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div id="search2"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div id="search3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="h2"><span data-i18n="Referringtypes"></span> <sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></p>
+                                    <div id="reft"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="h2"><span data-i18n="Whereuserscamefrom"></span> <sup id="fn2-rf"><a class="fn-lnk" href="#fn2"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup></p>
+                                    <div id="ppt"></div>
+                                    <!--<p id="pp" data-i18n="Nodata"></p>-->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="h2" data-i18n="Searchtermsleadingtothispage"></p>
+                                    <div id="srchA"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="h2"><span data-i18n="Whatusersclickedon"></span> <sup id="fn3-rf"><a class="fn-lnk" href="#fn3"><span class="wb-inv" data-i18n="Footnote"> </span>3</a></sup></p>
+                                    <div id="np"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="h2" data-i18n="Devicesused"></p>
+                                    <div id="chrtp" data-i18n="Nodata"></div>
+                                    <div id="chart-pltfrms">
+                                        <p class="h3" data-i18n="Numberofvisits(%)bydevicesused"></p>
+                                        <div id="chart-canvas">
+                                            <canvas id="chart" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow."></canvas>
+                                        </div>
+                                        <details>
+                                            <summary id="tbl-pltfrm-sumary" data-i18n="Numberofvisits(%)bydevicesused-Table"></summary>
+                                            <table id="tbl-pltfrm" class="table table-border">
+                                            </table>
+                                        </details>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="h2" data-i18n="Visitstrend"></p>
+                                    <div id="chrtt" data-i18n="Nodata"></div>
+                                    <div id="chart-trnds">
+                                        <p class="h3" data-i18n="Visitstrendbycurrentyearandpreviousyear"></p>
+                                        <div id="trends-canvas">
+                                            <canvas id="trends" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow."></canvas>
+                                        </div>
+                                        <details>
+                                            <summary data-i18n="Visitstrendbycurrentandpreviousyear-Table"></summary>
+                                            <table id="tbl-trnds" class="table table-border">
+                                            </table>
+                                        </details>
+                                    </div>
+                                </div>
+                            </div>
+                            <aside class="wb-fnote" role="note">
+                                <h2 id="fn" data-i18n="Footnotes"></h2>
+                                <dl>
+                                    <dt data-i18n="Footnote1"></dt>
+                                    <dd id="fn1">
+                                        <p data-i18n="ReferringlinkFootnote"></p>
+                                        <p class="fn-rtn"><a href="#fn1-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>1<span class="wb-inv" data-i18n="referrer"> </span></a></p>
+                                    </dd>
+                                    <dt data-i18n="Footnote2"></dt>
+                                    <dd id="fn2">
+                                        <p data-i18n="PreviouspageFootnote"></p>
+                                        <p class="fn-rtn"><a href="#fn2-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>2<span class="wb-inv" data-i18n="referrer"> </span></a></p>
+                                    </dd>
+                                    <dt data-i18n="Footnote3"></dt>
+                                    <dd id="fn3">
+                                        <p data-i18n="Display25"></p>
+                                        <ul>
+                                            <li data-i18n="foreign"></li>
+                                            <li data-i18n="filedownloads"></li>
+                                            <li data-i18n="pageswhere"></li>
+                                        </ul>
+                                        <p><strong data-i18n="Notice:"></strong> <span data-i18n="Depending"></span></p>
+                                        <p class="fn-rtn"><a href="#fn3-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>3<span class="wb-inv" data-i18n="referrer"> </span></a></p>
+                                    </dd>
+                                </dl>
+                            </aside>
+                        </div>
+                    </details>
+                    <details id="details-panel2" open="open">
+                        <summary>Google Search Console</summary>
+
+                        <p>
+                            <strong data-i18n="Period:"></strong> <span id="numDaysgsc"></span> <span data-i18n="days-"></span> <span id="fromdaterangegsc"></span> <span data-i18n="to"></span> <span id="todaterangegsc"></span> <sup id="fn1b-rf"><a class="fn-lnk" href="#fn1b"><span class="wb-inv">Footnote </span>1</a></sup>
+                        </p>
+                        <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
+                            <section class="bg-success-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <p><strong data-i18n="Totalclicks"></strong></p>
+                                <p class="mrgn-tp-md" id="gsc-clicks"></p>
+                            </section>
+                        </div>
+                        <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
+                            <section class="bg-info-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <p><strong data-i18n="Totalimpressions"></strong></p>
+                                <p class="mrgn-tp-md" id="gsc-imp"></p>
+                            </section>
+                        </div>
+                        <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
+                            <section class="bg-warning-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <p><strong data-i18n="Averagectr"></strong></p>
+                                <p class="mrgn-tp-md" id="gsc-ctr"></p>
+                            </section>
+                        </div>
+                        <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
+                            <section class="bg-danger-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <p><strong data-i18n="Averageposition"></strong></p>
+                                <p class="mrgn-tp-md" id="gsc-pos"></p>
+                            </section>
+                        </div>
+
+                        <div class="col-md-8 ceenter-block col-md-offset-2">
+                            <p class="h2 hidden"><strong data-i18n="Tableclicksimp"></strong></p>
+                            <div id="chrtgsc" data-i18n="Nodata"></div>
+                            <div id="chartgsc">
+                                <p class="h3 hidden" data-i18n="Visitstrendbycurrentyearandpreviousyear"></p>
+                                <div id="gsc-canvas">
+                                    <canvas id="gsc" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow."></canvas>
+                                </div>
+                                <details>
+                                    <summary><strong data-i18n="Tableclicksimp-Table"></strong></summary>
+                                    <table id="tbl-gsc" class="table table-border">
+                                    </table>
+                                </details>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="h2"><span data-i18n="MobileQuery"></span></p>
+                                <div id="gscQryMob"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="h2"><span data-i18n="DesktopQuery"></span></p>
+                                <div id="gscQryDesk"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="h2"><span data-i18n="TabletQuery"></span></p>
+                                <div id="gscQryTab"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="h2"><span data-i18n="Countrieswhereuserscamefrom"></span></p>
+                                <div id="gscCountry"></div>
+                            </div>
+                        </div>
+
+                        <aside class="wb-fnote" role="note">
+                            <h2 id="fnb" data-i18n="Footnotes"></h2>
+                            <dl>
+                                <dt data-i18n="Footnote1"></dt>
+                                <dd id="fn1b">
+                                    <p data-i18n="ThedatesshownFootnote"></p>
+                                    <p class="fn-rtn"><a href="#fn1b-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>1<span class="wb-inv" data-i18n="referrer"> </span></a></p>
+                                </dd>
+
+                            </dl>
+                        </aside>
+
+                    </details>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="def-preFooter">
+            <!-- Write closure fall-back static file -->
+            <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/preFooter-fr.html -->
+        </div>
+        <!-- Write closure template -->
+        <script>
+            var defPreFooter = document.getElementById("def-preFooter");
+            defPreFooter.outerHTML = wet.builder.preFooter({
+                "dateModified": "2020-08-21"
+            });
+        </script>
+    </main>
+    <div id="def-footer">
+        <!-- Write closure fall-back static file -->
+        <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/appFooter-fr.html -->
+    </div>
+    <!-- Write closure template -->
+    <script>
+        var defFooter = document.getElementById("def-footer");
+        defFooter.outerHTML = wet.builder.appFooter({
+            "showFeatures": false
+        });
+    </script>
+    <!-- Write closure template -->
+    <script>
+        document.write(wet.builder.refFooter({
+            "isApplication": true
+        }));
+    </script>
+    <script type="text/javascript" src="assets/js/Chart.min.js"></script>
+    <script type="text/javascript" src="assets/js/chartjs-plugin-datalabels.min.js"></script>
+    <script type="text/javascript" src="assets/js/moment.min.js"></script>
+    <script type="text/javascript" src="assets/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.messagestore.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.fallbacks.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.language.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.parser.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.emitter.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.i18n.emitter.bidi.min.js"></script>
+    <script>
+        $('.dd-menu li').click(function() {
+            $(this).parents('.dropdown').find('.dd-button').html($(this).html());
+            $("input[name='dd-value']").val($(this).attr("data-index"));;
+        });
+    </script>
+    <script type="text/javascript" src="js/api.min.js"></script>
+    </span>
+</body>
+
+</html>
