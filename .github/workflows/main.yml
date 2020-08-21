@@ -44,6 +44,8 @@ jobs:
           tbsacr.azurecr.io/performance_nginx:latest
         namespace: |
           performance
+        force : |
+          true
 
     - uses: Azure/k8s-deploy@v1
       with:
@@ -55,3 +57,5 @@ jobs:
           tbsacr.azurecr.io/performance_nginx:latest
         namespace: |
           performance
+        force : |
+          true
