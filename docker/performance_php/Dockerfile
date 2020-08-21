@@ -1,7 +1,6 @@
 FROM dtobtn/performance_base:1.0.0
 COPY docker/performance_php/php.ini /usr/local/etc/php/php.ini
 COPY docker/performance_php/www.conf /usr/local/etc/php-fpm.d
-RUN yes | rm -R /var/www/html
 COPY assets/ /var/www/html/assets/
 COPY js/ /var/www/html/js/
 COPY php/ /var/www/html/php/
