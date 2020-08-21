@@ -59,10 +59,11 @@ $html = file_get_html($url);
 if ($oLang) {
     foreach ($html->find('a') as $e) {
         if ( ($e->lang == "en" || $e->lang == "fr") &&
-           ( (strpos(trim($e->innertext), 'English') !== false ) || (strpos(trim($e->innertext), 'Fran&ccedil;ais') !== false )) ) {
-            $otherLang = $e->href;
-            break;
-        }
+         ( (strpos(trim($e->innertext), 'English') !== false ) || (strpos(trim($e->innertext), 'Fran&ccedil;ais') !== false ) ||
+           (strpos(trim($e->innertext), 'Français') !== false )) ) {
+          $otherLang = $e->href;
+          break;
+      }
     }
 
     $url = "https://www.canada.ca" . $otherLang;
