@@ -23,7 +23,7 @@ spec:
         tier: php
     spec:
       containers:
-      - image: tbsacr.azurecr.io/performance_php:1.0.0
+      - image: tbsacr.azurecr.io/performance_php:latest
         imagePullPolicy: Always
         livenessProbe:
           exec:

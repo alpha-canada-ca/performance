@@ -24,7 +24,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: tbsacr.azurecr.io/performance_nginx:1.0.0
+      - image: tbsacr.azurecr.io/performance_nginx:latest
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
