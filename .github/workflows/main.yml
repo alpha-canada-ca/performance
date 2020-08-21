@@ -44,8 +44,6 @@ jobs:
           tbsacr.azurecr.io/performance_php:${{ github.sha }}
         namespace: |
           performance
-        force : |
-          true
 
     - uses: Azure/k8s-deploy@v1
       with:
@@ -56,6 +54,4 @@ jobs:
         images: |
           tbsacr.azurecr.io/performance_nginx:${{ github.sha }}
         namespace: |
-          performance
-        force : |
-          true
+          performance        
