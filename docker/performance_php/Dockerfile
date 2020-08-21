@@ -1,4 +1,4 @@
-FROM dtobtn/performance_base:1.0.0
+FROM dtobtn/performance_base:latest
 COPY docker/performance_php/php.ini /usr/local/etc/php/php.ini
 COPY docker/performance_php/www.conf /usr/local/etc/php-fpm.d
 COPY assets/ /var/www/html/assets/
