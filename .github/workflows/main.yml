@@ -34,7 +34,7 @@ jobs:
         creds: '${{ secrets.AZURE_CREDENTIALS }}'
         cluster-name: tbs-prod-aks
         resource-group: tbs-prod-rg
-        
+            
     - uses: Azure/k8s-deploy@v1
       with:
         manifests: |
