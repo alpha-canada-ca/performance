@@ -23,10 +23,10 @@ jobs:
         password: ${{ secrets.ACR_PASSWORD }}
     
     - run: |
-        docker build -f ./docker/performance_php/Dockerfile . -t tbsacr.azurecr.io/performance_php:latest
-        docker push tbsacr.azurecr.io/performance_php:latest
-        docker build -f ./docker/performance_nginx/Dockerfile . -t tbsacr.azurecr.io/performance_nginx:latest
-        docker push tbsacr.azurecr.io/performance_nginx:latest
+        docker build -f ./docker/performance_php/Dockerfile . -t tbsacr.azurecr.io/performance_php::${{ github.sha }}
+        docker push tbsacr.azurecr.io/performance_php::${{ github.sha }}
+        docker build -f ./docker/performance_nginx/Dockerfile . -t tbsacr.azurecr.io/performance_nginx::${{ github.sha }}
+        docker push tbsacr.azurecr.io/performance_nginx::${{ github.sha }}
       
     # Set the target AKS cluster.
     - uses: Azure/aks-set-context@v1
@@ -54,7 +54,7 @@ jobs:
           kubernetes/performance-nginx-deployment.yml
           kubernetes/performance-nginx-service.yml
         images: |
-          tbsacr.azurecr.io/performance_nginx:latest
+          tbsacr.azurecr.io/performance_nginx::${{ github.sha }}
         namespace: |
           performance
         force : |
