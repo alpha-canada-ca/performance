@@ -1,0 +1,57 @@
+name: Deploy to AKS Cluster
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Decrypt large secret
+      run: ./docker/performance_php/secrets_enc/decrypt.sh
+      env:
+        SECRETS_PASSPHRASE: ${{ secrets.SECRETS_PASSPHRASE }}
+    
+    - uses: Azure/docker-login@v1
+      with:
+        login-server: tbsacr.azurecr.io
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+    
+    - run: |
+        docker build -f ./docker/performance_php/Dockerfile . -t tbsacr.azurecr.io/performance_php:${{ github.sha }}
+        docker push tbsacr.azurecr.io/performance_php:${{ github.sha }}
+        docker build -f ./docker/performance_nginx/Dockerfile . -t tbsacr.azurecr.io/performance_nginx:${{ github.sha }}
+        docker push tbsacr.azurecr.io/performance_nginx:${{ github.sha }}
+      
+    # Set the target AKS cluster.
+    - uses: Azure/aks-set-context@v1
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        cluster-name: tbs-prod-aks
+        resource-group: tbs-prod-rg
+            
+    - uses: Azure/k8s-deploy@v1
+      with:
+        manifests: |
+          kubernetes/performance-php-deployment.yml
+          kubernetes/performance-php-service.yml
+        images: |
+          tbsacr.azurecr.io/performance_php:${{ github.sha }}
+        namespace: |
+          performance
+
+    - uses: Azure/k8s-deploy@v1
+      with:
+        manifests: |
+          kubernetes/performance-nginx-configmap.yml
+          kubernetes/performance-nginx-deployment.yml
+          kubernetes/performance-nginx-service.yml
+        images: |
+          tbsacr.azurecr.io/performance_nginx:${{ github.sha }}
+        namespace: |
+          performance        

@@ -1,0 +1,46 @@
+version: "3"
+services:
+  nginx:
+    image: "tbsacr.azurecr.io/performance_nginx:1.0.0"
+    build:
+      context: ../
+      dockerfile: docker/performance_nginx/Dockerfile
+    ports:
+      - "8282:80"
+    depends_on:
+      - web
+    restart: always
+    container_name: performance_nginx
+    #volumes:
+    #  - /home/hyma/performance:/var/www/html
+  web:
+    image: "tbsacr.azurecr.io/performance_php:1.0.0"
+    build:
+      context: ../
+      dockerfile: docker/performance_php/Dockerfile
+      args:
+        - http_proxy=${HTTP_PROXY}
+        - https_proxy=${HTTP_PROXY}
+        - HTTP_PROXY=${HTTP_PROXY}
+        - HTTPS_PROXY=${HTTP_PROXY}
+    environment:
+      - DRUPAL_SETTINGS=development
+      - http_proxy=${HTTP_PROXY}
+      - https_proxy=${HTTP_PROXY}
+      - HTTP_PROXY=${HTTP_PROXY}
+      - HTTPS_PROXY=${HTTP_PROXY}
+    ports:
+      - "9000"
+    container_name: performance_web
+    depends_on:
+      - mongodb
+    #volumes:
+    #  - /home/hyma/performance:/var/www/html
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+volumes:
+  mongodb_data_container:
