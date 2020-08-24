@@ -50,7 +50,7 @@ if ((isset($start) && !empty($start)) && (isset($end) && !empty($end))) {
         $end = (new DateTime($end))->format($iso);
     }
 
-$type = [ 'totalDateTest', 'cntry', 'qryMobile', 'qryDesktop', 'qryTablet', 'totals', 'totalDate' ];
+$type = [ 'totalDateTest', 'cntry', 'qryAll', 'qryMobile', 'qryDesktop', 'qryTablet', 'totals', 'totalDate' ];
 
 include ('lib/simple_html_dom.php');
 
