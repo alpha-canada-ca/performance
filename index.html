@@ -134,29 +134,40 @@
             padding: 0;
             border-bottom: 1px solid #cccccc;
         }
+
+        .bg {
+         background-color: #cfe8ef !important;
+        }
         
         .bg-success-c {
             background-color: #4285f4 !important;
-            color: #FFF !important;
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
         }
         
         .bg-info-c {
             background-color: #5e35b1 !important;
-            color: #FFF !important;
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
         }
         
         .bg-warning-c {
             background-color: #18897b !important;
-            color: #FFF !important;
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
         }
         
         .bg-danger-c {
             background-color: #e8710a !important;
+        }
+
+        .bg-white-color {
+            color: #FFF !important;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .bg-black-color {
             color: #000 !important;
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .gsc-chart-container {
+           position: relative;
+           height: 60vh;
         }
     </style>
     <!-- Write closure template -->
@@ -195,19 +206,8 @@
         });
     </script>
     <main property="mainContentOfPage" class="container" typeof="WebPageElement">
-        <br/>
-        <div class="pull-right">
-            <label class="dropdown">
-                     <div class="dd-button"><i class="fas fa-calendar"></i>&nbsp;<span data-i18n="select-date"></span></div>
-                     <input type="checkbox" class="dd-input" />
-                     <ul class="dd-menu">
-                        <li data-value="31" data-index="0"><i class="fas fa-calendar-alt"></i>&nbsp;<span data-i18n="Last30days"></span></li>
-                        <li data-value="8" data-index="1"><i class="fas fa-calendar-week"></i>&nbsp;<span data-i18n="Last7days"></span></li>
-                        <li data-value="2" data-index="2"><i class="fas fa-calendar-day"></i>&nbsp;<span data-i18n="Yesterday"></span></li>
-                     </ul>
-                  </label>
-        </div>
-        <div class="clearfix"></div>
+      <br />
+      <div class="clearfix"></div>
         <form id="urlform" action="#" method="post">
             <input type='hidden' name='dd-value'>
             <label for="btngrp-search2" class="wb-inv" data-i18n="Search"></label>
@@ -219,7 +219,8 @@
                 </span>
             </div>
         </form>
-        <div id="loading" class="hidden">
+
+        <div id="loading" class="hidden" style="margin-top: 20px;">
             <p id="loadGSC" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataGSC"></span> </p>
             <p id="loadAA" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataAA"></span> </p>
             <p id="loadFD" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataFD"></span> </p>
@@ -231,8 +232,33 @@
         <div id="whole-canvas" class="hidden">
 
             <span id="numWeeks" class="hidden"></span>
-            <h2><span id="h2title" data-i18n="Page-levelstatistics"></span> <sup class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></sup></h2>
-            <p id="urlStatic" class="small"></p>
+            <div class="row">
+               <div class="col-md-8">
+            <h2><span id="h2title" data-i18n="Page-levelstatistics"></span></h2>
+            <span class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></span>
+         </div>
+            <div class="col-md-4" style="margin-top: 38px;">
+               <div class="pull-right">
+               <span data-i18n="select-date" style="font-size: 78%;"></span>
+            <label class="dropdown">
+                     <div class="dd-button">
+                        <!--<i class="fas fa-calendar"></i>&nbsp;<span data-i18n="select-date"></span>-->
+                        <i class="fas fa-calendar-week"></i>&nbsp;<span data-i18n="Last7days"></span>
+                        </div>
+                     <input type="checkbox" class="dd-input" />
+                     <ul class="dd-menu">
+                        <li data-value="31" data-index="0"><i class="fas fa-calendar-alt"></i>&nbsp;<span data-i18n="Last30days"></span></li>
+                        <li data-value="8" data-index="1"><i class="fas fa-calendar-week"></i>&nbsp;<span data-i18n="Last7days"></span></li>
+                        <li data-value="2" data-index="2"><i class="fas fa-calendar-day"></i>&nbsp;<span data-i18n="Yesterday"></span></li>
+                     </ul>
+                  </label>
+        </div>
+     </div>
+     <div class="col-md-12">
+      <p id="urlStatic" class="small"></p>
+   </div>
+     </div>
+        <div class="clearfix"></div>
 
             <div class="wb-tabs">
                 <div class="tabpanels">
@@ -246,19 +272,19 @@
                                 <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
                             </p>
                             <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
-                                <section class="bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                     <p><strong data-i18n="Averagevisits"></strong></p>
                                     <p class="mrgn-tp-md" id="visit"></p>
                                 </section>
                             </div>
                             <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
-                                <section class="bg-info text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <section class="bg bg-info text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                     <p><strong data-i18n="Averagepageviews"></strong></p>
                                     <p class="mrgn-tp-md" id="pagev"></p>
                                 </section>
                             </div>
                             <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
-                                <section class="bg-warning text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <section class="bg bg-warning text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                     <p><strong data-i18n="Averagetimespent"></strong></p>
                                     <p class="mrgn-tp-md" id="avgtime"></p>
                                 </section>
@@ -390,36 +416,36 @@
                             <strong data-i18n="Period:"></strong> <span id="numDaysgsc"></span> <span data-i18n="days-"></span> <span id="fromdaterangegsc"></span> <span data-i18n="to"></span> <span id="todaterangegsc"></span> <sup id="fn1b-rf"><a class="fn-lnk" href="#fn1b"><span class="wb-inv">Footnote </span>1</a></sup>
                         </p>
                         <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                            <section class="bg-success-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                            <section class="bg-white-color bg-success-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                 <p><strong data-i18n="Totalclicks"></strong></p>
                                 <p class="mrgn-tp-md" id="gsc-clicks"></p>
                             </section>
                         </div>
                         <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                            <section class="bg-info-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                            <section class="bg-white-color bg-info-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                 <p><strong data-i18n="Totalimpressions"></strong></p>
                                 <p class="mrgn-tp-md" id="gsc-imp"></p>
                             </section>
                         </div>
                         <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                            <section class="bg-warning-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                            <section class="bg-white-color bg-warning-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                 <p><strong data-i18n="Averagectr"></strong></p>
                                 <p class="mrgn-tp-md" id="gsc-ctr"></p>
                             </section>
                         </div>
                         <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                            <section class="bg-danger-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                            <section class="bg-black-color bg-danger-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                 <p><strong data-i18n="Averageposition"></strong></p>
                                 <p class="mrgn-tp-md" id="gsc-pos"></p>
                             </section>
                         </div>
 
-                        <div class="col-md-8 ceenter-block col-md-offset-2">
+                        <div class="col-md-12">
                             <p class="h2 hidden"><strong data-i18n="Tableclicksimp"></strong></p>
                             <div id="chrtgsc" data-i18n="Nodata"></div>
                             <div id="chartgsc">
                                 <p class="h3 hidden" data-i18n="Visitstrendbycurrentyearandpreviousyear"></p>
-                                <div id="gsc-canvas">
+                                <div id="gsc-canvas" class="gsc-chart-container">
                                     <canvas id="gsc" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow."></canvas>
                                 </div>
                                 <details>
@@ -431,22 +457,23 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
+                                <p class="h2"><span data-i18n="AllQuery"></span></p>
+                                <div id="gscQryAll"></div>
+                            </div>
+                            <div class="col-md-12">
                                 <p class="h2"><span data-i18n="MobileQuery"></span></p>
                                 <div id="gscQryMob"></div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <p class="h2"><span data-i18n="DesktopQuery"></span></p>
                                 <div id="gscQryDesk"></div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <p class="h2"><span data-i18n="TabletQuery"></span></p>
                                 <div id="gscQryTab"></div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <p class="h2"><span data-i18n="Countrieswhereuserscamefrom"></span></p>
                                 <div id="gscCountry"></div>
                             </div>
@@ -478,7 +505,7 @@
         <script>
             var defPreFooter = document.getElementById("def-preFooter");
             defPreFooter.outerHTML = wet.builder.preFooter({
-                "dateModified": "2020-08-20"
+                "dateModified": "2020-08-21"
             });
         </script>
     </main>
@@ -516,7 +543,7 @@
             $("input[name='dd-value']").val($(this).attr("data-index"));;
         });
     </script>
-    <script type="text/javascript" src="js/api.min.js"></script>
+    <script type="text/javascript" src="js/api.js"></script>
     </span>
 </body>
 

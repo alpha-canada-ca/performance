@@ -472,7 +472,7 @@ const jsonPrevious = (json, day) => {
             if (res.length != 0) {
                 //res.sort((a, b)=> b[$.i18n("Visits")] - a[$.i18n("Visits")]);
 
-                $(val).html( getTable() );
+                $(val).html( getTable(5, "false") );
                 let table = document.querySelector(val + " table");
                 let data = Object.keys(res[0]);
                 generateTable(table, res);
@@ -767,7 +767,7 @@ const jsonRT = ( json, day ) => {
             $(val).trigger("wb-init.wb-tables");
             */
 
-            $(val).html( getTable() );
+            $(val).html( getTable( 5, "false" ) );
             let table = document.querySelector(val + " table");
             let data = Object.keys(ref[0]);
             generateTable(table, ref);
@@ -784,9 +784,10 @@ const jsonRT = ( json, day ) => {
     }
 }
 
-function getTable($pageLength=null, $order=null, $length=null, $display=null, $class=null) {
+function getTable($pageLength=null, $search=null, $order=null, $length=null, $display=null, $class=null) {
     if (!$class) { $class = "wb-tables table table-responsive"; }
     if (!$pageLength) { $pageLength = 5; }
+    if (!$search) { $search = true; }
     if (!$order) { $order = [1, "&quot;desc&quot;"]; }
     if (!$length) { $length = [5, 10, 25, -1]; }
     if (!$display) { $display = [5, 10, 25, "&quot;All&quot;"]; }
@@ -794,7 +795,8 @@ function getTable($pageLength=null, $order=null, $length=null, $display=null, $c
     return  '<table class="' + $class + '" data-wb-tables=\'{ ' +
                 '&quot;pageLength&quot; : ' + $pageLength + ', ' +
                 '&quot;order&quot; : [ ' + $order + ' ] , ' +
-                '&quot;lengthMenu&quot; : [ [ ' + $length + ' ], [ ' + $display + ' ] ]' +
+                '&quot;lengthMenu&quot; : [ [ ' + $length + ' ], [ ' + $display + ' ] ] ,' +
+                '&quot;searching&quot; : ' + $search +
              '}\'>' +
              '</table>';
 }
@@ -1132,7 +1134,7 @@ const jsonMetrics = ( json, day ) => {
 function nFormatter(num, digits) {
   var si = [
     { value: 1, symbol: "" },
-    { value: 1E3, symbol: "k" },
+    { value: 1E3, symbol: "K" },
     { value: 1E6, symbol: "M" },
     { value: 1E9, symbol: "G" },
     { value: 1E12, symbol: "T" },
@@ -1203,18 +1205,27 @@ const jsonGSCGenerate = ( json, day ) => {
         
         $cnt = rows.length;
 
-        var clicks = [], imp = [], keys = [], $obj = [];
+        var clicks = [], imp = [], keys = [], $obj = [], ctr = [], pos = [];
 
         $.each(rows, function(index, value) {
             val = value
             clicks.push(parseInt(val['clicks']));
             imp.push(parseInt(val['impressions']));
+            if ( document.documentElement.lang == "fr" ) {
+                var end = "&nbsp;%"
+            } else {
+                var end = "%";
+            }
+            ctr.push( parseFloat( (val['ctr'] * 100) ).toFixed(1) );
+            pos.push( parseFloat( val['position'] ).toFixed(1) );
             keys.push(val['keys'][0]);
 
             var obj = {};
             obj[$.i18n("Day")] = val['keys'][0];
             obj[$.i18n("Clicks")] = val['clicks'].toLocaleString(document.documentElement.lang+"-CA");
             obj[$.i18n("Impressions")] = val['impressions'].toLocaleString(document.documentElement.lang+"-CA");
+            obj[$.i18n("CTR")] = parseFloat((val['ctr'] * 100).toFixed(1)).toLocaleString(document.documentElement.lang+"-CA") + end;
+            obj[$.i18n("Position")] = val['position'].toFixed(1).toLocaleString(document.documentElement.lang+"-CA");
 
             $obj.push(obj);
         });
@@ -1225,7 +1236,8 @@ const jsonGSCGenerate = ( json, day ) => {
                     display: false
                 }
             },
-           
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 yAxes: [{
                     id: 'y-axis-0',
@@ -1251,6 +1263,32 @@ const jsonGSCGenerate = ( json, day ) => {
                     scaleLabel: {
                         display: true,
                         labelString: $.i18n("Impressions")
+                    }
+                  }, {
+
+                    id: 'y-axis-2',
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: $.i18n("CTR")
+                    }
+                  }, {
+
+                    id: 'y-axis-3',
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: $.i18n("Position")
                     }
                   }],
                 xAxes: [ {
@@ -1298,6 +1336,18 @@ const jsonGSCGenerate = ( json, day ) => {
                     data: imp,
                     fill: false,
                     borderColor: "#5e35b1"
+                }, {
+                    yAxisID : 'y-axis-2',
+                    label: $.i18n("CTR"),
+                    data: ctr,
+                    fill: false,
+                    borderColor: "#18897b"
+                }, {
+                    yAxisID : 'y-axis-3',
+                    label: $.i18n("Position"),
+                    data: pos,
+                    fill: false,
+                    borderColor: "#e8710a"
                 }]
             },
             options: options
@@ -1334,11 +1384,19 @@ const jsonGSC = ( json, val, title, lang ) => {
             term = value["keys"][lang];
             clicks = value["clicks"];
             imp = value["impressions"];
-
+            ctr = parseFloat( (value['ctr'] * 100) ).toFixed(1);
+            pos = value['position'].toFixed(1);
+            if ( document.documentElement.lang == "fr" ) {
+                var end = "&nbsp;%"
+            } else {
+                var end = "%";
+            }
             var obj = {};
             obj[$.i18n("Term")] = term;
             obj[$.i18n("Clicks")] = clicks;
             obj[$.i18n("Impressions")] = imp;
+            obj[$.i18n("CTR")] = ( ctr + end );
+            obj[$.i18n("Position")] = pos;
             srch.push(obj);
         });
 
@@ -1359,6 +1417,15 @@ const jsonGSC = ( json, val, title, lang ) => {
     } else {
         $qry.html($.i18n("Nodata"));
     }
+}
+
+const jsonGSCQryAll = ( json, day ) => {
+    
+    var title = $.i18n("All - Queries");
+    var val = "#gscQryAll";
+    jsonGSC(json, val, title, 0);
+
+    $(val + " table").trigger("wb-init.wb-tables");
 }
 
 const jsonGSCQryMobile = ( json, day ) => {
@@ -1478,10 +1545,11 @@ const apiCall = (d, i, a, uu, dd, fld) => a.map( type => {
             case "fwylf" : return jsonFWYLF(res,dd);
             //case "dwnld" : return jsonDownload(res, uu);
             //case "outbnd" : return jsonOutbound(res, uu);
-            case 'cntry' : return jsonGSCCountry(res, dd);;
+            case 'cntry' : return jsonGSCCountry(res, dd);
+            case 'qryAll' : return jsonGSCQryAll(res, dd);
             case 'qryMobile' : return jsonGSCQryMobile(res, dd);
             case 'qryDesktop' : return jsonGSCQryDesktop(res, dd);
-            case 'qryTablet' : return jsonGSCQryTablet(res, dd);;
+            case 'qryTablet' : return jsonGSCQryTablet(res, dd);
             case 'totals' : return jsonGSCTotal(res);
             case 'totalDate' : return jsonGSCGenerate(res, dd);
         }
@@ -1658,7 +1726,7 @@ const mainQueue = (url, start, end, lang) => {
 
         var dbCall = [ "dbGet" ];
         var match = [ "trnd", "fle", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "refType", "metrics", "fwylf" ];
-        var gsc = [ 'cntry', 'qryMobile', 'qryDesktop', 'qryTablet', 'totals', 'totalDate'  ];
+        var gsc = [ 'cntry', 'qryAll', 'qryMobile', 'qryDesktop', 'qryTablet', 'totals', 'totalDate'  ];
         //var match = [ "snm", "uvrap" ];
         var previousURL = [];
         var pageURL = [  ]; //, "dwnld", "outbnd" ];
@@ -1711,7 +1779,13 @@ const mainQueue = (url, start, end, lang) => {
             .then( () => getGSC() )
         /*.then( res => { getPreviousPage(res[0]); return res; })
                 */
-                .then( () => { $("#loading").addClass("hidden"); $("#loadFD").addClass("hidden"); $("#notfound").addClass("hidden"); $("#whole-canvas").removeClass("hidden"); $("#canvas-container").removeClass("hidden"); $("#searchBttn").prop("disabled",false); $('#urlval').val( $('#urlStatic').text()); })
+                .then( () => { 
+                    if ( ( $("#urlStatic").html() ).indexOf("/fr/") !== -1 ) {
+                        $("a#h2href").html( $.i18n("LanguageToggleFR") );
+                    } else {
+                        $("a#h2href").html( $.i18n("LanguageToggleEN") );
+                    }
+                    $("#loading").addClass("hidden"); $("#loadFD").addClass("hidden"); $("#notfound").addClass("hidden"); $("#whole-canvas").removeClass("hidden"); $("#canvas-container").removeClass("hidden"); $("#searchBttn").prop("disabled",false); $('#urlval').val( $('#urlStatic').text()); })
                 .catch(console.error.bind(console));
 
         $success = 1;
