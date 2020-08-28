@@ -99,6 +99,9 @@
     "FetchdataGSC" : "Étape 1 sur 3 : Récupérer des données à partir des données de recherche",
     "FetchdataAA" : "Étape 2 sur 3 : Récupérer les données de l'analyse Web",
     "FetchdataFD" : "Étape 3 sur 3 : Finalisation des graphiques et des tableaux",
-    "AllQuery" : "Requêtes pour tous les appareils"
+    "AllQuery" : "Requêtes pour tous les appareils",
+    "hlp-average-visits" : "Visites moyennes de la page Web au cours de la période de référence. Une visite commence lorsqu'un visiteur entre sur le site et se termine par 30 minutes d'inactivité ou 12 heures d'activité continue.",
+    "hlp-average-pgv" : "Nombre moyen de fois où une page a été consultée ou une variable a été définie au cours de la période de rapport.",
+    "hlp-average-tmspnt" : "Durée moyenne pendant laquelle les visiteurs interagissent avec la page Web à chaque visite."
 
 }
