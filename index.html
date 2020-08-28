@@ -16,6 +16,8 @@
     <meta name="description" content="Page performance management tool (PPMT)">
     <!-- Load closure template scripts -->
     <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/soyutils.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
     <script>
         var altLang = "fr"
         var altLangText = "Français";
@@ -169,6 +171,14 @@
            position: relative;
            height: 60vh;
         }
+
+        .fa-question-circle {
+         color: #444;
+        }
+
+        .fa-question-circle:hover {
+         color: #000;
+        }
     </style>
     <!-- Write closure template -->
     <script>
@@ -271,21 +281,22 @@
                                 <strong data-i18n="Period:"></strong> <span id="numDays"></span> <span data-i18n="days-"></span> <span id="fromdaterange"></span> <span data-i18n="to"></span> <span id="todaterange"></span>
                                 <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
                             </p>
+
                             <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
                                 <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p><strong data-i18n="Averagevisits"></strong></p>
+                                    <p><strong data-i18n="Averagevisits"></strong> <i data-template='hlp-average-visits' class="fas fa-question-circle"></i></p> 
                                     <p class="mrgn-tp-md" id="visit"></p>
                                 </section>
                             </div>
                             <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
                                 <section class="bg bg-info text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p><strong data-i18n="Averagepageviews"></strong></p>
+                                    <p><strong data-i18n="Averagepageviews"></strong> <i data-template='hlp-average-pgv' class="fas fa-question-circle"></i></p>
                                     <p class="mrgn-tp-md" id="pagev"></p>
                                 </section>
                             </div>
                             <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
                                 <section class="bg bg-warning text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p><strong data-i18n="Averagetimespent"></strong></p>
+                                    <p><strong data-i18n="Averagetimespent"></strong> <i data-template='hlp-average-tmspnt' class="fas fa-question-circle"></i></p>
                                     <p class="mrgn-tp-md" id="avgtime"></p>
                                 </section>
                             </div>
@@ -538,12 +549,13 @@
     <script type="text/javascript" src="assets/js/jquery.i18n.emitter.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.i18n.emitter.bidi.min.js"></script>
     <script>
-        $('.dd-menu li').click(function() {
+         $('.dd-menu li').click(function() {
             $(this).parents('.dropdown').find('.dd-button').html($(this).html());
             $("input[name='dd-value']").val($(this).attr("data-index"));;
-        });
+         });
+
     </script>
-    <script type="text/javascript" src="js/api.js"></script>
+    <script type="text/javascript" src="js/api.min.js"></script>
     </span>
 </body>
 

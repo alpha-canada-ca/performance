@@ -99,6 +99,9 @@
     "FetchdataGSC" : "Step 1 of 3: Fetching data from search data",
     "FetchdataAA" : "Step 2 of 3: Fetching data from web analytics",
     "FetchdataFD" : "Step 3 of 3: Finalizing graphs and charts",
-    "AllQuery" : "Queries for all devices"
+    "AllQuery" : "Queries for all devices",
+    "hlp-average-visits" : "Average visits to the webpage within the reporting period. A visit begins when a visitor enters the site and ends with 30 minutes of inactivity or 12 continuous hours of activity.",
+    "hlp-average-pgv" : "Average number of times a page was viewed or a variable was set within the reporting period.",
+    "hlp-average-tmspnt" : "Average amount of time that visitors interact with the webpage during each visit."
 
 }

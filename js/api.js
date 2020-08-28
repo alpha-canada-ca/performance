@@ -8,8 +8,17 @@ $(document).on("wb-ready.wb",function() {
         $("html").i18n();
         $(".app-name").text($.i18n("app-title"));
         $("#allspan").removeClass("hidden");
+
+        tippy('[data-template]', {
+            content(reference) {
+                const id = reference.getAttribute('data-template');
+                const template = $.i18n(id);
+                return template;
+              },
+            allowHTML: true
+        });
+
     });
-    
     
     let params = getQueryParams()
     var url, start, end;
@@ -27,6 +36,8 @@ $(document).on("wb-ready.wb",function() {
         $("#urlval").val(url);
         mainQueue(url, start, end, 0);
     }
+
+
 });
 
 function getQueryParams() {
@@ -446,7 +457,7 @@ const getPage = url => {
 const jsonPrevious = (json, day) => {
     var rows = json["rows"][0];
     var val = "#ppt";
-    title = $.i18n("Whereuserscamefrom");;
+    title = $.i18n("Whereuserscamefrom");
     var $prev = $(val);
     
     if (rows != null) {
@@ -1759,7 +1770,6 @@ const mainQueue = (url, start, end, lang) => {
             return Promise.all( apiCall(d, url, gsc, oUrl, $dd, "gsc"))
         }
         const getTitle = h2 => { return Promise.all( [ getPageH1( h2[0]['url'] ) ] ) }
-
         /*
         const getPreviousPage = id => {
             if (id != null) return Promise.all( apiCall(d, id, previousURL, aa, url));
