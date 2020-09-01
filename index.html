@@ -284,43 +284,48 @@
 
                             <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
                                 <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p><strong data-i18n="Averagevisits"></strong> <i data-template='hlp-average-visits' class="fas fa-question-circle"></i></p> 
+                                    <p><strong data-i18n="Averagevisits"></strong> <sup><i data-template="hlp-average-visits" class="fas fa-question-circle"></i></sup></p>
                                     <p class="mrgn-tp-md" id="visit"></p>
                                 </section>
                             </div>
                             <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
                                 <section class="bg bg-info text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p><strong data-i18n="Averagepageviews"></strong> <i data-template='hlp-average-pgv' class="fas fa-question-circle"></i></p>
+                                    <p><strong data-i18n="Averagepageviews"></strong> <sup><i data-template="hlp-average-pgv" class="fas fa-question-circle"></i></sup></p>
                                     <p class="mrgn-tp-md" id="pagev"></p>
                                 </section>
                             </div>
                             <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
                                 <section class="bg bg-warning text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p><strong data-i18n="Averagetimespent"></strong> <i data-template='hlp-average-tmspnt' class="fas fa-question-circle"></i></p>
+                                    <p><strong data-i18n="Averagetimespent"></strong> <sup><i data-template="hlp-average-tmspnt" class="fas fa-question-circle"></i></sup></p>
                                     <p class="mrgn-tp-md" id="avgtime"></p>
                                 </section>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p class="h2" data-i18n="Uniquevisitors"></p>
+                                    <p><strong class="h2" data-i18n="Uniquevisitors"></strong> <sup><i data-template="hlp-unique-visitors" class="fas fa-question-circle"></i></sup></p>
                                     <p id="uv"></p>
                                 </div>
                                 <div class="col-md-6">
-                                    <p class="h2" data-i18n="Searchesstartedfromthispage"></p>
+                                    <p><strong class="h2" data-i18n="Searchesstartedfromthispage"></strong> <sup><i data-template="hlp-srch-started" class="fas fa-question-circle"></i></sup></p>
                                     <p id="snum"></p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div id="rapCont">
-                                    </div>
+                                 <div id="rap-container">
+                                    <p><strong class="h2" data-i18n="Reportaproblem"></strong> <sup><i data-template="hlp-rap" class="fas fa-question-circle"></i></sup></p>
+                                    <div id="rapCont"></div>
+                                 </div>
+                                 <div id="fwylf-container">
+                                    <p><strong class="h2" data-i18n="FindWhatYoureLookingFor"></strong> <sup><i data-template="hlp-rap" class="fas fa-question-circle"></i></sup></p>
                                     <div id="fwylfCont">
                                         <div id="fwylfTable"></div>
                                         <div id="fwylfReason"></div>
                                     </div>
+                                 </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <p class="h2" data-i18n="Phrasessearchedfromthispage"></p>
+                                    <p><strong class="h2" data-i18n="Phrasessearchedfromthispage"></strong> <sup><i data-template="hlp-phrases-search" class="fas fa-question-circle"></i></sup></p>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div id="search0"></div>
@@ -341,28 +346,28 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p class="h2"><span data-i18n="Referringtypes"></span> <sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></p>
+                                    <p><span class="h2" data-i18n="Referringtypes"></span>&nbsp;<sup><i data-template="hlp-refferrer-type" class="fas fa-question-circle"></i></sup> <sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></p>
                                     <div id="reft"></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <p class="h2"><span data-i18n="Whereuserscamefrom"></span> <sup id="fn2-rf"><a class="fn-lnk" href="#fn2"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup></p>
+                                    <p><span class="h2" data-i18n="Whereuserscamefrom"></span>&nbsp;<sup><i data-template="hlp-users-came-from" class="fas fa-question-circle"></i></sup> <sup id="fn2-rf"><a class="fn-lnk" href="#fn2"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup></p>
                                     <div id="ppt"></div>
                                     <!--<p id="pp" data-i18n="Nodata"></p>-->
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p class="h2" data-i18n="Searchtermsleadingtothispage"></p>
+                                    <p><span class="h2" data-i18n="Searchtermsleadingtothispage"></span>&nbsp;<sup><i data-template="hlp-search-terms-lead" class="fas fa-question-circle"></i></sup></p>
                                     <div id="srchA"></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <p class="h2"><span data-i18n="Whatusersclickedon"></span> <sup id="fn3-rf"><a class="fn-lnk" href="#fn3"><span class="wb-inv" data-i18n="Footnote"> </span>3</a></sup></p>
+                                    <p><span class="h2" data-i18n="Whatusersclickedon"></span>&nbsp;<sup><i data-template="hlp-users-click" class="fas fa-question-circle"></i></sup> <sup id="fn3-rf"><a class="fn-lnk" href="#fn3"><span class="wb-inv" data-i18n="Footnote"> </span>3</a></sup></p>
                                     <div id="np"></div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p class="h2" data-i18n="Devicesused"></p>
+                                    <p><span class="h2" data-i18n="Devicesused"></span>&nbsp;<sup><i data-template="hlp-device-used" class="fas fa-question-circle"></i></sup></p>
                                     <div id="chrtp" data-i18n="Nodata"></div>
                                     <div id="chart-pltfrms">
                                         <p class="h3" data-i18n="Numberofvisits(%)bydevicesused"></p>
@@ -377,7 +382,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <p class="h2" data-i18n="Visitstrend"></p>
+                                    <p><span class="h2" data-i18n="Visitstrend"></span>&nbsp;<sup><i data-template="hlp-trends" class="fas fa-question-circle"></i></sup></p>
                                     <div id="chrtt" data-i18n="Nodata"></div>
                                     <div id="chart-trnds">
                                         <p class="h3" data-i18n="Visitstrendbycurrentyearandpreviousyear"></p>
@@ -516,7 +521,7 @@
         <script>
             var defPreFooter = document.getElementById("def-preFooter");
             defPreFooter.outerHTML = wet.builder.preFooter({
-                "dateModified": "2020-08-21"
+                "dateModified": "2020-09-01"
             });
         </script>
     </main>

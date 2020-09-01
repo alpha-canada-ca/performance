@@ -102,6 +102,17 @@
     "AllQuery" : "Requêtes pour tous les appareils",
     "hlp-average-visits" : "Visites moyennes de la page Web au cours de la période de référence. Une visite commence lorsqu'un visiteur entre sur le site et se termine par 30 minutes d'inactivité ou 12 heures d'activité continue.",
     "hlp-average-pgv" : "Nombre moyen de fois où une page a été consultée ou une variable a été définie au cours de la période de rapport.",
-    "hlp-average-tmspnt" : "Durée moyenne pendant laquelle les visiteurs interagissent avec la page Web à chaque visite."
+    "hlp-average-tmspnt" : "Durée moyenne pendant laquelle les visiteurs interagissent avec la page Web à chaque visite.",
+    "hlp-unique-visitors": "Nombre total de visiteurs uniques qui ont visité la page Web une ou plusieurs fois au cours de la période de rapport.",
+    "hlp-srch-started": "Indique le nombre de recherches effectuées par les utilisateurs dans la barre de recherche sur une page Web donnée.",
+    "hlp-rap": "Indique le nombre total de visiteurs ayant signalé un problème ou une erreur sur la page Web.",
+    "hlp-fwylf": "Indique le nombre total de visiteurs ayant signalé un problème ou une erreur sur la page Web.",
+    "hlp-phrases-search": "Phrases que les visiteurs ont recherchées dans la barre de recherche sur la page Web.",
+    "hlp-refferrer-type": "Indique les canaux génériques sur lesquels les visiteurs ont cliqué pour accéder à la page Web.",
+    "hlp-users-came-from": "Indique quel domaine a référé l'utilisateur à la page Web.",
+    "hlp-search-terms-lead": "Indique le terme de recherche qui a renvoyé l'utilisateur à la page Web.",
+    "hlp-users-click": "Indique les liens sur lesquels les utilisateurs ont cliqué dans la page Web.",
+    "hlp-trends": "Graphiques et rapports sur les visites quotidiennes de la page Web par rapport à l'année dernière.",
+    "hlp-device-used": "Indique le type de périphérique utilisé par les utilisateurs pour accéder à la page Web."
 
 }
