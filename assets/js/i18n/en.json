@@ -102,6 +102,17 @@
     "AllQuery" : "Queries for all devices",
     "hlp-average-visits" : "Average visits to the webpage within the reporting period. A visit begins when a visitor enters the site and ends with 30 minutes of inactivity or 12 continuous hours of activity.",
     "hlp-average-pgv" : "Average number of times a page was viewed or a variable was set within the reporting period.",
-    "hlp-average-tmspnt" : "Average amount of time that visitors interact with the webpage during each visit."
+    "hlp-average-tmspnt" : "Average amount of time that visitors interact with the webpage during each visit.",
+    "hlp-unique-visitors" : "Total unique visitors that visited the webpage one or more times within the reporting period.",
+    "hlp-srch-started" : "Reports the number of searches users made in the search bar when on a given webpage.",
+    "hlp-rap" : "Reports the total number of visitors that reported a problem or mistake on the webpage.",
+    "hlp-fwylf" : "Reports the total number of visitors that reported a problem or mistake on the webpage.",
+    "hlp-phrases-search" : "Phrases visitors searched in the search bar when on the webpage.",
+    "hlp-refferrer-type" : "Reports which generic channels visitors clicked through to arrive at the webpage.",
+    "hlp-users-came-from" : "Reports what domain referred the user to the webpage.",
+    "hlp-search-terms-lead" : "Reports what search term referred the user to the webpage.",
+    "hlp-users-click" : "Reports what links users clicked on in the webpage.",
+    "hlp-trends" : "Graphs and reports daily visits of the webpage compared to last year.",
+    "hlp-device-used" : "Reports the type of devices users used to access the webpage."
 
 }

@@ -1110,20 +1110,23 @@ const jsonMetrics = ( json, day ) => {
 
 
         if (parseInt(rows[findLookingForInstancesNum]) == NaN || parseInt(rows[findLookingForTotalNum]) == 0) {
-            $("#rapCont").html('<p  class="h2">'+$.i18n("Reportaproblem")+'</p><p id="rap"></p>');
+            $("#rapCont").html('<p id="rap"></p>');
             rap = parseInt(rows[rapNum])
             if (day == 2) $weeks = 1;
             rapWeeks = parseInt( rap / $weeks ).toLocaleString(document.documentElement.lang+"-CA");
             rap = parseInt(rap).toLocaleString(document.documentElement.lang+"-CA");
             $("#rap").prepend("<span class='h1'>" + rapWeeks +"</span> <strong>"+$.i18n("averageperweek")+"</strong></br><span class='small'>" + rap +" "+ $.i18n("total")+"</span>");
             $("#fwylfCont").html('<div id="fwylfTable"></div><div id="fwylfReason"></div>');
+            $("#rap-container").show();
+            $("#fwylf-container").hide();
         } else {
             $("#fwylfCont").html('<div id="fwylfTable"></div><div id="fwylfReason"></div>');
-            $("#fwylfCont").prepend('<p class="h2">'+$.i18n("FindWhatYoureLookingFor")+'</p>');
             $("#fwylfTable").html('<table class="table table-striped"><thead><th>'+$.i18n("Yes")+'</th><th>'+$.i18n("No")+'</th></thead><tr><td id="fwylfYes"></td><td id="fwylfNo"></td></tr></table>');
             $("#fwylfYes").html(rows[findLookingForYesNum]);
             $("#fwylfNo").html(rows[findLookingForTotalNum]);
             $("#rapCont").html("");
+            $("#rap-container").hide();
+            $("#fwylf-container").show();
         }
 
         desktop = parseInt(rows[desktopNum])
