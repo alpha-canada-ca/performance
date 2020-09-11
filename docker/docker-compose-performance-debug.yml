@@ -1,7 +1,7 @@
 version: "3"
 services:
   nginx:
-    image: "tbsacr.azurecr.io/performance_nginx:1.0.0"
+    image: "tbsacr.azurecr.io/performance_nginx:latest"
     build:
       context: ../
       dockerfile: docker/performance_nginx/Dockerfile
@@ -11,10 +11,10 @@ services:
       - web
     restart: always
     container_name: performance_nginx
-    #volumes:
-    #  - /home/hyma/performance:/var/www/html
+    volumes:
+      - /Users/ryanhyma/performance:/var/www/html
   web:
-    image: "tbsacr.azurecr.io/performance_debug_php:1.0.0"
+    image: "tbsacr.azurecr.io/performance_debug_php:latest"
     build:
       context: ../
       dockerfile: docker/performance_debug_php/Dockerfile
@@ -34,8 +34,8 @@ services:
     container_name: performance_debug_web
     depends_on:
       - mongodb
-    #volumes:
-    #  - /home/hyma/performance:/var/www/html
+    volumes:
+      - /Users/ryanhyma/performance:/var/www/html
   mongodb:
     image: mongo:latest
     ports:
