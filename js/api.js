@@ -1663,10 +1663,10 @@ const apiCallGSC2 = (d, i, a, uu, dd, lg) => a.map(type => {
 
 });
 
-const apiCallBP = (d, i, a, uu, dd, lg) => a.map(type => {
+const apiCallBP = (d, i, a, uu) => a.map(type => {
     url = "php/process-bp.php";
 
-    post = { dates: d, url: i, oUrl: uu, day: dd, lang: lg };
+    post = { dates: d, url: i, oUrl: uu, lang: document.documentElement.lang };
 
     let request = new Request(url, {
         method: "POST",
@@ -1815,7 +1815,7 @@ const mainQueue = (url, start, end, lang) => {
         const dbGetBPMatch = () => {
             url = $("#urlStatic").html();
             oUrl = $("#urlStatic").html();
-            return Promise.all(apiCallBP(d, url, dbCall, oUrl, lang))
+            return Promise.all(apiCallBP(d, url, dbCall, oUrl))
         }
 
 

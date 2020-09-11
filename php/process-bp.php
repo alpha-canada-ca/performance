@@ -10,8 +10,7 @@ $date = $d->dates;
 $url = $d->oUrl;
 $start = $date[0];
 $end = $date[1];
-$days = $d->day-1;
-//$oLang = $d->lang;
+$oLang = $d->lang;
 //$url = "https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/symptoms.html";
 //$date = [ "7daysago", "yesterday" ];
 //$lang = "en";
@@ -23,7 +22,7 @@ if ((isset($start) && !empty($start)) && (isset($end) && !empty($end))) {
         $end = (new DateTime($end))->format($iso);
 }
 $dates = "$start/$end";
-$byPageURL = 'https://feedback-by-page.tbs.alpha.canada.ca/bypage?page='.$url.'&start_date='.$start.'&end_date='.$end;
+$byPageURL = 'https://feedback-by-page.tbs.alpha.canada.ca/bypage?page='.$url.'&start_date='.$start.'&end_date='.$end.'&lang='.$oLang;
 $md = mongoGet($byPageURL, $dates, 'html', 'multi');
 $output = '';
 if ($md) {
