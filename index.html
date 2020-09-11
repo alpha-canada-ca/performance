@@ -136,9 +136,9 @@
             padding: 0;
             border-bottom: 1px solid #cccccc;
         }
-
+        
         .bg {
-         background-color: #cfe8ef !important;
+            background-color: #cfe8ef !important;
         }
         
         .bg-success-c {
@@ -156,28 +156,28 @@
         .bg-danger-c {
             background-color: #e8710a !important;
         }
-
+        
         .bg-white-color {
             color: #FFF !important;
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
         }
-
+        
         .bg-black-color {
             color: #000 !important;
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
         }
-
+        
         .gsc-chart-container {
-           position: relative;
-           height: 60vh;
+            position: relative;
+            height: 60vh;
         }
-
+        
         .fa-question-circle {
-         color: #444;
+            color: #444;
         }
-
+        
         .fa-question-circle:hover {
-         color: #000;
+            color: #000;
         }
     </style>
     <!-- Write closure template -->
@@ -216,8 +216,8 @@
         });
     </script>
     <main property="mainContentOfPage" class="container" typeof="WebPageElement">
-      <br />
-      <div class="clearfix"></div>
+        <br />
+        <div class="clearfix"></div>
         <form id="urlform" action="#" method="post">
             <input type='hidden' name='dd-value'>
             <label for="btngrp-search2" class="wb-inv" data-i18n="Search"></label>
@@ -243,14 +243,14 @@
 
             <span id="numWeeks" class="hidden"></span>
             <div class="row">
-               <div class="col-md-8">
-            <h2><span id="h2title" data-i18n="Page-levelstatistics"></span></h2>
-            <span class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></span>
-         </div>
-            <div class="col-md-4" style="margin-top: 38px;">
-               <div class="pull-right">
-               <span data-i18n="select-date" style="font-size: 78%;"></span>
-            <label class="dropdown">
+                <div class="col-md-8">
+                    <h2><span id="h2title" data-i18n="Page-levelstatistics"></span></h2>
+                    <span class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></span>
+                </div>
+                <div class="col-md-4" style="margin-top: 38px;">
+                    <div class="pull-right">
+                        <span data-i18n="select-date" style="font-size: 78%;"></span>
+                        <label class="dropdown">
                      <div class="dd-button">
                         <!--<i class="fas fa-calendar"></i>&nbsp;<span data-i18n="select-date"></span>-->
                         <i class="fas fa-calendar-week"></i>&nbsp;<span data-i18n="Last7days"></span>
@@ -262,13 +262,13 @@
                         <li data-value="2" data-index="2"><i class="fas fa-calendar-day"></i>&nbsp;<span data-i18n="Yesterday"></span></li>
                      </ul>
                   </label>
-        </div>
-     </div>
-     <div class="col-md-12">
-      <p id="urlStatic" class="small"></p>
-   </div>
-     </div>
-        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <p id="urlStatic" class="small"></p>
+                </div>
+            </div>
+            <div class="clearfix"></div>
 
             <div class="wb-tabs">
                 <div class="tabpanels">
@@ -312,17 +312,17 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                 <div id="rap-container">
-                                    <p><strong class="h2" data-i18n="Reportaproblem"></strong> <sup><i data-template="hlp-rap" class="fas fa-question-circle"></i></sup></p>
-                                    <div id="rapCont"></div>
-                                 </div>
-                                 <div id="fwylf-container">
-                                    <p><strong class="h2" data-i18n="FindWhatYoureLookingFor"></strong> <sup><i data-template="hlp-rap" class="fas fa-question-circle"></i></sup></p>
-                                    <div id="fwylfCont">
-                                        <div id="fwylfTable"></div>
-                                        <div id="fwylfReason"></div>
+                                    <div id="rap-container">
+                                        <p><strong class="h2" data-i18n="Reportaproblem"></strong> <sup><i data-template="hlp-rap" class="fas fa-question-circle"></i></sup></p>
+                                        <div id="rapCont"></div>
                                     </div>
-                                 </div>
+                                    <div id="fwylf-container">
+                                        <p><strong class="h2" data-i18n="FindWhatYoureLookingFor"></strong> <sup><i data-template="hlp-rap" class="fas fa-question-circle"></i></sup></p>
+                                        <div id="fwylfCont">
+                                            <div id="fwylfTable"></div>
+                                            <div id="fwylfReason"></div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <p><strong class="h2" data-i18n="Phrasessearchedfromthispage"></strong> <sup><i data-template="hlp-phrases-search" class="fas fa-question-circle"></i></sup></p>
@@ -506,24 +506,26 @@
 
                             </dl>
                         </aside>
-
+                    </details>
+                    <details id="details-panel3">
+                        <summary id="bp-summary">Feedback by page</summary>
+                        <div id="bp-content"></div>
                     </details>
                 </div>
             </div>
-        </div>
 
 
-        <div id="def-preFooter">
-            <!-- Write closure fall-back static file -->
-            <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/preFooter-fr.html -->
-        </div>
-        <!-- Write closure template -->
-        <script>
-            var defPreFooter = document.getElementById("def-preFooter");
-            defPreFooter.outerHTML = wet.builder.preFooter({
-                "dateModified": "2020-09-01"
-            });
-        </script>
+            <div id="def-preFooter">
+                <!-- Write closure fall-back static file -->
+                <!-- /ROOT/app/cls/WET/gcweb/v4_0_28/cdts/static/preFooter-fr.html -->
+            </div>
+            <!-- Write closure template -->
+            <script>
+                var defPreFooter = document.getElementById("def-preFooter");
+                defPreFooter.outerHTML = wet.builder.preFooter({
+                    "dateModified": "2020-09-01"
+                });
+            </script>
     </main>
     <div id="def-footer">
         <!-- Write closure fall-back static file -->
@@ -554,13 +556,12 @@
     <script type="text/javascript" src="assets/js/jquery.i18n.emitter.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery.i18n.emitter.bidi.min.js"></script>
     <script>
-         $('.dd-menu li').click(function() {
+        $('.dd-menu li').click(function() {
             $(this).parents('.dropdown').find('.dd-button').html($(this).html());
             $("input[name='dd-value']").val($(this).attr("data-index"));;
-         });
-
+        });
     </script>
-    <script type="text/javascript" src="js/api.min.js"></script>
+    <script type="text/javascript" src="js/api.js"></script>
     </span>
 </body>
 
