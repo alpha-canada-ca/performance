@@ -1,7 +1,7 @@
 version: "3"
 services:
   nginx:
-    image: "tbsacr.azurecr.io/performance_nginx:1.0.0"
+    image: "tbsacr.azurecr.io/performance_nginx:latest"
     build:
       context: ../
       dockerfile: docker/performance_nginx/Dockerfile
@@ -14,7 +14,7 @@ services:
     #volumes:
     #  - /home/hyma/performance:/var/www/html
   web:
-    image: "tbsacr.azurecr.io/performance_php:1.0.0"
+    image: "tbsacr.azurecr.io/performance_php:latest"
     build:
       context: ../
       dockerfile: docker/performance_php/Dockerfile
