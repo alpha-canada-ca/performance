@@ -28,6 +28,8 @@
         }
         const inlineScript = document.createElement('script');
         inlineScript.src = "https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/wet-" + document.documentElement.lang + ".js";
+        //document.appendChild(inlineScript.outerHTML);
+        
         document.write(inlineScript.outerHTML);
     </script>
     <noscript>
@@ -139,6 +141,7 @@
         
         .bg {
             background-color: #cfe8ef !important;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
         }
         
         .bg-success-c {
@@ -178,6 +181,14 @@
         
         .fa-question-circle:hover {
             color: #000;
+        }
+
+        button#searchBttn.btn.btn-default span {
+            white-space: inherit;
+        }
+
+        button.btn {
+            white-space: inherit;
         }
     </style>
     <!-- Write closure template -->
@@ -219,18 +230,23 @@
         <br />
         <div class="clearfix"></div>
         <form id="urlform" action="#" method="post">
+            <p data-i18n="BlurbP1"></p>
+            <p data-i18n="BlurbP2"></p>
             <input type='hidden' name='dd-value'>
             <label for="btngrp-search2" class="wb-inv" data-i18n="Search"></label>
-            <p data-i18n="EnterthepageURL"></p>
+            <!-- <p data-i18n="EnterthepageURL"></p> -->
             <div class="input-group">
                 <input type="search" id="urlval" name="urlval" class="form-control" data-i18n="[placeholder]PlaceURL" size="6" />
                 <span class="input-group-btn">
-                     <button class="btn btn-default" id="searchBttn" type="submit"><span class="glyphicon-search glyphicon"></span><span class="wb-inv" data-i18n="Search"></span></button>
+                     <button class="btn btn-default" id="searchBttn" type="submit"><span class="glyphicon-search glyphicon"></span> <span data-i18n="Getdata"></span></button>
+                     <div class="clearfix" style="margin-bottom: 10px;"></div>
                 </span>
             </div>
         </form>
 
-        <div id="loading" class="hidden" style="margin-top: 20px;">
+        
+
+        <div id="loading" class="hidden" style="margin-top: 10px;">
             <p id="loadGSC" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataGSC"></span> </p>
             <p id="loadAA" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataAA"></span> </p>
             <p id="loadFD" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataFD"></span> </p>
@@ -273,7 +289,7 @@
             <div class="wb-tabs">
                 <div class="tabpanels">
                     <details id="details-panel1">
-                        <summary>Adobe Analytics</summary>
+                        <summary>Web analytics</summary>
                         <div id="canvas-container" class="hidden">
                             <p>
                                 <span id="fromGSC" class="hidden"></span>
@@ -281,7 +297,14 @@
                                 <strong data-i18n="Period:"></strong> <span id="numDays"></span> <span data-i18n="days-"></span> <span id="fromdaterange"></span> <span data-i18n="to"></span> <span id="todaterange"></span>
                                 <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
                             </p>
-
+                            <!--
+                            <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
+                                <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                    <p><strong data-i18n="Averagevisits"></strong> <sup><i data-template="hlp-average-unique-visits" class="fas fa-question-circle"></i></sup></p>
+                                    <p class="mrgn-tp-md" id="uniquevisit"></p>
+                                </section>
+                            </div>
+                        -->
                             <div class="col-md-4" style="vertical-align: top; min-height: 102px;">
                                 <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                     <p><strong data-i18n="Averagevisits"></strong> <sup><i data-template="hlp-average-visits" class="fas fa-question-circle"></i></sup></p>
@@ -346,11 +369,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p><span class="h2" data-i18n="Referringtypes"></span>&nbsp;<sup><i data-template="hlp-refferrer-type" class="fas fa-question-circle"></i></sup> <sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></p>
+                                    <p><span class="h2" data-i18n="Referringtypes"></span>&nbsp;<sup><i data-template="hlp-refferrer-type" class="fas fa-question-circle"></i></sup> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup>--></p>
                                     <div id="reft"></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <p><span class="h2" data-i18n="Whereuserscamefrom"></span>&nbsp;<sup><i data-template="hlp-users-came-from" class="fas fa-question-circle"></i></sup> <sup id="fn2-rf"><a class="fn-lnk" href="#fn2"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup></p>
+                                    <p><span class="h2" data-i18n="Whereuserscamefrom"></span>&nbsp;<sup><i data-template="hlp-users-came-from" class="fas fa-question-circle"></i></sup> <!--<sup id="fn2-rf"><a class="fn-lnk" href="#fn2"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup>--></p>
                                     <div id="ppt"></div>
                                     <!--<p id="pp" data-i18n="Nodata"></p>-->
                                 </div>
@@ -361,7 +384,7 @@
                                     <div id="srchA"></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <p><span class="h2" data-i18n="Whatusersclickedon"></span>&nbsp;<sup><i data-template="hlp-users-click" class="fas fa-question-circle"></i></sup> <sup id="fn3-rf"><a class="fn-lnk" href="#fn3"><span class="wb-inv" data-i18n="Footnote"> </span>3</a></sup></p>
+                                    <p><span class="h2" data-i18n="Whatusersclickedon"></span>&nbsp;<sup><i data-template="hlp-users-click" class="fas fa-question-circle"></i></sup> <sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></p>
                                     <div id="np"></div>
                                 </div>
                             </div>
@@ -400,18 +423,8 @@
                             <aside class="wb-fnote" role="note">
                                 <h2 id="fn" data-i18n="Footnotes"></h2>
                                 <dl>
-                                    <dt data-i18n="Footnote1"></dt>
-                                    <dd id="fn1">
-                                        <p data-i18n="ReferringlinkFootnote"></p>
-                                        <p class="fn-rtn"><a href="#fn1-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>1<span class="wb-inv" data-i18n="referrer"> </span></a></p>
-                                    </dd>
-                                    <dt data-i18n="Footnote2"></dt>
-                                    <dd id="fn2">
-                                        <p data-i18n="PreviouspageFootnote"></p>
-                                        <p class="fn-rtn"><a href="#fn2-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>2<span class="wb-inv" data-i18n="referrer"> </span></a></p>
-                                    </dd>
                                     <dt data-i18n="Footnote3"></dt>
-                                    <dd id="fn3">
+                                    <dd id="fn1">
                                         <p data-i18n="Display25"></p>
                                         <ul>
                                             <li data-i18n="foreign"></li>
@@ -419,39 +432,39 @@
                                             <li data-i18n="pageswhere"></li>
                                         </ul>
                                         <p><strong data-i18n="Notice:"></strong> <span data-i18n="Depending"></span></p>
-                                        <p class="fn-rtn"><a href="#fn3-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>3<span class="wb-inv" data-i18n="referrer"> </span></a></p>
+                                        <p class="fn-rtn"><a href="#fn1-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>1<span class="wb-inv" data-i18n="referrer"> </span></a></p>
                                     </dd>
                                 </dl>
                             </aside>
                         </div>
                     </details>
                     <details id="details-panel2" open="open">
-                        <summary>Google Search Console</summary>
+                        <summary>Search analytics</summary>
 
                         <p>
                             <strong data-i18n="Period:"></strong> <span id="numDaysgsc"></span> <span data-i18n="days-"></span> <span id="fromdaterangegsc"></span> <span data-i18n="to"></span> <span id="todaterangegsc"></span> <sup id="fn1b-rf"><a class="fn-lnk" href="#fn1b"><span class="wb-inv">Footnote </span>1</a></sup>
                         </p>
                         <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                            <section class="bg-white-color bg-success-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                <p><strong data-i18n="Totalclicks"></strong></p>
+                            <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <p><strong data-i18n="Totalclicks"></strong> <sup><i data-template="hlp-total-clicks" class="fas fa-question-circle"></i></sup></p>
                                 <p class="mrgn-tp-md" id="gsc-clicks"></p>
                             </section>
                         </div>
                         <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                            <section class="bg-white-color bg-info-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                <p><strong data-i18n="Totalimpressions"></strong></p>
+                            <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <p><strong data-i18n="Totalimpressions"></strong> <sup><i data-template="hlp-total-impressions" class="fas fa-question-circle"></i></sup></p>
                                 <p class="mrgn-tp-md" id="gsc-imp"></p>
                             </section>
                         </div>
                         <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                            <section class="bg-white-color bg-warning-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                <p><strong data-i18n="Averagectr"></strong></p>
+                            <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <p><strong data-i18n="Averagectr"></strong> <sup><i data-template="hlp-average-ctr" class="fas fa-question-circle"></i></sup></p>
                                 <p class="mrgn-tp-md" id="gsc-ctr"></p>
                             </section>
                         </div>
                         <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                            <section class="bg-black-color bg-danger-c text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                <p><strong data-i18n="Averageposition"></strong></p>
+                            <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <p><strong data-i18n="Averageposition"></strong> <sup><i data-template="hlp-average-position" class="fas fa-question-circle"></i></sup></p>
                                 <p class="mrgn-tp-md" id="gsc-pos"></p>
                             </section>
                         </div>
@@ -523,7 +536,7 @@
             <script>
                 var defPreFooter = document.getElementById("def-preFooter");
                 defPreFooter.outerHTML = wet.builder.preFooter({
-                    "dateModified": "2020-09-01"
+                    "dateModified": "2020-11-05"
                 });
             </script>
     </main>

@@ -96,8 +96,8 @@
     "ThedatesshownFootnote": "The dates shown are currently the latest and greatest dates that Google Search Console can provide at this time. For the most recent, it would take around 24 to 48 hours for the final data to be received.",
     "ReferringlinkFootnote": "The referrer is the external referring link of the first page a visitor lands on in the visit and eventually gets to the supplied link.",
     "PreviouspageFootnote": "The previous page is the page a visitor was previously on for the supplied link.",
-    "FetchdataGSC": "Step 1 of 3: Fetching data from search data",
-    "FetchdataAA": "Step 2 of 3: Fetching data from web analytics",
+    "FetchdataGSC": "Step 1 of 3: Fetching search data",
+    "FetchdataAA": "Step 2 of 3: Fetching web analytics data",
     "FetchdataFD": "Step 3 of 3: Finalizing graphs and charts",
     "AllQuery": "Queries for all devices",
     "hlp-average-visits": "Average visits to the webpage within the reporting period. A visit begins when a visitor enters the site and ends with 30 minutes of inactivity or 12 continuous hours of activity.",
@@ -114,6 +114,12 @@
     "hlp-users-click": "Reports what links users clicked on in the webpage.",
     "hlp-trends": "Graphs and reports daily visits of the webpage compared to last year.",
     "hlp-device-used": "Reports the type of devices users used to access the webpage.",
-    "Feedbackbypage": "Feedback by page"
-
+    "hlp-total-clicks": "Total clicks is how many times a user has clicked into your site from the search result page",
+    "hlp-total-impressions": "Total impressions is how many times a user saw a link to your site in the search result page",
+    "hlp-average-ctr": "Average CTR is the percentage of impressions that resulted in a click. Clicks ÷ impressions",
+    "hlp-average-position": "Average position is the  is the average position of your site in search results, based on its highest position whenever it appeared in a search.",
+    "Feedbackbypage": "Feedback by page",
+    "Getdata": "Get data",
+    "BlurbP1":"Use this tool to instantly access web analytics and search analytics data for any existing Canada.ca web page. You can view the analytics data from yesterday, the last 7 days, or the last 30 days.",
+    "BlurbP2":"Simply copy and paste the URL of the web page you are interested in into the search bar below. You will then get back data on how many people are visiting a site, where they are coming from, whom they are, what they are doing, and more."
 }
