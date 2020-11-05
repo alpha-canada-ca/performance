@@ -776,7 +776,7 @@ const jsonRT = (json, day) => {
             $(val).trigger("wb-init.wb-tables");
             */
 
-            $(val).html(getTable(5, "false"));
+            $(val).html(getTable(5, "false", "false", "false"));
             let table = document.querySelector(val + " table");
             let data = Object.keys(ref[0]);
             generateTable(table, ref);
@@ -793,10 +793,12 @@ const jsonRT = (json, day) => {
     }
 }
 
-function getTable($pageLength = null, $search = null, $order = null, $length = null, $display = null, $class = null) {
+function getTable($pageLength = null, $search = null, $info = null, $lengthChange = null, $order = null, $length = null, $display = null, $class = null) {
     if (!$class) { $class = "wb-tables table table-responsive"; }
     if (!$pageLength) { $pageLength = 5; }
-    if (!$search) { $search = true; }
+    if (!$search) { $search = false; }
+    if (!$info) { $info = true; }
+    if (!$lengthChange) { $lengthChange = true; }
     if (!$order) { $order = [1, "&quot;desc&quot;"]; }
     if (!$length) { $length = [5, 10, 25, -1]; }
     if (!$display) { $display = [5, 10, 25, "&quot;All&quot;"]; }
@@ -805,7 +807,10 @@ function getTable($pageLength = null, $search = null, $order = null, $length = n
         '&quot;pageLength&quot; : ' + $pageLength + ', ' +
         '&quot;order&quot; : [ ' + $order + ' ] , ' +
         '&quot;lengthMenu&quot; : [ [ ' + $length + ' ], [ ' + $display + ' ] ] ,' +
-        '&quot;searching&quot; : ' + $search +
+        '&quot;searching&quot; : ' + $search + ',' +
+        '&quot;info&quot; : ' + $info + ',' +
+        '&quot;lengthChange&quot; : ' + $lengthChange +
+
         '}\'>' +
         '</table>';
 }
@@ -1055,6 +1060,8 @@ const jsonFWYLF = (json, day) => {
 const jsonMetrics = (json, day) => {
     var rows = json["summaryData"]["filteredTotals"];
     var $uv = $("#uv");
+
+    var $uniquevisit = $("#uniquevisit");
     var $visit = $("#visit");
     var $pagev = $("#pagev");
     var $avgtime = $("#avgtime");
