@@ -1,6 +1,6 @@
 <?php
 
-function mongoGet ( $url, $date, $type, $sm ) {
+function mongoGet ( $url, $date, $type, $sm, $db ) {
     try {
 
         $mng = new MongoDB\Driver\Manager("mongodb://mongodb:27017");
@@ -8,7 +8,7 @@ function mongoGet ( $url, $date, $type, $sm ) {
         $filter = [ 'url' => $url, 'field' => $sm, 'date' => $date ]; 
         $query = new MongoDB\Driver\Query($filter);
 
-        $res = $mng->executeQuery('pageperformance.cache', $query);
+        $res = $mng->executeQuery('pageperformance.' . $db, $query);
         $result = current($res->toArray());
     
         if ( !empty($result)  && property_exists($result,$type) ) {

@@ -226,7 +226,7 @@ try
 
                 if ($mode == "delete")
                 {
-                    mongoDelete($oUrl);
+                    mongoDelete($oUrl, "cache");
 
                 }
                 else if ($mode == "update")
@@ -241,7 +241,7 @@ try
                             $sm = "multi";
                         }
                         //echo "<br /><br />$t<br />$oDate<br /><br />";
-                        $md = mongoGet($oUrl, $oDate, $t, $sm);
+                        $md = mongoGet($oUrl, $oDate, $t, $sm, "cache");
                         if ($md) {
                             //echo ($md);
                             continue;
@@ -400,7 +400,7 @@ catch(Exception $ex)
 $result = api_post($config['ADOBE_API_KEY'], $config['COMPANY_ID'], $_SESSION['token'], $api);
 
 foreach($result as $r => $res) {
-    mongoUpdate($oUrl, $oDate, $type[$r], $res, "multi");
+    mongoUpdate($oUrl, $oDate, $type[$r], $res, "multi", "cache");
 }
 
 ?>

@@ -69,9 +69,9 @@ try {
             }
             if ($mode == "update") {
                 if ($field == "aa") {
-                    $md = mongoGet($oUrl, $oDate, $type, $sm);
+                    $md = mongoGet($oUrl, $oDate, $type, $sm, "search");
                 } else {
-                    $md = mongoGet($origUrl, $oDate, $type, "multi");
+                    $md = mongoGet($origUrl, $oDate, $type, "multi", "search");
                 }
                 if ($md) {
                     echo ($md);
