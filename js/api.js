@@ -4,7 +4,7 @@ $(document).on("wb-ready.wb", function() {
         'fr': './assets/js/i18n/fr.json'
     }).done(function() {
         $("html").i18n();
-        $(".app-name").text($.i18n("app-title"));
+        $(".app-name").addClass("hidden");
         $("#allspan").removeClass("hidden");
 
         tippy('[data-template]', {
@@ -23,6 +23,8 @@ $(document).on("wb-ready.wb", function() {
     url = getSpecifiedParam(params, "url")
     start = getSpecifiedParam(params, "start")
     end = getSpecifiedParam(params, "end")
+    date = getSpecifiedParam(params, "date")
+
     if (start && end) {
         start = moment(start).format("MMMM D, YYYY");
         end = moment(end).format("MMMM D, YYYY");
@@ -32,8 +34,14 @@ $(document).on("wb-ready.wb", function() {
 
     if (url) {
         $("#urlval").val(url);
+        if ($.isNumeric(date)) {
+            $('#date-range').val(date).change();
+        }
+
         mainQueue(url, start, end, 0);
     }
+
+
 
 
 });
@@ -54,6 +62,10 @@ function getQueryParams() {
     });
     // return result object
     return result;
+}
+
+function setQueryParams(url, date) {
+    window.history.pushState("Query Parameters", "Addition of Queries", "?url=" + url + "&date=" + date);
 }
 
 function getSpecifiedParam(object, val) {
@@ -181,7 +193,15 @@ const jsonPieGenerate = (arr) => {
             }
         },
         tooltips: {
-            enabled: false
+            mode: 'index',
+            titleFontSize: 18,
+            bodyFontSize: 16,
+            callbacks: {
+                label: function(tooltipItem, data) { 
+                    var indice = tooltipItem.index;                 
+                    return  data.labels[indice] +': '+ (data.datasets[0].data[indice]).toLocaleString() + ' visits';
+                }
+            }
         },
         legend: {
             position: "bottom",
@@ -250,6 +270,11 @@ const RANGE = (a, b) => Array.from((function*(x, y) {
     while (x <= y) yield x++;
 })(a, b));
 
+// Return with commas in between
+  var numberWithCommas = function(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
 const jsonTrendGenerate = (json, day) => {
     var rows = json["rows"][0];
 
@@ -307,6 +332,14 @@ const jsonTrendGenerate = (json, day) => {
                     scaleLabel: {
                         display: true,
                         labelString: $.i18n("Numberofvisits")
+                    },
+                    ticks: {
+                        beginAtZero: true,
+                        // Return an empty string to draw the tick line but hide the tick label
+                        // Return `null` or `undefined` to hide the tick line entirely
+                       callback: function(value, index, values) {
+                            return Intl.NumberFormat().format((value/1000)) + 'K';
+                        }
                     }
                 }],
                 xAxes: [{
@@ -319,6 +352,13 @@ const jsonTrendGenerate = (json, day) => {
             tooltips: {
                 mode: "index",
                 intersect: false,
+                titleFontSize: 18,
+                bodyFontSize: 16,
+                callbacks: {
+                    label: function(tooltipItem, data) { 
+                      return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel) + ' visits';
+                    }
+                }
             },
             hover: {
                 mode: "nearest",
@@ -394,6 +434,8 @@ const jsonTrendGenerate = (json, day) => {
     }
 }
 
+/*
+
 const jsonUv = json => {
     var rows = json["rows"][0];
     var $uv = $("#uv");
@@ -421,6 +463,8 @@ const jsonUv = json => {
         $rap.html("0");
     }
 }
+
+*/
 
 const jsonFile = json => {
     //console.log(json);
@@ -1096,7 +1140,8 @@ const jsonMetrics = (json, day) => {
         uv = parseInt(rows[uvNum])
         uvDays = parseInt(uv / $days).toLocaleString(document.documentElement.lang + "-CA");
         uv = parseInt(uv).toLocaleString(document.documentElement.lang + "-CA");
-        $uv.prepend("<span class='h1'>" + uvDays + "</span> <strong>" + $.i18n("averageperday") + "</strong></br><span class='small'>" + uv + " " + $.i18n("total") + "</span>");
+        //$uv.prepend("<span class='h1'>" + uvDays + "</span> <strong>" + $.i18n("averageperday") + "</strong></br><span class='small'>" + uv + " " + $.i18n("total") + "</span>");
+        $uv.prepend("<span class='h2'>" + uvDays + "</span></br><span class='small'>" + uv + " " + $.i18n("total") + "</span>");
 
         visit = parseInt(rows[vNum])
         vDays = parseInt(visit / $days).toLocaleString(document.documentElement.lang + "-CA");
@@ -1108,10 +1153,11 @@ const jsonMetrics = (json, day) => {
         pv = parseInt(pv).toLocaleString(document.documentElement.lang + "-CA");
         $pagev.prepend("<span class='h2'>" + pvDays + "</span></br><span class='small'>" + pv + " " + $.i18n("total") + "</span>");
 
-        at = moment.utc(rows[avgtimeNum] * 1000).format('H:mm:ss'); //parseInt(rows[uvNum])
+        atMin = moment.utc(rows[avgtimeNum] * 1000).format('m'); //parseInt(rows[uvNum])
+        atSec = moment.utc(rows[avgtimeNum] * 1000).format('ss'); //parseInt(rows[uvNum])
         //uvDays = parseInt( uv / $days ).toLocaleString(document.documentElement.lang+"-CA");
         //uv = parseInt(uv).toLocaleString(document.documentElement.lang+"-CA");
-        $avgtime.prepend("<span class='h2'>" + at + "</span></br><span class'small'>" + $.i18n("hours") + "</span>"); //</br><span class='small'>" + uv +" "+ $.i18n("total")+"</span>");
+        $avgtime.prepend("<span class='h2'>" + atMin + " min " + atSec + " sec" + "</span>"); //</br><span class'small'>" + $.i18n("hours") + "</span>"); //</br><span class='small'>" + uv +" "+ $.i18n("total")+"</span>");
 
 
         if (parseInt(rows[findLookingForInstancesNum]) == NaN || parseInt(rows[findLookingForTotalNum]) == 0) {
@@ -1269,7 +1315,10 @@ const jsonGSCGenerate = (json, day) => {
                     display: true,
                     position: 'left',
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        callback: function(value, index, values) {
+                            return Intl.NumberFormat().format((value/1000)) + 'K';
+                        }
                     },
                     scaleLabel: {
                         display: true,
@@ -1282,7 +1331,10 @@ const jsonGSCGenerate = (json, day) => {
                     display: true,
                     position: 'right',
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        callback: function(value, index, values) {
+                            return Intl.NumberFormat().format((value/1000)) + 'K';
+                        }
                     },
                     scaleLabel: {
                         display: true,
@@ -1325,6 +1377,13 @@ const jsonGSCGenerate = (json, day) => {
             tooltips: {
                 mode: "index",
                 intersect: false,
+                titleFontSize: 18,
+                bodyFontSize: 16,
+                callbacks: {
+                    label: function(tooltipItem, data) { 
+                      return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel) + ' visits';
+                    }
+                }
             },
             hover: {
                 mode: "nearest",
@@ -1729,6 +1788,15 @@ $('a#h2href').click(function() {
     mainQueue(url, start, end, 1);
 });
 
+$('select#date-range').change(function(){
+  url = $("#urlval").val();
+    $("#urlStatic").html(url);
+    start = $(".dr-date-start").html()
+    end = moment();
+
+    mainQueue(url, start, end, 0);
+});
+
 const removeQueryString = (url) => {
     var a = document.createElement('a'); // dummy element
     a.href = url; // set full url
@@ -1759,9 +1827,10 @@ const mainQueue = (url, start, end, lang) => {
 
         moment.locale('en'); // default the locale to Englishy
 
-        $dd = $("input[name=dd-value").val();
-        if (!$dd) $dd = 1;
-
+        $dd = $('#date-range').find(':selected').data('index');
+        //$dd = $("input[name=dd-value").val();
+        if (!$.isNumeric($dd)) $dd = 1;
+        
         if (start && end) {
             vStart = start;
             vEnd = end;
@@ -1890,6 +1959,8 @@ const mainQueue = (url, start, end, lang) => {
                 $("#canvas-container").removeClass("hidden");
                 $("#searchBttn").prop("disabled", false);
                 $('#urlval').val($('#urlStatic').text());
+                date = $('#date-range').val();
+                setQueryParams(oUrl, date);
             })
             .catch(console.error.bind(console));
 

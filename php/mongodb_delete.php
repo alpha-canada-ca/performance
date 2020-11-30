@@ -1,6 +1,6 @@
 <?php
 
-function mongoDelete ( $url ) {
+function mongoDelete ( $url, $db ) {
     try {
 
         $mng = new MongoDB\Driver\Manager("mongodb://mongodb:27017");
@@ -8,7 +8,7 @@ function mongoDelete ( $url ) {
         $filter = [ 'url' => $url ]; 
         $bulk->delete($filter);
 
-        $mng->executeBulkWrite('pageperformance.cache', $bulk);
+        $mng->executeBulkWrite('pageperformance.' . $db, $bulk);
 
     }  catch (MongoDB\Driver\Exception\Exception $e) {
 

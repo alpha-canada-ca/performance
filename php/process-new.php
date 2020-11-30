@@ -191,7 +191,7 @@ try {
                 $oDate = "$start/$end";
 
                 if ($mode == "delete") {
-                    mongoDelete($oUrl);
+                    mongoDelete($oUrl, "search");
 
                 }
                 else if ($mode == "update") {
@@ -205,7 +205,7 @@ try {
                             $sm = "multi";
                         }
                         //echo "<br /><br />$t<br />$oDate<br /><br />";
-                        $md = mongoGet($oUrl, $oDate, $t, $sm);
+                        $md = mongoGet($oUrl, $oDate, $t, $sm, "search");
                         if ($md) {
                             //echo ($md);
                             continue;
@@ -316,6 +316,12 @@ try {
                         //mongoUpdate($oUrl, $oDate, $t, $api, $sm);
 
                     }
+                    
+                    $result = api_post($config['ADOBE_API_KEY'], $config['COMPANY_ID'], $_SESSION['token'], $api);
+
+                    foreach($result as $r => $res) {
+                        mongoUpdate($oUrl, $oDate, $type[$r], $res, "multi", "search");
+                    }
 
                 }
             }
@@ -326,11 +332,7 @@ catch(Exception $ex) {
     echo json_encode(array('error' => $ex));
 }
 
-$result = api_post($config['ADOBE_API_KEY'], $config['COMPANY_ID'], $_SESSION['token'], $api);
 
-foreach($result as $r => $res) {
-    mongoUpdate($oUrl, $oDate, $type[$r], $res, "multi");
-}
 
 
 

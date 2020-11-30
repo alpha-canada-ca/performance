@@ -1,6 +1,6 @@
 <?php
 
-function mongoUpdate ( $url, $date, $type, $data, $sm ) {
+function mongoUpdate ( $url, $date, $type, $data, $sm, $db ) {
     try {
 
         $mng = new MongoDB\Driver\Manager("mongodb://mongodb:27017");
@@ -9,12 +9,12 @@ function mongoUpdate ( $url, $date, $type, $data, $sm ) {
             $filter = [ 'url' => $url, 'field' => $sm, 'date' => $date ]; 
         $query = new MongoDB\Driver\Query($filter);
 
-        $res = $mng->executeQuery('pageperformance.cache', $query);
+        $res = $mng->executeQuery('pageperformance.' . $db, $query);
         $result = current($res->toArray());
     
         if ( !empty($result) ) {
             $upd = $bulk->update($filter, ['$set' => [$type => $data]]);
-            $mng->executeBulkWrite('pageperformance.cache', $bulk);
+            $mng->executeBulkWrite('pageperformance.' . $db, $bulk);
         } else {
                 $ins = [
                     '_id' => new MongoDB\BSON\ObjectID,
@@ -25,7 +25,7 @@ function mongoUpdate ( $url, $date, $type, $data, $sm ) {
                 ];
 
             $bulk->insert($ins);
-            $mng->executeBulkWrite('pageperformance.cache', $bulk);
+            $mng->executeBulkWrite('pageperformance.' . $db, $bulk);
         }
 
     }  catch (MongoDB\Driver\Exception\Exception $e) {
