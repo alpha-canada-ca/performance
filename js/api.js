@@ -1703,6 +1703,7 @@ const apiCallGSC2 = (d, i, a, uu, dd, lg) => a.map(type => {
 
         var localLocaleStart = moment(res['start']);
         var localLocaleEnd = moment(res['end']);
+        var diff = localLocaleEnd.diff(localLocaleStart, 'days') + 1;
 
         $("#urlStatic").html(res['url']);
         $("#fromGSC").html(res['start']);
@@ -1717,7 +1718,7 @@ const apiCallGSC2 = (d, i, a, uu, dd, lg) => a.map(type => {
         $("#fromdaterangegsc").html("<strong>" + fromdaterange + "</strong>");
         $("#todaterangegsc").html("<strong>" + todaterange + "</strong>");
 
-        $("#numDaysgsc").html(dd);
+        $("#numDaysgsc").html(diff);
 
 
         return res;
@@ -1742,12 +1743,11 @@ const apiCallBP = (d, i, a, uu) => a.map(type => {
     return fetch(request).then(res => res.json()).then(res => {
         if (res['html'].indexOf("No data") == -1) {
             $("#bp-content").html(res['html']);
-            $("#details-panel3-lnk").parent().addClass("show");
+            $("#bp-content").append("<p> For more options and date ranges, please visit <a href='https://feedback-by-page.tbs.alpha.canada.ca/bypage?page=" + uu + "' target='_blank'>"+ "https://feedback-by-page.tbs.alpha.canada.ca/bypage?page=" + uu + "</a></p>");
             $("#details-panel3-lnk").parent().removeClass("hidden");
         } else {
             $("#bp-content").html("");
             $("#details-panel3-lnk").parent().addClass("hidden");
-            $("#details-panel3-lnk").parent().removeClass("show");
             if ($("#details-panel3-lnk").parent().hasClass("active")) {
                 $("#details-panel3-lnk").parent().removeClass("active");
                 $("#details-panel2-lnk").click();
@@ -1757,10 +1757,46 @@ const apiCallBP = (d, i, a, uu) => a.map(type => {
     }).catch(function(err) {
         $("#bp-content").html("");
         $("#details-panel3-lnk").parent().addClass("hidden");
-        $("#details-panel3-lnk").parent().removeClass("show");
         if ($("#details-panel3-lnk").parent().hasClass("active")) {
             $("#details-panel3-lnk").parent().removeClass("active");
             $("#details-panel2-lnk").click();
+        }
+        //console.log(type);
+        //console.log(err.message);
+        //console.log(err.stack);
+    });
+
+});
+
+const apiCallRead = (d, i, a, uu) => a.map(type => {
+    url = "php/process-read.php";
+
+    post = { dates: d, url: i, oUrl: uu, lang: document.documentElement.lang };
+
+    let request = new Request(url, {
+        method: "POST",
+        body: JSON.stringify(post)
+    });
+
+    return fetch(request).then(res => res.json()).then(res => {
+        if (res['html'].indexOf("No data") == -1) {
+            $("#read-content").html(res['html']);
+            $("#details-panel4-lnk").parent().removeClass("hidden");
+        } else {
+            $("#read-content").html("");
+            $("#details-panel4-lnk").parent().addClass("hidden");
+            if ($("#details-panel4-lnk").parent().hasClass("active")) {
+                $("#details-panel4-lnk").parent().removeClass("active");
+                $("#details-panel3-lnk").click();
+            }
+        }
+
+    }).catch(function(err) {
+        $("#read-content").html("");
+        $("#details-panel4-lnk").parent().addClass("hidden");
+        if ($("#details-panel4-lnk").parent().hasClass("active")) {
+            $("#details-panel4-lnk").parent().removeClass("active");
+            $("#details-panel3-lnk").click();
         }
         //console.log(type);
         //console.log(err.message);
@@ -1843,10 +1879,12 @@ const mainQueue = (url, start, end, lang) => {
         }
         var start = moment(vStart).format("YYYY-MM-DDTHH:mm:ss.SSS");
         var end = moment(vEnd).format("YYYY-MM-DDTHH:mm:ss.SSS");
+        var endMD = moment(vEnd).subtract(1, "days").format("YYYY-MM-DDTHH:mm:ss.SSS")
 
+        var dateMD = [ start , endMD ]
         var d = [start, end];
 
-        //console.log( d );
+        console.log( d );
 
         var localLocaleStart = moment(vStart);
         var localLocaleEnd = moment(vEnd);
@@ -1891,7 +1929,13 @@ const mainQueue = (url, start, end, lang) => {
         const dbGetBPMatch = () => {
             url = $("#urlStatic").html();
             oUrl = $("#urlStatic").html();
-            return Promise.all(apiCallBP(d, url, dbCall, oUrl))
+            return Promise.all(apiCallBP(dateMD, url, dbCall, oUrl))
+        }
+
+        const dbGetReadMatch = () => {
+            url = $("#urlStatic").html();
+            oUrl = $("#urlStatic").html();
+            return Promise.all(apiCallRead(d, url, dbCall, oUrl))
         }
 
 
@@ -1922,8 +1966,8 @@ const mainQueue = (url, start, end, lang) => {
         const getGSC = () => {
             url = $("#urlStatic").html();
             oUrl = $("#urlStatic").html();
-            d = [$("#fromGSC").text(), $("#toGSC").text()];
-            return Promise.all(apiCall(d, url, gsc, oUrl, $dd, "gsc"))
+            dd = [$("#fromGSC").text(), $("#toGSC").text()];
+            return Promise.all(apiCall(dd, url, gsc, oUrl, $dd, "gsc"))
         }
         const getTitle = h2 => { return Promise.all([getPageH1(h2[0]['url'])]) }
             /*
@@ -1944,6 +1988,7 @@ const mainQueue = (url, start, end, lang) => {
             .then(() => getMatch())
             .then(() => getGSC())
             .then(() => dbGetBPMatch())
+            .then(() => dbGetReadMatch())
             /*.then( res => { getPreviousPage(res[0]); return res; })
              */
             .then(() => {
