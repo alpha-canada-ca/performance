@@ -1,4 +1,4 @@
-# Page Performance Measurement Tool (PPMT)
+# Page Analytics Tool (PAT)
 
 # Table of Contents #
   * [Setup](#setup)
