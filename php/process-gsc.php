@@ -35,12 +35,12 @@ $date = [ "7daysago", "yesterday" ];
 $lang = "en";
 */
 
-$date = [ "4daysago", "yesterday" ];
+//$date = [ "4daysago", "yesterday" ];
 $url = $d->oUrl;
-//$date = $d->dates;
+$date = $d->dates;
 $start = $date[0];
 $end = $date[1];
-$days = $d->day-1;
+$days = $d->day;
 $oLang = $d->lang;
 
 if ((isset($start) && !empty($start)) && (isset($end) && !empty($end))) {
@@ -80,7 +80,8 @@ foreach ( $type as $t ) {
     
         $date = new DateTime($u);
         $end = $date->format($iso);
-        $start = $date->modify('-' . $days . ' day')->format($iso);
+        
+        $start = (new DateTime($start))->format($iso);
 
         $dates = "$start/$end";
 
