@@ -234,6 +234,23 @@ try {
                         }
 
                         if ($t == "trnd") {
+
+                            /*
+                            $iso = 'Y-m-d\TH:i:s.v';
+
+                            $end2 = new DateTime($end);
+                            $end2 = $end2->modify('-1 year');
+                            $end3 = $end2->format($iso);
+                            $start2 = $end2->modify('-30 day')
+                                ->format($iso);
+                            $end2 = $end3;
+
+                            $date3 = array_merge($date, $date2);
+
+                            $array = array_merge( array( $oUrl, $start, $start2, $end2 ) );
+                            $json = $data[$t];
+
+                            */
                             $iso = 'Y-m-d\TH:i:s.v';
                             $vstep = "day";
                             $start = $dates2[0];
@@ -275,13 +292,14 @@ try {
                             $dates3 = array_merge($dse, $arr1, $arr2);
 
                             $array = array_merge($dates3, array($oUrl));
+                            
                         }
                         else {
                             $json = $data[$t];
                         }
 
                         $json = vsprintf($json, $array);
-                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf" || $t == "prvs") {
+                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf" || $t == "prvs" ) {
                             $json = str_replace("2020-05-16T00:00:00.000", $end, $json);
                             //echo $json;
                         }
