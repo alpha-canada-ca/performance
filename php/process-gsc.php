@@ -36,15 +36,14 @@ $lang = "en";
 */
 
 $days = $d->day;
-if ($days == 1) { $days = 4; }
-$date = [ ( $days . "daysago" ), "yesterday" ];
+$date = $d->dates;
+if ($days == 1) { $days = 4; $date = [ ( $days . "daysago" ), "yesterday" ]; }
 $url = $d->oUrl;
-//$date = $d->dates;
 $start = $date[0];
 $end = $date[1];
 $oLang = $d->lang;
 
-echo $start;
+//echo $start;
 
 if ((isset($start) && !empty($start)) && (isset($end) && !empty($end))) {
         $iso = 'Y-m-d';
@@ -80,11 +79,11 @@ foreach ( $type as $t ) {
   if ($t == "totalDateTest") {
     $response = getReport( $start, $end, $results, $url, $t );
     $u = printResults($analytics, $response, $t);
-
         $date = new DateTime($u);
         $end = $date->format($iso);
         
-        $start = (new DateTime($start))->format($iso);
+        if ($days == 4) { $start = $end; }
+        else { $start = (new DateTime($start))->format($iso); }
 
         $dates = "$start/$end";
 
