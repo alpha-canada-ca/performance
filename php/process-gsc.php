@@ -35,12 +35,13 @@ $date = [ "7daysago", "yesterday" ];
 $lang = "en";
 */
 
-//$date = [ "4daysago", "yesterday" ];
+$days = $d->day;
+if ($days == 1) { $days = 2; }
+$date = [ ( $days . "daysago" ), "yesterday" ];
 $url = $d->oUrl;
-$date = $d->dates;
+//$date = $d->dates;
 $start = $date[0];
 $end = $date[1];
-$days = $d->day;
 $oLang = $d->lang;
 
 if ((isset($start) && !empty($start)) && (isset($end) && !empty($end))) {
@@ -77,7 +78,7 @@ foreach ( $type as $t ) {
   if ($t == "totalDateTest") {
     $response = getReport( $start, $end, $results, $url, $t );
     $u = printResults($analytics, $response, $t);
-    
+
         $date = new DateTime($u);
         $end = $date->format($iso);
         
@@ -182,8 +183,10 @@ function printResults($client, $q, $t) {
           $u->rows[$k]->keys[1] = $rep2;
        } 
      } elseif ( $t == 'totalDateTest') {
+      //print_r($u->rows);
         foreach ( $u->rows as $k => $v ) { 
             end($u->rows);
+            
             if ($k === key($u->rows))
                 return $v['keys'][0];
            } 

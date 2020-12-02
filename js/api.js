@@ -275,7 +275,7 @@ const RANGE = (a, b) => Array.from((function*(x, y) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-const jsonTrendGenerate = (json, day) => {
+const jsonTrendGenerate = (json, day, dates) => {
     var rows = json["rows"][0];
 
     if (rows != null) {
@@ -295,9 +295,20 @@ const jsonTrendGenerate = (json, day) => {
             lval = lval.slice(-1);
         }
 
+        console.log(val)
+
         $cnt = val.length;
 
+        var valVar = [];
+
+        for (var m = moment(dates[0]); m.isBefore(dates[1]); m.add(1, 'days')) {
+            valVar.push( m.format('YYYY-MM-DD'));
+        }
+
+        //console.log(val)
+
         $rng = RANGE(1, $cnt);
+        console.log($rng)
         var dd = "day"
         const granularity = dd.replace(/^\w/, c => c.toUpperCase());
 
@@ -380,7 +391,7 @@ const jsonTrendGenerate = (json, day) => {
         var chart2 = new Chart(ctx2, {
             type: "line",
             data: {
-                labels: $rng,
+                labels: valVar,
                 datasets: [{
                     label: $.i18n("CurrentYear"),
                     data: val,
@@ -508,7 +519,7 @@ const jsonPrevious = (json, day) => {
 
         var ref = [];
 
-        Promise.all(getPageTitle(arrayP)).then(res => {
+        /*Promise.all(getPageTitle(arrayP)).then(res => {
             $.each(arrayP, function(index, value) {
                 url = value["value"];
                 term = (res[index] == null) ? url : res[index];
@@ -536,6 +547,33 @@ const jsonPrevious = (json, day) => {
                 $prev.html($.i18n("Nodata"));
             }
         }).catch(console.error.bind(console));
+        */
+
+            $.each(arrayP, function(index, value) {
+                url = value["value"];
+                term = url;
+                clicks = value["data"][day];
+                f = (url == "blank page url") ? $.i18n("Directtraffic/Bookmark") : ("<a href='" + url + "'>" + term + "</a>");
+
+                var obj = {};
+                obj[$.i18n("PreviouspageURL")] = f;
+                obj[$.i18n("Visits")] = clicks;
+                ref.push(obj);
+            });
+
+            if (ref.length != 0) {
+                //res.sort((a, b)=> b[$.i18n("Visits")] - a[$.i18n("Visits")]);
+
+                $(val).html(getTable(5, "false"));
+                let table = document.querySelector(val + " table");
+                let data = Object.keys(ref[0]);
+                generateTable(table, ref);
+                generateTableHead(table, data, title);
+
+                $(val + " table").trigger("wb-init.wb-tables");
+            } else {
+                $prev.html($.i18n("Nodata"));
+            }
 
 
         //console.log(ref[0]);
@@ -1240,6 +1278,7 @@ const jsonGSCTotal = (json, day) => {
             fImp = nFormatter(imp, 1);
             $imp.prepend("<span class='h1'>" + fImp + "</span>"); //</br><span class='small'>" + visit +" "+ $.i18n("total")+"</span>");
 
+            /*
             ctr = parseFloat(r["ctr"])
             if (document.documentElement.lang == "fr") {
                 var end = "&nbsp;%"
@@ -1252,11 +1291,14 @@ const jsonGSCTotal = (json, day) => {
             pos = parseFloat(r["position"])
             fPos = nFormatter(pos, 1);
             $pos.prepend("<span class='h1'>" + fPos + "</span>"); //</br><span class='small'>" + pv +" "+ $.i18n("total")+"</span>");
+            */
         }
 
     } else {
-        $uv.html("0");
-        $rap.html("0");
+        $clicks.html("0")
+        $imp.html("0")
+        $ctr.html("0")
+        $pos.html("0")   
     }
 
 }
@@ -1286,17 +1328,20 @@ const jsonGSCGenerate = (json, day) => {
             } else {
                 var end = "%";
             }
+            /*
             ctr.push(parseFloat((val['ctr'] * 100)).toFixed(1));
             pos.push(parseFloat(val['position']).toFixed(1));
+            */
             keys.push(val['keys'][0]);
 
             var obj = {};
             obj[$.i18n("Day")] = val['keys'][0];
             obj[$.i18n("Clicks")] = val['clicks'].toLocaleString(document.documentElement.lang + "-CA");
             obj[$.i18n("Impressions")] = val['impressions'].toLocaleString(document.documentElement.lang + "-CA");
+            /*
             obj[$.i18n("CTR")] = parseFloat((val['ctr'] * 100).toFixed(1)).toLocaleString(document.documentElement.lang + "-CA") + end;
             obj[$.i18n("Position")] = val['position'].toFixed(1).toLocaleString(document.documentElement.lang + "-CA");
-
+            */
             $obj.push(obj);
         });
 
@@ -1340,7 +1385,7 @@ const jsonGSCGenerate = (json, day) => {
                         display: true,
                         labelString: $.i18n("Impressions")
                     }
-                }, {
+                }/*, {
 
                     id: 'y-axis-2',
                     type: 'linear',
@@ -1366,7 +1411,7 @@ const jsonGSCGenerate = (json, day) => {
                         display: true,
                         labelString: $.i18n("Position")
                     }
-                }],
+                }*/],
                 xAxes: [{
                     scaleLabel: {
                         display: true,
@@ -1419,7 +1464,7 @@ const jsonGSCGenerate = (json, day) => {
                     data: imp,
                     fill: false,
                     borderColor: "#5e35b1"
-                }, {
+                }/*, {
                     yAxisID: 'y-axis-2',
                     label: $.i18n("CTR"),
                     data: ctr,
@@ -1431,7 +1476,7 @@ const jsonGSCGenerate = (json, day) => {
                     data: pos,
                     fill: false,
                     borderColor: "#e8710a"
-                }]
+                }*/]
             },
             options: options
         });
@@ -1623,7 +1668,7 @@ const apiCall = (d, i, a, uu, dd, fld) => a.map(type => {
             case "srchLeftAll":
                 return jsonSearches(res, dd);
             case "trnd":
-                return jsonTrendGenerate(res, dd);
+                return jsonTrendGenerate(res, dd, d);
                 //case "pltfrm" : return jsonPieGenerate(res);
             case "prvs":
                 return jsonPrevious(res, dd);
@@ -1988,7 +2033,7 @@ const mainQueue = (url, start, end, lang) => {
             .then(() => getMatch())
             .then(() => getGSC())
             .then(() => dbGetBPMatch())
-            .then(() => dbGetReadMatch())
+            //.then(() => dbGetReadMatch())
             /*.then( res => { getPreviousPage(res[0]); return res; })
              */
             .then(() => {
