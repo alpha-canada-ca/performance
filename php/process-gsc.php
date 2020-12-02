@@ -36,13 +36,15 @@ $lang = "en";
 */
 
 $days = $d->day;
-if ($days == 1) { $days = 2; }
+if ($days == 1) { $days = 4; }
 $date = [ ( $days . "daysago" ), "yesterday" ];
 $url = $d->oUrl;
 //$date = $d->dates;
 $start = $date[0];
 $end = $date[1];
 $oLang = $d->lang;
+
+echo $start;
 
 if ((isset($start) && !empty($start)) && (isset($end) && !empty($end))) {
         $iso = 'Y-m-d';
