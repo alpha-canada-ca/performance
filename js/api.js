@@ -1780,7 +1780,7 @@ const jsonGSCGenerate = (json, day) => {
                 bodyFontSize: 16,
                 callbacks: {
                     label: function(tooltipItem, data) { 
-                      return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel) + ' visits';
+                      return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel);
                     }
                 }
             },
