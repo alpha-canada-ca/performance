@@ -1,4 +1,4 @@
-# Page Performance Measurement Tool (PPMT)
+# Page Analytics Tool (PAT)
 
 # Table of Contents #
   * [Setup](#setup)
@@ -14,7 +14,8 @@
 * PHP 7.2 and above
   * If that cannot be provided, above PHP 5.5.
 * PHP with the extensions enabled:
-  * curl; and
-  * openssl
+  * curl;
+  * openssl; and
+  * mongodb
 * OpenSSL above 1.0.1 (or latest)
 * MongoDB
