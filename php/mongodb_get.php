@@ -3,7 +3,7 @@
 function mongoGet ( $url, $date, $type, $sm, $db, $lang) {
     try {
 
-        $mng = new MongoDB\Driver\Manager("mongodb://localhost:27017");
+        $mng = new MongoDB\Driver\Manager("mongodb://mongodb:27017");
         $bulk = new MongoDB\Driver\BulkWrite;
         $filter = [ 'url' => $url, 'field' => $sm, 'date' => $date, 'lang' => $lang ]; 
         $query = new MongoDB\Driver\Query($filter);
