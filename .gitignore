@@ -1,7 +1,7 @@
 **/secrets
 **/config.php
+**/config-at.php
 **/keys
 php/service-account-credentials.json
 php/config.php
-php/lib/google-api-php-client/vendor/google/apiclient-services/src/Google/Service/Document/.DS_Store
-php/lib/google-api-php-client/vendor/google/apiclient-services/src/Google/Service/.DS_Store
+php/config-at.php

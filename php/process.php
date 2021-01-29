@@ -11,6 +11,7 @@ try {
     $field =  $d->field;
     $start = $date[0];
     $end = $date[1];
+    $lang = $d->lang;
 
     $mode = (empty($_REQUEST["mode"])) ? "update" : $_REQUEST["mode"];
 
@@ -39,6 +40,7 @@ try {
     if ((isset($url) && !empty($url))) {
 
         require_once('mongodb_get.php');
+        require_once('mongodb_delete.php');
         $origUrl = $url;
 
         if (substr($url, 0, 8) == "https://") {
@@ -61,7 +63,7 @@ try {
                 $oDate = "$start/$end";
             }
 
-            if ( $type == "activityMap" || $type == "metrics" || $type == "srchAll" || $type == "refType" || $type == "snmAll" || $type == "srchLeftAll" || $type == "fwylf" || $type == "prvs" || $type == "trnd") {
+            if ( $type == "activityMap" || $type == "metrics-new" || $type == "srchAll" || $type == "refType" || $type == "snmAll" || $type == "srchLeftAll" || $type == "fwylf" || $type == "prvs" || $type == "trnd") {
                 $oDate = $dates2[0] . "/" . $end;
                 $sm = "multi";
             } else {
@@ -69,12 +71,41 @@ try {
             }
             if ($mode == "update") {
                 if ($field == "aa") {
-                    $md = mongoGet($oUrl, $oDate, $type, $sm, "search");
+                    $md = mongoGet($oUrl, $oDate, $type, $sm, "search", $lang);
                 } else {
-                    $md = mongoGet($origUrl, $oDate, $type, "multi", "search");
+                    $md = mongoGet($origUrl, $oDate, $type, "multi", "search","bi");
                 }
                 if ($md) {
-                    echo ($md);
+                    //$md = json_encode( array('bypol' => 'fgfg', 'errorCode' => 'yaaaaydfgy' ));
+                    $oMd = $md;
+                    $md = json_decode( $md, true );
+
+                    if ( $md['error'] ) {
+                        $error = 1;
+                        $md = json_encode( array('error' => $md['error'], 'message' => $md['message'] ));
+                    } else if ( $md['errorCode'] ) {
+                        $error = 1;
+                        $md = json_encode( array('error' => ( $md['errorId'] . ' - ' . $md['errorCode'] ), 'message' => $md['errorDescription'] ));
+                    } else if ( $md['error_code'] ) {
+                        $error = 1;
+                        $md = json_encode( array('error' => $md['error_code'], 'message' => $md['message'] ));
+                    } else {
+                        $error = 0;
+                        $md = json_encode( $md );
+                    }
+
+                    if ( $error ) {
+                        if ($field == "aa") {
+                            mongoDelete($oUrl, "search", $type, $oMd, $sm, $oDate, $lang);
+                        } else {
+                            mongoDelete($oUrl, "search", $type, $oMd, "multi", $oDate, "bi");
+                        }
+                    }
+
+                    echo $md;
+                    return;
+                } else {
+                    echo json_encode(array('error' => "No data", 'message' => 'Could not fetch data from database'));
                     return;
                 }
             }

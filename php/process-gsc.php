@@ -88,13 +88,13 @@ foreach ( $type as $t ) {
         $dates = "$start/$end";
 
   } else {
-    $md = mongoGet($url, $dates, $t, "multi", "search");
+    $md = mongoGet($url, $dates, $t, "multi", "search", "bi");
     if ($md) {
         continue;
     }
     $response = getReport( $start, $end, $results, $url, $t );
     $u = printResults($analytics, $response, $t);
-    mongoUpdate($url, $dates, $t, $u, "multi", "search");
+    mongoUpdate($url, $dates, $t, $u, "multi", "search", "bi");
   }
 }
 

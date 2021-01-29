@@ -21,7 +21,7 @@ if ((isset($start) && !empty($start)) && (isset($end) && !empty($end))) {
 }
 $dates = "$start/$end";
 $byPageURL = 'https://readability-lisibilite.tbs.alpha.canada.ca/read_score?url='.$url.'&lang='.$oLang;
-$md = mongoGet($byPageURL, $end, 'html', 'multi', "search");
+$md = mongoGet($byPageURL, $end, 'html', 'multi', "search", "bi");
 $output = '';
 if ($md) {
   $output = $md;
@@ -32,7 +32,7 @@ if ($md) {
     $output = $output->innertext();
     $output = json_encode($output);
     $output = '{ "html":'.' '.$output.'}';
-    mongoUpdate($byPageURL, $end, 'html', $output, "multi", "search");
+    mongoUpdate($byPageURL, $end, 'html', $output, "multi", "search", "bi");
   } catch (Throwable $e) {
     $output = "no data";
   }

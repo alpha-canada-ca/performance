@@ -1,7 +1,7 @@
 <?php
 session_start();
 //session_unset();
-//ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 function dateRange($first, $last, $step, $format = 'Y-m-d\TH:i:s.v') {
     $dates = [];
     $step = '+1 ' . $step;
@@ -36,15 +36,23 @@ function strposa($haystack, $needle, $offset = 0) {
 }
 
 try {
-    $d = json_decode(file_get_contents('php://input'));
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $d = json_decode(file_get_contents('php://input'));
+        $url = $d->oUrl;
+        $date = $d->dates;
+        $start = $date[0];
+        $end = $date[1];
+        $oLang = $d->lang;
+        $dbAccess = "search";
+    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $url = $_REQUEST["url"];
+        $start = $_REQUEST["start"];
+        $end = $_REQUEST["end"];
+        $oLang = $_REQUEST["lang"];
+        $dbAccess = "cache";
+    }
 
     $data = include ('data.php');
-
-    $url = $d->oUrl;
-    $date = $d->dates;
-    $start = $date[0];
-    $end = $date[1];
-    $oLang = $d->lang;
 
     $mode = (empty($_REQUEST["mode"])) ? "update" : $_REQUEST["mode"];
 
@@ -131,6 +139,27 @@ try {
             $origUrl = $url;
 
             $url = substr($url, -255);
+
+            echo $url;
+
+            $isApp = 0;
+
+            if (preg_match("/apps[1-8].ams-sga.cra-arc.gc.ca/", $url)) {
+                $url = substr( $url, 5, strlen($url));
+                $func = "ends-with";
+                $segFunc = "ends-with";
+                $isApp = 1;
+                if ($oLang) { $dataLang = $data['langFra']; $lang = "fr"; }
+                else { $dataLang = $data['langEng']; $lang = "en"; }
+
+            } else {
+                $func = "contains";
+                $segFunc = "streq";
+                $isApp = 0;
+                $dataLang = "";
+                $lang = "bi";
+            }
+
             $oUrl = $url;
 
             if ($url == "www.canada.ca") {
@@ -138,8 +167,11 @@ try {
                 $pUrl = "www.canada.ca/home.html";
             }
 
+            echo $url;
+            echo $isApp;
           
             $bUrl = substr('https://' . $origUrl, 0, 255);
+
             $html = file_get_html('https://' . $origUrl);
 
             foreach ($html->find('form') as $e) {
@@ -170,17 +202,21 @@ try {
 
             $globalSearchEn = "www.canada.ca/en/sr/srb.html";
             $globalSearchFr = "www.canada.ca/fr/sr/srb.html";
-            if ($searchURL === $globalSearchEn || $searchURL === $globalSearchFr) {
-                $type = ["trnd", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "refType", "metrics","fwylf"];
+            if (!$isApp && ( $searchURL === $globalSearchEn || $searchURL === $globalSearchFr )) {
+                $type = ["trnd", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "metrics-new", "fwylf"];
                 $hasContextual = false;
             }
             else {
-                if ($origUrl == 'www.canada.ca' || $origUrl == 'www.canada.ca/home.html') {
-                    $type = [ "trnd", "prvs", "activityMap", "refType", "metrics","fwylf"];
+                if ( !$isApp && ( $origUrl == 'www.canada.ca' || $origUrl == 'www.canada.ca/home.html')) {
+                    $type = [ "trnd", "prvs", "activityMap", "metrics-new", "fwylf"];
                     $hasContextual = false;
                 }
                 else {
-                    $type = ["trnd", "prvs", "srchAll", "activityMap", "refType", "snmAll", "srchLeftAll", "metrics","fwylf"];
+                    if ( $isApp ) {
+                        $type = ["trnd", "prvs", "metrics-new"];
+                    } else {
+                        $type = ["trnd", "prvs", "srchAll", "activityMap", "snmAll", "srchLeftAll", "metrics-new", "fwylf"];
+                    }
                     $hasContextual = true;
                 }
             }
@@ -191,7 +227,7 @@ try {
                 $oDate = "$start/$end";
 
                 if ($mode == "delete") {
-                    mongoDelete($oUrl, "search");
+                    mongoDelete($oUrl, $dbAccess);
 
                 }
                 else if ($mode == "update") {
@@ -200,12 +236,12 @@ try {
                     foreach ($type as $t) {
 
                         $sm = "single";
-                        if ( $t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf" || $t == "prvs" || $t == "trnd" ) {
+                        if ( $t == "activityMap" || $t == "metrics-new" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf" || $t == "prvs" || $t == "trnd" ) {
                             $oDate = $dates2[0] . "/" . $end;
                             $sm = "multi";
                         }
                         //echo "<br /><br />$t<br />$oDate<br /><br />";
-                        $md = mongoGet($oUrl, $oDate, $t, $sm, "search");
+                        $md = mongoGet($oUrl, $oDate, $t, $sm, $dbAccess, $lang);
                         if ($md) {
                             //echo ($md);
                             continue;
@@ -213,26 +249,42 @@ try {
                         $array = array($start, $end);
 
                         if ($t == "srchAll") {
-                            $array = array_merge(array($bUrl), $dates2);
+                            $array = array_merge(array($segFunc, $bUrl), $dates2);
                         } else if ($t == "refType") {
-                            $array = array_merge(array($oUrl), $dates2);
+                            $array = array_merge(array($segFunc, $oUrl), $dates2);
                         } else if ($t == "fwylf") {
-                            $array = array_merge(array($oUrl), $dates2);
+                            $array = array_merge(array($segFunc, $oUrl), $dates2);
                         } else if ($t == "prvs") {
-                            $array = array_merge( array( $oUrl ), $dates2 );
+                            $array = array_merge( array( $dataLang, $segFunc, $oUrl ), $dates2 );
                         } else if ( $t == "activityMap" ) {
                             $array = array_merge ( array($titlePage), $dates2 );
                         } else if ( $t == "snmAll" ) {
-                            $array = array_merge ( array($searchURL), $dates2, array($bUrl) );
+                            $array = array_merge ( array($segFunc, $searchURL), $dates2, array(strtoupper($func), $bUrl) );
                         } else if ( $t == "srchLeftAll" ) {
-                            $array = array_merge ( array($searchURL, $bUrl), $dates2 );
-                        } else if ( $t == "metrics" ) {
-                            $array = array( $oUrl );
+                            $array = array_merge ( array($segFunc, $searchURL, $segFunc, $bUrl), $dates2 );
+                        } else if ( $t == "metrics-new" ) {
+                            $array = array( $dataLang, $segFunc, $oUrl );
+                        } else if ( $t == "trnd" ) {
+                            $iso = 'Y-m-d\TH:i:s.v';
+
+                            $end2 = new DateTime($end);
+                            $end2 = $end2->modify('-1 year');
+                            $end3 = $end2->format($iso);
+                            $start2 = $end2->modify('-30 day')
+                                ->format($iso);
+                            $end2 = $end3;
+
+                            $array = array_merge( array( $dataLang, $segFunc, $oUrl, $dates2[0], $end ) );
+                            $array2 = array_merge( array( $dataLang, $segFunc, $oUrl, $start2, $end2 ) );
+
+                            $json = $data[$t];
+
                         }
                         else {
                             $array = array_merge($array, array($oUrl));
                         }
 
+                        /*
                         if ($t == "trnd") {
 
                             /*
@@ -251,6 +303,8 @@ try {
                             $json = $data[$t];
 
                             */
+
+                            /*
                             $iso = 'Y-m-d\TH:i:s.v';
                             $vstep = "day";
                             $start = $dates2[0];
@@ -291,28 +345,39 @@ try {
 
                             $dates3 = array_merge($dse, $arr1, $arr2);
 
-                            $array = array_merge($dates3, array($oUrl));
+                            $array = array_merge($dates3, array(strtoupper($func), $oUrl));
                             
                         }
                         else {
                             $json = $data[$t];
                         }
+                        */
 
-                        $json = vsprintf($json, $array);
-                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf" || $t == "prvs" ) {
+                        $json = $data[$t];
+
+                        if ($t == "activityMap" || $t == "metrics-new" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf" || $t == "prvs" ) {
                             $json = str_replace("2020-05-16T00:00:00.000", $end, $json);
-                            //echo $json;
                         }
-                        if ($t == "metrics" ) {
+                        if ($t == "metrics-new" ) {
                             $json = str_replace("*month*", $dates2[0], $json);
                             $json = str_replace("*week*", $dates2[1], $json);
                             $json = str_replace("*yesterday*", $dates2[2], $json);
-                            //echo $json;
                         }
                         
                         //echo "<br /><br />$t&nbsp;&nbsp;&nbsp;$start&nbsp;&nbsp;&nbsp;&nbsp;$end&nbsp;&nbsp;&nbsp;&nbsp;$oDate";
                         
-                        $api[] = $json;
+                        if ( $t == "trnd" ) {
+
+                            $json2 = vsprintf($json, $array);
+                            $api[] = [ $json2, ($t . "1") ];
+
+                            $json2 = vsprintf($json, $array2);
+                            $api[] = [ $json2, ($t . "2") ];
+                        } else {
+                            $json = vsprintf($json, $array);
+                            $api[] = [ $json, $t ];
+                        }
+                        
                         //echo "<br />$api<br />";
                         /*
                           if ($t == "prevp" || $t == "trnd" || $t == "srch")
@@ -334,12 +399,6 @@ try {
                         //mongoUpdate($oUrl, $oDate, $t, $api, $sm);
 
                     }
-                    
-                    $result = api_post($config['ADOBE_API_KEY'], $config['COMPANY_ID'], $_SESSION['token'], $api);
-
-                    foreach($result as $r => $res) {
-                        mongoUpdate($oUrl, $oDate, $type[$r], $res, "multi", "search");
-                    }
 
                 }
             }
@@ -350,8 +409,28 @@ catch(Exception $ex) {
     echo json_encode(array('error' => $ex));
 }
 
+$result = api_post($config['ADOBE_API_KEY'], $config['COMPANY_ID'], $_SESSION['token'], $api);
 
+$trnd = [];
 
+foreach($result as $r => $res) {
+    //echo $r . $api[$r][1];
+    //echo sprintf( "%s %s %s %s", $oUrl, $oDate, $type[$r], $res );
+    if ( $api[$r][1] == "trnd1" || $api[$r][1] == "trnd2" ) {
+        $trnd[] = $res;
+    } else {
+        mongoUpdate($oUrl, $oDate, $api[$r][1], $res, "multi", $dbAccess, $lang);
+    }
+}
+
+if ( count($trnd) ) {
+
+    $a = json_decode($trnd[0],true);
+    $b = json_decode($trnd[1],true);
+
+    $json = json_encode(array_merge_recursive($a,$b));
+    mongoUpdate($oUrl, $oDate, "trnd", $json, "multi", $dbAccess, $lang);
+}
 
 
 ?>

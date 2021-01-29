@@ -26,7 +26,7 @@ function api_post( $apiKey, $company_id, $token, $arrayData )
         curl_setopt($multiCurl[$i], CURLOPT_POST, 1);
         curl_setopt($multiCurl[$i], CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($multiCurl[$i], CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($multiCurl[$i], CURLOPT_POSTFIELDS, $data);
+        curl_setopt($multiCurl[$i], CURLOPT_POSTFIELDS, $data[0]);
         curl_setopt($multiCurl[$i], CURLOPT_RETURNTRANSFER, true);
 
         curl_multi_add_handle($mh, $multiCurl[$i]);
