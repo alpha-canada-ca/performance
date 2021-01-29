@@ -64,6 +64,32 @@ function getQueryParams() {
     return result;
 }
 
+function extractJSON (obj, indent) {
+        var isError = false;
+          for (const i in obj) {
+            if (Array.isArray(obj[i]) || typeof obj[i] === 'object') {
+              console.log(indent + i + ' is array or object');
+              isError = extractJSON(obj[i], indent + ' > ' + i + ' > ');
+              if (i === "error") {
+                isError = true;
+                console.log(isError)
+              }
+            } else {
+              console.log(indent + i + ': ' + obj[i]);
+              if (i === "error") {
+                isError = true;
+                $("#errorHeader").html(obj[i]);
+                console.log(isError)
+              } else if ( i === "message" ) {
+                isError = true;
+                $("#errorDetails").html(obj[i]);
+                console.log(isError)
+              }
+            }
+          }
+          return isError;
+        }
+
 function setQueryParams(url, date) {
     window.history.pushState("Query Parameters", "Addition of Queries", "?url=" + url + "&date=" + date);
 }
@@ -140,6 +166,269 @@ function generateTable(table, data) {
     }
 }
 
+    function getPDF2(){
+        var arr = [ '#canvas-container' ];
+        var deferreds = [];
+        var pdf = new jsPDF();
+        $.each(arr, function( i, val ) {
+            console.log(val)
+            var deferred = $.Deferred();
+            generateCanvas(val, pdf, deferred);
+            deferreds.push(deferred.promise());
+        });
+
+        $.when.apply($, deferreds).then(function () { // executes after adding all images
+          pdf.save("HTML-Document.pdf");
+        });
+    }
+
+    function generateCanvas ( val, pdf, deferred ) {
+        var HTML_Width = $( val ).width();
+        var HTML_Height = $( val ).height();
+        var top_left_margin = 20;
+        var PDF_Width = HTML_Width+(top_left_margin*2);
+        var PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
+        var canvas_image_width = HTML_Width;
+        var canvas_image_height = HTML_Height;
+        
+        var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
+        
+
+        html2canvas($( val )[0],{allowTaint:true, scrollX: 0, scrollY: -window.scrollY }).then(function(canvas) {
+
+                 canvas.getContext('2d');
+
+console.log(canvas.height+"  "+canvas.width);
+            
+            
+            var imgData = canvas.toDataURL("image/jpeg", 1.0);
+            var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+            //pdf.setFontSize(40)
+            //pdf.text(35, 25, 'Paranyan loves jsPDF')
+
+            pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
+            
+            
+            for (var i = 1; i <= totalPDFPages; i++) { 
+                pdf.addPage(PDF_Width, PDF_Height);
+                //pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+                pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*(2*i+1)), canvas_image_width,canvas_image_height);
+            }
+
+            /*
+            var img = canvas.toDataURL();
+            doc.addImage(img, 'PNG');
+            doc.addPage(); 
+            */
+
+            deferred.resolve();
+            
+            
+
+        });
+    }
+
+function genPDF() { 
+
+    var arr = [ '#canvas-container' ];
+        var deferreds = [];
+        var pdf = new jsPDF();
+        $.each(arr, function( i, val ) {
+            console.log(val)
+            var deferred = $.Deferred();
+            generateCanvas(val, pdf, deferred);
+        });
+
+
+    $.when.apply($, deferreds).then(function () { // executes after adding all images
+      pdf
+      .save('test.pdf');
+    });
+}
+
+function generateCanvas2(i, doc, deferred){
+
+    html2canvas($(i)[0], {
+
+        onrendered: function (canvas) {
+
+            var img = canvas.toDataURL();
+            doc.addImage(img, 'PNG');
+            doc.addPage(); 
+
+            deferred.resolve();
+         }
+    });
+}
+
+    function getPDF(){
+
+        var HTML_Width = $("main").width();
+        var HTML_Height = $("main").height();
+        var top_left_margin = 20;
+        var PDF_Width = HTML_Width+(top_left_margin*2);
+        var PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
+        var canvas_image_width = HTML_Width;
+        var canvas_image_height = HTML_Height;
+        
+        var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
+        
+
+        html2canvas($("main")[0],{allowTaint:true, scrollX: 0, scrollY: -window.scrollY }).then(function(canvas) {
+            canvas.getContext('2d');
+            
+            console.log(canvas.height+"  "+canvas.width);
+            
+            
+            var imgData = canvas.toDataURL("image/jpeg", 1.0);
+            var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+            //pdf.setFontSize(40)
+            //pdf.text(35, 25, 'Paranyan loves jsPDF')
+
+            pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
+            
+            
+            for (var i = 1; i <= totalPDFPages; i++) { 
+                pdf.addPage(PDF_Width, PDF_Height);
+                //pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+                pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*(2*i+1)), canvas_image_width,canvas_image_height);
+            }
+            
+            pdf.save("HTML-Document.pdf");
+        });
+    }
+
+/*
+    var options = {
+            pagesplit: true,
+            background: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
+        };
+        pdf.addHTML($('#canvas-container')[0], options, function () {
+                pdf.save('Test.pdf');
+        });
+        */
+
+function printToPDF() {
+  console.log('converting...');
+
+  /*
+
+  var printableArea = document.getElementById('printable');
+
+  html2canvas(printableArea, {
+    useCORS: true,
+    onrendered: function(canvas) {
+
+      var pdf = new jsPDF('p', 'pt', 'letter');
+
+      var pageHeight = 980;
+      var pageWidth = 900;
+      for (var i = 0; i <= printableArea.clientHeight / pageHeight; i++) {
+        var srcImg = canvas;
+        var sX = 0;
+        var sY = pageHeight * i; // start 1 pageHeight down for every new page
+        var sWidth = pageWidth;
+        var sHeight = pageHeight;
+        var dX = 0;
+        var dY = 0;
+        var dWidth = pageWidth;
+        var dHeight = pageHeight;
+
+        window.onePageCanvas = document.createElement("canvas");
+        onePageCanvas.setAttribute('width', pageWidth);
+        onePageCanvas.setAttribute('height', pageHeight);
+        var ctx = onePageCanvas.getContext('2d');
+        ctx.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
+
+        var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
+        var width = onePageCanvas.width;
+        var height = onePageCanvas.clientHeight;
+
+        if (i > 0) // if we're on anything other than the first page, add another page
+          pdf.addPage(612, 791); // 8.5" x 11" in pts (inches*72)
+
+        pdf.setPage(i + 1); // now we declare that we're working on that page
+        pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width * .62), (height * .62)); // add content to the page
+
+      }
+      pdf.save('test.pdf');
+    }
+  });
+  */
+  /*
+  var doc = new jsPDF();          
+var elementHandler = {
+  '#ignorePDF': function (element, renderer) {
+    return true;
+  }
+};
+var source = window.document.getElementsByTagName("main")[0];
+console.log( source );
+doc.fromHTML(
+    source,
+    15,
+    15,
+    {
+      'width': 180,'elementHandlers': elementHandler
+    });
+
+doc.output("dataurlnewwindow");
+
+
+
+
+ var pdf = new jsPDF('p', 'pt', [1400, 792]);
+ pdf.setFontSize(5);
+   pdf.text(20, 20, 'Consulta');
+    // source can be HTML-formatted string, or a reference
+    // to an actual DOM element from which the text will be scraped.
+    source = window.document.getElementsByTagName("main")[0]; //$('#customers')[0];
+
+    // we support special element handlers. Register them with jQuery-style 
+    // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+    // There is no support for any other type of selectors 
+    // (class, of compound) at this time.
+    specialElementHandlers = {
+        // element with id of "bypass" - jQuery style selector
+        '#bypassme': function (element, renderer) {
+            // true = "handled elsewhere, bypass text extraction"
+            return true
+        }
+    };
+    margins = {
+        top: 80,
+        bottom: 60,
+        left: 40,
+        width: 522
+    };
+
+    // all coords and widths are in jsPDF instance's declared units
+    // 'inches' in this case
+    pdf.fromHTML(
+    source, // HTML string or DOM elem ref.
+    margins.left, // x coord
+    margins.top, { // y coord
+        'width': margins.width, // max width of content on PDF
+        'elementHandlers': specialElementHandlers
+    },
+
+    function (dispose) {
+        // dispose: object with X, Y of the last line add to the PDF 
+        //          this allow the insertion of new lines after html
+        pdf.save('Test.pdf');
+    }, margins);
+    */
+
+    var pdf = new jsPDF('p', 'pt', 'letter');
+        var options = {
+            pagesplit: true,
+            background: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
+        };
+        pdf.addHTML($('#canvas-container')[0], options, function () {
+                pdf.save('Test.pdf');
+        });
+}
+
 /**
  * { function_description }
  *
@@ -160,6 +449,8 @@ const jsonPieGenerate = (arr) => {
     }];
 
     var options = {
+        responsive : true,
+        maintainAspectRatio: false,
         plugins: {
             beforeInit: (chart, options) => {
                 Chart.Legend.afterFit = function() {
@@ -276,13 +567,19 @@ const RANGE = (a, b) => Array.from((function*(x, y) {
   };
 
 const jsonTrendGenerate = (json, day, dates) => {
-    var rows = json["rows"][0];
+    var rows = json['rows'];
 
     if (rows != null) {
         $("#trends").remove()
         $("#trends-canvas").append("<canvas id='trends'></canvas>")
 
-        arr = rows["data"];
+        var keys = Object.keys(rows);
+        var arr = [];
+        for(var i=0; i<keys.length; i++){
+            var key = keys[i];
+            arr.push( rows[key]['data'] )
+        }
+
         $cnt = arr.length
         val = arr.slice(0, $cnt / 2);
         lval = arr.slice($cnt / 2, $cnt);
@@ -332,6 +629,8 @@ const jsonTrendGenerate = (json, day, dates) => {
         };
 
         var options = {
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 datalabels: {
                     display: false
@@ -349,7 +648,7 @@ const jsonTrendGenerate = (json, day, dates) => {
                         // Return an empty string to draw the tick line but hide the tick label
                         // Return `null` or `undefined` to hide the tick line entirely
                        callback: function(value, index, values) {
-                            return Intl.NumberFormat().format((value/1000)) + 'K';
+                            return Intl.NumberFormat().format((value/1000));
                         }
                     }
                 }],
@@ -823,20 +1122,19 @@ const jsonOutbound = (json, url) => {
 }
 
 const jsonRT = (json, day) => {
-    var rows = json["rows"][0];
+    //var rows = json["rows"][0];
     val = "#reft";
     title = $.i18n("Referringtypes");
     var $ref = $(val);
 
-    if (rows != null) {
-        var array = json["rows"];
+        var array = json;
         $ref.html("");
 
         var ref = [];
 
         $.each(array, function(index, value) {
-            term = value["value"];
-            clicks = value["data"][day];
+            term = value[0];
+            clicks = value[1];
             var obj = {};
             obj[$.i18n("Type")] = $.i18n(term.replace(/\s/g, ''));
             obj[$.i18n("Visits")] = clicks;
@@ -869,10 +1167,6 @@ const jsonRT = (json, day) => {
         } else {
             $ref.html($.i18n("Nodata"));
         }
-
-    } else {
-        $ref.html($.i18n("Nodata"));
-    }
 }
 
 function getTable($pageLength = null, $search = null, $info = null, $lengthChange = null, $order = null, $length = null, $display = null, $class = null) {
@@ -1105,7 +1399,7 @@ const jsonFWYLF = (json, day) => {
                 term = $.i18n(terms[0]);
             }
             obj[$.i18n("Reason")] = term;
-            obj[$.i18n("Clicks")] = clicks;
+            obj[$.i18n("Submits")] = clicks;
             next.push(obj);
 
         });
@@ -1123,7 +1417,7 @@ const jsonFWYLF = (json, day) => {
             $(val).html( getTable( $pageLength ) );
             */
             var $pageLength = 10;
-            $next.html(getTable($pageLength));
+            $next.html(getTable($pageLength, "false", "false", "false"));
             let table = document.querySelector(val + " table");
             let data = Object.keys(next[0]);
             generateTable(table, next);
@@ -1168,10 +1462,31 @@ const jsonMetrics = (json, day) => {
     var findLookingForYesNum = 51 + parseInt(day);
     var findLookingForInstancesNum = 54 + parseInt(day);
 
+    var albertaNum = 57 + parseInt(day);
+    var bcNum = 60 + parseInt(day);
+    var manitobaNum = 63 + parseInt(day);
+    var newBrunswickNum = 66 + parseInt(day);
+    var newfoundlandNum = 69 + parseInt(day);
+    var northwestTerritoriesNum = 72 + parseInt(day);
+    var novaScotiaNum = 75 + parseInt(day);
+    var nunavutNum = 78 + parseInt(day);
+    var ontarioNum = 81 + parseInt(day);
+    var outsideCanadaNum = 84 + parseInt(day);
+    var peiNum = 87 + parseInt(day);
+    var quebecNum = 90 + parseInt(day);
+    var saskatchewanNum = 93 + parseInt(day);
+    var yukonNum = 96 + parseInt(day);
+
+    var searchEngineNum = 99 + parseInt(day);
+    var otherWebsitesNum = 102 + parseInt(day);
+    var socialNetworksNum = 105 + parseInt(day);
+    var typedBookmarkedNum = 108 + parseInt(day);
+
     $uv.html("")
     $visit.html("")
     $pagev.html("")
     $avgtime.html("")
+    
 
     if (rows != null) {
 
@@ -1179,23 +1494,35 @@ const jsonMetrics = (json, day) => {
         uvDays = parseInt(uv / $days).toLocaleString(document.documentElement.lang + "-CA");
         uv = parseInt(uv).toLocaleString(document.documentElement.lang + "-CA");
         //$uv.prepend("<span class='h1'>" + uvDays + "</span> <strong>" + $.i18n("averageperday") + "</strong></br><span class='small'>" + uv + " " + $.i18n("total") + "</span>");
-        $uv.prepend("<span class='h2'>" + uvDays + "</span></br><span class='small'>" + uv + " " + $.i18n("total") + "</span>");
+        //$uv.prepend("<span class='h2'>" + uvDays + "</span></br><span class='small'>" + uv + " " + $.i18n("total") + "</span>");
 
         visit = parseInt(rows[vNum])
         vDays = parseInt(visit / $days).toLocaleString(document.documentElement.lang + "-CA");
         visit = parseInt(visit).toLocaleString(document.documentElement.lang + "-CA");
-        $visit.prepend("<span class='h2'>" + vDays + "</span></br><span class='small'>" + visit + " " + $.i18n("total") + "</span>");
+        //$visit.prepend("<span class='h2'>" + vDays + "</span></br><span class='small'>" + visit + " " + $.i18n("total") + "</span>");
 
         pv = parseInt(rows[pvNum])
         pvDays = parseInt(pv / $days).toLocaleString(document.documentElement.lang + "-CA");
         pv = parseInt(pv).toLocaleString(document.documentElement.lang + "-CA");
-        $pagev.prepend("<span class='h2'>" + pvDays + "</span></br><span class='small'>" + pv + " " + $.i18n("total") + "</span>");
+        //$pagev.prepend("<span class='h2'>" + pvDays + "</span></br><span class='small'>" + pv + " " + $.i18n("total") + "</span>");
 
         atMin = moment.utc(rows[avgtimeNum] * 1000).format('m'); //parseInt(rows[uvNum])
         atSec = moment.utc(rows[avgtimeNum] * 1000).format('ss'); //parseInt(rows[uvNum])
         //uvDays = parseInt( uv / $days ).toLocaleString(document.documentElement.lang+"-CA");
         //uv = parseInt(uv).toLocaleString(document.documentElement.lang+"-CA");
         $avgtime.prepend("<span class='h2'>" + atMin + " min " + atSec + " sec" + "</span>"); //</br><span class'small'>" + $.i18n("hours") + "</span>"); //</br><span class='small'>" + uv +" "+ $.i18n("total")+"</span>");
+
+        if ( day === 2 ) {
+            $uv.prepend("<span class='h2'>" + uv + "</span>");
+            $visit.prepend("<span class='h2'>" + visit + "</span>");
+            $pagev.prepend("<span class='h2'>" + pv + "</span>");
+            ($avgtime.closest('section')).height('98px');
+        } else {
+            $uv.prepend("<span class='h2'>" + uv + "</span></br><div class='small'>" + $.i18n("Dailyaverage") + "</br>" + uvDays + "</div>");
+            $visit.prepend("<span class='h2'>" + visit + "</span></br><div class='small'>" + $.i18n("Dailyaverage") + "</br>" + vDays + "</div>");
+            $pagev.prepend("<span class='h2'>" + pv + "</span></br><div class='small'>" + $.i18n("Dailyaverage") + "</br>" + pvDays + "</div>");
+            ($avgtime.closest('section')).height('138px');
+        }
 
 
         if (parseInt(rows[findLookingForInstancesNum]) == NaN || parseInt(rows[findLookingForTotalNum]) == 0) {
@@ -1226,6 +1553,20 @@ const jsonMetrics = (json, day) => {
         var arr = [desktop, mobile, tablet, other];
 
         jsonPieGenerate(arr);
+
+        searchEngine = parseInt(rows[searchEngineNum])
+        otherWebsites = parseInt(rows[otherWebsitesNum])
+        socialNetworks = parseInt(rows[socialNetworksNum])
+        typedBookmarked = parseInt(rows[typedBookmarkedNum])
+
+        let referrerType = [
+            [ "Search Engines", searchEngine ],
+            [ "Other Web Sites", otherWebsites ],
+            [ "Social Networks", socialNetworks ],
+            [ "Typed / Bookmarked", typedBookmarked]
+        ];
+
+        jsonRT(referrerType, day)
 
     } else {
         $uv.html("0");
@@ -1262,6 +1603,9 @@ const jsonGSCTotal = (json, day) => {
     var $ctr = $("#gsc-ctr");
     var $pos = $("#gsc-pos");
 
+    var $days = parseInt($("#numDaysgsc").html());
+    console.log( "DAAAAAAAAAAAAYSSSS: ---------- " + day + " -------- $daysss: -------- " + $days)
+
     $clicks.html("")
     $imp.html("")
     $ctr.html("")
@@ -1271,12 +1615,22 @@ const jsonGSCTotal = (json, day) => {
 
         for (let r of rows) {
             clicks = parseInt(r["clicks"]);
-            fClicks = nFormatter(clicks, 1); //.toLocaleString(document.documentElement.lang+"-CA");
-            $clicks.prepend("<span class='h1'>" + fClicks + "</span>"); //" <strong>Total clicks"+$.i18n("averageperday")+"</strong></br><span class='small'>" + clicks +" "+ $.i18n("total")+"</span>");
+            fClicks = clicks.toLocaleString(document.documentElement.lang + "-CA"); //.toLocaleString(document.documentElement.lang+"-CA");
+            vClicks = parseInt(clicks / $days).toLocaleString(document.documentElement.lang + "-CA");
+            //" <strong>Total clicks"+$.i18n("averageperday")+"</strong></br><span class='small'>" + clicks +" "+ $.i18n("total")+"</span>");
 
-            imp = parseInt(r["impressions"])
-            fImp = nFormatter(imp, 1);
-            $imp.prepend("<span class='h1'>" + fImp + "</span>"); //</br><span class='small'>" + visit +" "+ $.i18n("total")+"</span>");
+            imp = parseInt(r["impressions"]);
+            fImp = imp.toLocaleString(document.documentElement.lang + "-CA");
+            vImp = parseInt(imp / $days).toLocaleString(document.documentElement.lang + "-CA");
+             //</br><span class='small'>" + visit +" "+ $.i18n("total")+"</span>");
+
+            if ( day === 2 ) {
+                $clicks.prepend("<span class='h2'>" + fClicks + "</span>"); 
+                $imp.prepend("<span class='h2'>" + fImp + "</span>");
+            } else {
+                $clicks.prepend("<span class='h2'>" + fClicks + "</span></br><div class='small'>" + $.i18n("Dailyaverage") + "</br>" + vClicks + "</div>"); 
+                $imp.prepend("<span class='h2'>" + fImp + "</span></br><div class='small'>" + $.i18n("Dailyaverage") + "</br>" + vImp + "</div>");
+            }
 
             /*
             ctr = parseFloat(r["ctr"])
@@ -1362,12 +1716,12 @@ const jsonGSCGenerate = (json, day) => {
                     ticks: {
                         beginAtZero: true,
                         callback: function(value, index, values) {
-                            return Intl.NumberFormat().format((value/1000)) + 'K';
+                            return Intl.NumberFormat().format((value/1000));
                         }
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: $.i18n("Clicks")
+                        labelString: $.i18n("GSCClicks")
                     }
                 }, {
 
@@ -1378,12 +1732,12 @@ const jsonGSCGenerate = (json, day) => {
                     ticks: {
                         beginAtZero: true,
                         callback: function(value, index, values) {
-                            return Intl.NumberFormat().format((value/1000)) + 'K';
+                            return Intl.NumberFormat().format((value/1000));
                         }
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: $.i18n("Impressions")
+                        labelString: $.i18n("GSCImpressions")
                     }
                 }/*, {
 
@@ -1415,7 +1769,7 @@ const jsonGSCGenerate = (json, day) => {
                 xAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: $.i18n("Day")
+                        labelString: $.i18n("Dayofselecteddaterange2")
                     }
                 }]
             },
@@ -1530,7 +1884,6 @@ const jsonGSC = (json, val, title, lang) => {
 
         if (srch.length != 0) {
             //srch.sort((a, b)=> b[$.i18n("Clicks")] - a[$.i18n("Clicks")]);
-
             var $pageLength = 10;
             $(val).html(getTable($pageLength));
             let table = document.querySelector(val + " table");
@@ -1645,10 +1998,10 @@ function fetchWithTimeout(url, options, delay, onTimeout) {
     })
 }
 
-const apiCall = (d, i, a, uu, dd, fld) => a.map(type => {
+const apiCall = (d, i, a, uu, dd, fld, lg) => a.map(type => {
     url = (type == "fle") ? "php/file.php" : "php/process.php"
 
-    post = { dates: d, url: i, type: type, oUrl: uu, field: fld };
+    post = { dates: d, url: i, type: type, oUrl: uu, field: fld, lang : lg };
 
     let request = new Request(url, {
         method: "POST",
@@ -1659,6 +2012,9 @@ const apiCall = (d, i, a, uu, dd, fld) => a.map(type => {
         //cnt++; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
         console.log(type);
         console.log(res);
+        if (res['error']) {
+            return Promise.resolve(res);
+        } else {
         switch (type) {
             //case "uvrap" : return jsonUv(res);
             case "fle":
@@ -1678,10 +2034,9 @@ const apiCall = (d, i, a, uu, dd, fld) => a.map(type => {
                 return jsonSearchesAll(res, dd);
             case "activityMap":
                 return jsonAM(res, dd);
-            case "metrics":
+            case "metrics-new":
                 return jsonMetrics(res, dd);
-            case "refType":
-                return jsonRT(res, dd);
+            //case "refType": return jsonRT(res, dd);
             case "fwylf":
                 return jsonFWYLF(res, dd);
                 //case "dwnld" : return jsonDownload(res, uu);
@@ -1697,10 +2052,11 @@ const apiCall = (d, i, a, uu, dd, fld) => a.map(type => {
             case 'qryTablet':
                 return jsonGSCQryTablet(res, dd);
             case 'totals':
-                return jsonGSCTotal(res);
+                return jsonGSCTotal(res, dd);
             case 'totalDate':
                 return jsonGSCGenerate(res, dd);
         }
+    }
     }).catch(function(err) {
         console.log(type);
         console.log(err.message);
@@ -1757,11 +2113,13 @@ const apiCallGSC2 = (d, i, a, uu, dd, lg) => a.map(type => {
         localLocaleStart.locale(document.documentElement.lang);
         localLocaleEnd.locale(document.documentElement.lang);
 
-        var fromdaterange = localLocaleStart.format("dddd MMMM DD, YYYY");
-        var todaterange = localLocaleEnd.format("dddd MMMM DD, YYYY");
+        var fromdaterangegsc = localLocaleStart.format("dddd MMMM DD, YYYY");
+        var todaterangegsc = localLocaleEnd.format("dddd MMMM DD, YYYY");
 
-        $("#fromdaterangegsc").html("<strong>" + fromdaterange + "</strong>");
-        $("#todaterangegsc").html("<strong>" + todaterange + "</strong>");
+
+        $dd = $('#date-range').find(':selected').data('index');
+        $("#fromdaterangegsc").html("<strong>" + fromdaterangegsc + "</strong>");
+        $("#todaterangegsc").html("<strong>" + todaterangegsc + "</strong>");
 
         $("#numDaysgsc").html(diff);
 
@@ -1789,13 +2147,16 @@ const apiCallBP = (d, i, a, uu) => a.map(type => {
         if (res['html'].indexOf("No data") == -1) {
             $("#bp-content").html(res['html']);
             $("#bp-content").append("<p> For more options and date ranges, please visit <a href='https://feedback-by-page.tbs.alpha.canada.ca/bypage?page=" + uu + "' target='_blank'>"+ "https://feedback-by-page.tbs.alpha.canada.ca/bypage?page=" + uu + "</a></p>");
-            $("#details-panel3-lnk").parent().removeClass("hidden");
+            ($("#details-panel3-lnk").closest("li")).removeClass("hidden");
+            ($("#details-panel3")).removeClass("hidden");
         } else {
             $("#bp-content").html("");
-            $("#details-panel3-lnk").parent().addClass("hidden");
+            ($("#details-panel3-lnk").closest("li")).addClass("hidden");
+            ($("#details-panel3")).addClass("hidden");
+
             if ($("#details-panel3-lnk").parent().hasClass("active")) {
                 $("#details-panel3-lnk").parent().removeClass("active");
-                $("#details-panel2-lnk").click();
+                $("#details-panel1-lnk").click();
             }
         }
 
@@ -1804,7 +2165,7 @@ const apiCallBP = (d, i, a, uu) => a.map(type => {
         $("#details-panel3-lnk").parent().addClass("hidden");
         if ($("#details-panel3-lnk").parent().hasClass("active")) {
             $("#details-panel3-lnk").parent().removeClass("active");
-            $("#details-panel2-lnk").click();
+            $("#details-panel1-lnk").click();
         }
         //console.log(type);
         //console.log(err.message);
@@ -1850,6 +2211,20 @@ const apiCallRead = (d, i, a, uu) => a.map(type => {
 
 });
 
+//document.getElementById('download-pdf').addEventListener("click", downloadPDF);
+function downloadPDF() {
+  var canvas = document.querySelector('#canvas-container');
+    //creates image
+    /*var canvasImg = canvas.toDataURL("image/png", 1.0);
+  
+    //creates PDF from img*/
+    var doc = new jsPDF('portrait');
+    doc.setFontSize(20);
+    doc.text(15, 15, "Cool Chart");
+    doc.addImage(canvasImg, 'PNG', 10, 10, 280, 150 );
+    doc.save('canvas.pdf');
+}
+
 $("#urlform").submit(function(event) {
     event.preventDefault();
     url = $("#urlval").val();
@@ -1860,23 +2235,31 @@ $("#urlform").submit(function(event) {
     mainQueue(url, start, end, 0);
 });
 
+
+
 $('a#h2href').click(function() {
     event.preventDefault();
     url = $("#urlStatic").html();
     start = $(".dr-date-start").html()
     end = moment();
+    if ( $('#urlLang').html() == 1 ) {
+        $('#urlLang').html(0)
+    } else { $('#urlLang').html(1) }
 
-    mainQueue(url, start, end, 1);
+    mainQueue(url, start, end, "1");
 });
 
-$('select#date-range').change(function(){
+$("#ddRange").submit(function(event) {
+    event.preventDefault();
   url = $("#urlval").val();
     $("#urlStatic").html(url);
     start = $(".dr-date-start").html()
     end = moment();
+    //dd = $('#date-range').find(':selected').data('index');
 
-    mainQueue(url, start, end, 0);
+    mainQueue(url, start, end, 0);//, dd);
 });
+
 
 const removeQueryString = (url) => {
     var a = document.createElement('a'); // dummy element
@@ -1895,6 +2278,7 @@ const mainQueue = (url, start, end, lang) => {
     $("#canvas-container").addClass("hidden");
     $("#whole-canvas").addClass("hidden");
     $("#notfound").addClass("hidden")
+    $("#error").addClass("hidden");
     $("#loading").removeClass("hidden");
 
     $success = 0;
@@ -1902,13 +2286,20 @@ const mainQueue = (url, start, end, lang) => {
     //console.log(url);
     url = (url.substring(0, 8) == "https://") ? url.substring(8, url.length) : url;
 
-    if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html") {
+    if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html" ||
+        /^(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ) {
+
+        $isApp = ( /^(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ) ? 1 : 0;
+
+    console.log("isApp: " + $isApp)
+
         oUrl = "https://" + url;
         url = (url.length > 255) ? url.substring((url.length) - 255, url.length) : url;
 
-        moment.locale('en'); // default the locale to Englishy
+        moment.locale('en'); // default the locale to English
 
         $dd = $('#date-range').find(':selected').data('index');
+        console.log( "---------------------->> " + $dd );
         //$dd = $("input[name=dd-value").val();
         if (!$.isNumeric($dd)) $dd = 1;
         
@@ -1918,9 +2309,9 @@ const mainQueue = (url, start, end, lang) => {
         } else {
             var start = moment();
             var vEnd = moment().format("dddd MMMM DD, YYYY");
-            if ($dd == 0) vStart = moment(start).subtract(30, 'days').format("dddd MMMM DD, YYYY");
-            else if ($dd == 1) vStart = moment(start).subtract(7, 'days').format("dddd MMMM DD, YYYY");
-            else if ($dd == 2) vStart = moment(start).subtract(1, 'days').format("dddd MMMM DD, YYYY");
+            if ($dd == 0) { vStart = moment(start).subtract(30, 'days').format("dddd MMMM DD, YYYY");  }
+            else if ($dd == 1) { vStart = moment(start).subtract(7, 'days').format("dddd MMMM DD, YYYY");  }
+            else if ($dd == 2) { vStart = moment(start).subtract(1, 'days').format("dddd MMMM DD, YYYY");  }
         }
         var start = moment(vStart).format("YYYY-MM-DDTHH:mm:ss.SSS");
         var end = moment(vEnd).format("YYYY-MM-DDTHH:mm:ss.SSS");
@@ -1961,20 +2352,32 @@ const mainQueue = (url, start, end, lang) => {
         $("#searchBttn").prop("disabled", true);
 
         var dbCall = ["dbGet"];
-        var match = ["trnd", "fle", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "refType", "metrics", "fwylf"];
+        var langAbbr;
+        console.log("language: " + lang)
+        if ($isApp) {
+            var match = ["trnd", "prvs", "metrics-new" ]; //, "fle"];
+            if ( $('#urlLang').html() == 1 ) { langAbbr = "fr"; }
+            else { langAbbr = "en"; }
+            url = url.substring(5, url.length)
+        } else {
+            var match = ["trnd", "prvs", "srchAll", "snmAll", "srchLeftAll", "activityMap", "metrics-new", "fwylf" ]; //, "fle"];
+            var langAbbr = "bi";
+        }
         var gsc = ['cntry', 'qryAll', 'qryMobile', 'qryDesktop', 'qryTablet', 'totals', 'totalDate'];
         //var match = [ "snm", "uvrap" ];
         var previousURL = [];
         var pageURL = []; //, "dwnld", "outbnd" ];
+        console.log("language abbr: " + langAbbr);
         /*
         let aa = (match.concat(previousURL).concat(pageURL)).length;
         cnt = 0; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
         */
         // Get by page data from database, if not pull it
-        const dbGetBPMatch = () => {
+        const dbGetBPMatch = (res) => {
             url = $("#urlStatic").html();
             oUrl = $("#urlStatic").html();
-            return Promise.all(apiCallBP(dateMD, url, dbCall, oUrl))
+            Promise.all(apiCallBP(dateMD, url, dbCall, oUrl))
+            return res
         }
 
         const dbGetReadMatch = () => {
@@ -1990,31 +2393,84 @@ const mainQueue = (url, start, end, lang) => {
             $("#loadAA").removeClass("hidden");
             url = $("#urlStatic").html();
             oUrl = $("#urlStatic").html();
+
             return Promise.all(apiCall2(d, url, dbCall, oUrl, lang))
         }
 
         // Get Google Search Console data if it is cached, if not it will query and update database 
         const dbGetGSC = () => {
-                $("#loadGSC").removeClass("hidden");
-                return Promise.all(apiCallGSC2(d, url, dbCall, oUrl, dDay, lang))
+                if ( !$isApp ) {
+                    $("#loadGSC").removeClass("hidden");
+                    return Promise.all(apiCallGSC2(d, url, dbCall, oUrl, dDay, lang))
+                }
+                return Promise.resolve("null");
             }
             // pull AA data and display
         const getMatch = () => {
             $("#loadAA").addClass("hidden");
             $("#loadFD").removeClass("hidden");
-            url = $("#urlStatic").html();
-            oUrl = $("#urlStatic").html();
-            return Promise.all(apiCall(d, url, match, oUrl, $dd, "aa"))
+            if ( $isApp ) { oUrl = url.substring(13, url.length); url = url.substring(13, url.length) }
+            else {
+                url = $("#urlStatic").html();
+                oUrl = $("#urlStatic").html();
+            }
+            return Promise.all(apiCall(d, url, match, oUrl, $dd, "aa", langAbbr))
         }
 
         // pull GSC data and display
-        const getGSC = () => {
-            url = $("#urlStatic").html();
-            oUrl = $("#urlStatic").html();
-            dd = [$("#fromGSC").text(), $("#toGSC").text()];
-            return Promise.all(apiCall(dd, url, gsc, oUrl, $dd, "gsc"))
+        const getGSC = (res) => {
+            console.log("LOOOG " + res)
+            if ( !$isApp ) {
+                url = $("#urlStatic").html();
+                oUrl = $("#urlStatic").html();
+                dd = [$("#fromGSC").text(), $("#toGSC").text()];
+                Promise.all(apiCall(dd, url, gsc, oUrl, $dd, "gsc"))
+                return res;
+            }
+            return res;
         }
-        const getTitle = h2 => { return Promise.all([getPageH1(h2[0]['url'])]) }
+        const checkErrorMatch = (res) => {
+            //console.log(res.some( vendor => vendor === "error" )); //res.some(item => item.name === 'Blofeld'))
+           
+               console.log("-----------------------------")
+            console.log(res)
+
+            /*
+
+            Object.keys(res).map((key, index) => {
+                if (Array.isArray(res[i]) || typeof obj[i] === 'object') {
+                    console.log( res[key] );
+                }
+
+            });
+
+            */
+
+            var $tf = extractJSON(res, '');
+            console.log($tf)
+            
+            $("#searchBttn").prop("disabled", false);
+            return Promise.resolve($tf);
+            
+        }
+        const getTitle = h2 => { if ( !$isApp ) { return Promise.all([getPageH1(h2[0]['url'])]) } return Promise.resolve($.i18n("Page-levelstatistics"));} 
+
+        const chainError = (err) => {
+          return Promise.reject(err)
+        }
+
+        
+/*
+         const extractJSON = (obj, indent) => {
+          Object.keys(obj).map((key, index) => {
+            if (Array.isArray(obj[i]) || typeof obj[i] === 'object') {
+              console.log(indent + i + ' is array or object');
+              extractJSON(obj[i], indent + ' > ' + i + ' > ');
+            } else {
+              console.log(indent + i + ': ' + obj[i] + i + i);
+            }
+          });
+        }
             /*
             const getPreviousPage = id => {
                 if (id != null) return Promise.all( apiCall(d, id, previousURL, aa, url));
@@ -2031,26 +2487,86 @@ const mainQueue = (url, start, end, lang) => {
             .then(res => { $("#h2title").html(res); })
             .then(() => dbGetMatch())
             .then(() => getMatch())
-            .then(() => getGSC())
-            .then(() => dbGetBPMatch())
+            .then(res => checkErrorMatch(res))//, chainError())
+            .then(res => getGSC(res))
+            .then(res => dbGetBPMatch(res))
             //.then(() => dbGetReadMatch())
             /*.then( res => { getPreviousPage(res[0]); return res; })
              */
-            .then(() => {
-                if (($("#urlStatic").html()).indexOf("/fr/") !== -1) {
+            .then(res => {
+                console.log("log: " + res)
+
+            //Object.keys(res)
+                
+                if ( ( ( $("#urlStatic").html() ).indexOf("/fr/") !== -1 && !$isApp ) ||
+                       ( $('#urlLang').html() == 1 && $isApp ) ) {
                     $("a#h2href").html($.i18n("LanguageToggleFR"));
                 } else {
                     $("a#h2href").html($.i18n("LanguageToggleEN"));
                 }
-                $("#loading").addClass("hidden");
-                $("#loadFD").addClass("hidden");
-                $("#notfound").addClass("hidden");
-                $("#whole-canvas").removeClass("hidden");
-                $("#canvas-container").removeClass("hidden");
-                $("#searchBttn").prop("disabled", false);
-                $('#urlval').val($('#urlStatic').text());
-                date = $('#date-range').val();
-                setQueryParams(oUrl, date);
+
+                if ( res ) {
+                    $("#loading").addClass("hidden");
+                    $("#loadFD").addClass("hidden");
+                    $("#notfound").addClass("hidden");
+                    $("#error").removeClass("hidden");
+                    $('#errorHeader').val($('#urlStatic').text());
+                    $("#searchBttn").prop("disabled", false);
+                    $('#urlval').val($('#urlStatic').text());
+                    date = $('#date-range').val();
+                    setQueryParams(oUrl, date);
+                } else {
+                    $("#loading").addClass("hidden");
+                    $("#loadFD").addClass("hidden");
+                    $("#error").addClass("hidden");
+                    $("#notfound").addClass("hidden");
+                    $("#whole-canvas").removeClass("hidden");
+                    $("#canvas-container").removeClass("hidden");
+                    $("#searchBttn").prop("disabled", false);
+                    $('#urlval').val($('#urlStatic').text());
+                    date = $('#date-range').val();
+                    setQueryParams(oUrl, date);
+                }
+
+                if ( $isApp ) {
+                    $("#rap-container").addClass("hidden");
+                    $("#snum-container").addClass("hidden");
+                    $("#search-container").addClass("hidden");
+                    $("#fwlf-container").addClass("hidden");
+                    $("#srchA-container").addClass("hidden");
+                    $("#np-container").addClass("hidden");
+
+                    ($("#details-panel2-lnk").closest("li")).addClass("hidden");
+                    ($("#details-panel2")).addClass("hidden");
+                } else {
+                    $("#rap-container").removeClass("hidden");
+                    $("#snum-container").removeClass("hidden");
+                    $("#search-container").removeClass("hidden");
+                    $("#fwlf-container").removeClass("hidden");
+                    $("#srchA-container").removeClass("hidden");
+                    $("#np-container").removeClass("hidden");
+
+                    ($("#details-panel2-lnk").closest("li")).removeClass("hidden");
+                    ($("#details-panel2")).removeClass("hidden");
+                }
+
+                if ( $dd == 0 ) { $("#gscDate").html($.i18n("Last30days")); $("#ddDate").html($.i18n("Last30days")); }
+                else if ( $dd == 1 ) { $("#gscDate").html($.i18n("Last7days")); $("#ddDate").html($.i18n("Last7days")); }
+                else if ( $dd == 2 ) { $("#gscDate").html($.i18n("Yesterday")); $("#ddDate").html($.i18n("Yesterday")); }
+
+                if ( $dd === 2 ) {
+                    $("#todaterange").addClass('hidden');
+                    $("#to").addClass('hidden');
+                    $("#todaterangegsc").addClass('hidden');
+                    $("#gscto").addClass('hidden');
+                } else {
+                    $("#todaterange").removeClass('hidden');
+                    $("#to").removeClass('hidden');
+                    $("#todaterangegsc").removeClass('hidden');
+                    $("#gscto").removeClass('hidden');
+                }
+                
+                
             })
             .catch(console.error.bind(console));
 
@@ -2063,3 +2579,4 @@ const mainQueue = (url, start, end, lang) => {
         $("#notfound").removeClass("hidden");
     }
 }
+

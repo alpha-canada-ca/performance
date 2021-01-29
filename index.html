@@ -13,21 +13,36 @@
     <!-- Meta data -->
     <meta content="width=device-width,initial-scale=1" name="viewport">
     <!-- Meta data -->
-    <meta name="description" content="Page Analytics Tool (PAT)">
+    <meta name="dcterms.title" content="Page Analytics Tool"/>
+    <meta name="dcterms.language" content="eng"/>
+    <meta name="dcterms.creator" content="Canada Revenue Agency"/>
+    <meta name="dcterms.accessRights" content="2"/>
+    <meta property="dcterms.service" content="CRA-ARC_Page-Analytics-Tool"/>
+
     <!-- Load closure template scripts -->
     <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/soyutils.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+    <script src="//assets.adobedtm.com/be5dfd287373/0127575cd23a/launch- f7c3e6060667.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.2.61/jspdf.min.js"></script> -->
     <script>
         var altLang = "fr"
+        var altLangC = "eng";
         var altLangText = "Français";
         if (location.search.indexOf("lang=fr") > -1) {
             document.documentElement.lang = "fr";
             altLang = "en";
+            altLangC = "fra";
             altLangText = "English";
         }
+
         const inlineScript = document.createElement('script');
         inlineScript.src = "https://www.canada.ca/etc/designs/canada/cdts/gcweb/rn/cdts/compiled/wet-" + document.documentElement.lang + ".js";
+        
         //document.appendChild(inlineScript.outerHTML);
         
         document.write(inlineScript.outerHTML);
@@ -51,7 +66,10 @@
         p.h2 sup {
             font-size: 16px;
         }
-        /* Dropdown */
+        div.small {
+            line-height: 1.2em !important;
+        }
+        /* Dropdown 
         
         .dropdown {
             display: inline-block;
@@ -138,6 +156,7 @@
             padding: 0;
             border-bottom: 1px solid #cccccc;
         }
+        */
         
         .bg {
             background-color: #cfe8ef !important;
@@ -199,19 +218,21 @@
             white-space: inherit;
         }
 
-        #dt-rng { font-size: 78%; }
+        #dt-rng {  }
 
         @media (min-width: 320px) and (max-width: 991px) {
             .mobile-visible { display: block; margin-bottom: 15px; }
             .desktop-visible { display: none; }  
             #dt-rng { margin-top: 0px; }
-            #urlStatic { margin: 0 0 0 5px; }
+            .dt-rng { width: 100%; }
+            /* #urlStatic { margin: 0 0 0 5px; } */
         }
 
         @media (min-width: 992px) {
             .mobile-visible { display: none; }
             .desktop-visible { display: block; }   
             #dt-rng { margin-top: 38px; }
+            .dt-rng { width: 100%;}
         }
 
         .blue-box {
@@ -262,14 +283,14 @@
         <div class="wb-frmvld">
         <form id="urlform" action="#" method="post">
             <p data-i18n="BlurbP1"></p>
-            <p data-i18n="BlurbP2"></p>
+            <!-- <p data-i18n="BlurbP2"></p> -->
             <input type='hidden' name='dd-value'>
             <label for="btngrp-search2" class="wb-inv" data-i18n="Search"></label>
             <!-- <p data-i18n="EnterthepageURL"></p> -->
 
-                <label for="urlval" class="required"><span class="field-name">Search a Canada.ca page</span> <strong class="required">(required)</strong></label>
+                <label for="urlval" class="required"><span class="field-name" data-i18n="SearchCanada"></span> <strong class="required" data-i18n="Required"></strong></label>
             <div class="input-group">
-                <input type="search" id="urlval" name="urlval" class="form-control" required="required" data-i18n="[placeholder]PlaceURL" size="6" />
+                <input type="search" id="urlval" name="urlval" class="form-control" required="required" size="6" />
                 <span class="input-group-btn">
                      <button class="btn btn-default" id="searchBttn" type="submit"><span class="glyphicon-search glyphicon"></span> <span data-i18n="Getdata"></span></button>
                      <div class="clearfix" style="margin-bottom: 10px;"></div>
@@ -287,76 +308,111 @@
         <div id="notfound" class="hidden">
             <p><i class="fas fa-exclamation-triangle"></i><span data-i18n="Opps"></span></p>
         </div>
+        <div id="error" class="hidden">
+            <p><i class="fas fa-exclamation-triangle"></i><span data-i18n="errorOccured"></span></p>
+
+            <details id="error-canvas">
+                <summary data-i18n="moreDetails"></summary>
+                <p><strong data-i18n="title"></strong>: <span id="errorHeader"></span></p>
+                <p><strong data-i18n="message"></strong>: <span id="errorDetails"></span></p>
+            </details>
+
+        </div>
 
         <div id="whole-canvas" class="hidden">
 
+            <!-- <button type="button" id="download-pdf">Download PDF</button> -->
+
             <span id="numWeeks" class="hidden"></span>
+            <span id="numDays" class="hidden"></span>
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <h2><span id="h2title" data-i18n="Page-levelstatistics"></span></h2>
-                    <span class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></span>
-                    <p id="urlStatic" class="small"></p>
+                    <span id="urlStatic" class="small"></span>
+                    <p class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></p>
+                    <p id="urlLang" class="hidden"></p>
                 </div>
-                <div class="col-md-4" style="margin-bottom: 15px;">
-                            <label id ="dt-rng" for="dt-rng" data-i18n="select-date"></label>
-                            <select id="date-range" class="form-control" name="dt-rng" >
-                                <option label="Select a date range"></option>
+
+                <div class="col-md-3" style="margin-bottom: 15px;">
+                    
+                    <form id="ddRange" action="#" method="post">
+
+     <label class="control-label" id="dt-rng" for="date-range" data-i18n="select-date"></label>
+                    <div class="input-group">
+               <select  id="date-range" class="form-control" name="date-range" style="width:100%">
+                                <option data-index="" value=""></option>
                                 <option data-value="31" data-index="0" value="0" data-i18n="Last30days"></option>
                                 <option data-value="8" data-index="1" value="1" data-i18n="Last7days" selected="selected"></option>
                                 <option data-value="2" data-index="2" value="2" data-i18n="Yesterday"></option>
                             </select>
+                            <span class="input-group-btn">
+                     <button class="btn btn-default" id="searchBttn" type="submit"><span data-i18n="Go"></span></button>
+                     <div class="clearfix" style="margin-bottom: 10px;"></div>
+                </span>
+   </div>
+</form>
+
+                            <div id="langCheckID" class="hidden">
+                                 <label id ="langCheck" for="dt-rng" data-i18n="LanguageCheck"></label>
+                                <select id="langCheck" class="form-control" name="dt-rng" >
+                                    <option label="Select a language"></option>
+                                    <option data-index="0" value="0" data-i18n="LanguageCheckEnglish" selected="selected"></option>
+                                    <option data-index="1" value="1" data-i18n="LanguageCheckFrench"></option>
+                                </select>
+                            </div>
 
                     </div>
-                </div>
+                     </div>
             <div class="clearfix"></div>
+
+            <!-- <button class="btn btn-default" onClick="getPDF();">Print to PDF</button> -->
 
             <div class="wb-tabs">
                 <div class="tabpanels">
-                    <details id="details-panel1">
+                    <details id="details-panel1" open="open">
                         <summary>Web analytics</summary>
                         <div id="canvas-container" class="hidden">
                             <p>
                                 <span id="fromGSC" class="hidden"></span>
                                 <span id="toGSC" class="hidden"></span>
-                                <strong data-i18n="Period:"></strong> <span id="numDays"></span> <span data-i18n="days-"></span> <span id="fromdaterange"></span> <span data-i18n="to"></span> <span id="todaterange"></span>
+                                <strong data-i18n="Period:"></strong> <span id="ddDate"></span> - <span id="fromdaterange"></span> <span id="to" data-i18n="to"></span> <span id="todaterange"></span>
                                 <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
                             </p>
 
-                            <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
+                            <div class="col-md-3" style="vertical-align: top;">
                                 <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p class="blue-box"><strong data-i18n="Averageuniquevisitors"></strong> <sup><i data-template="hlp-unique-visitors" class="fas fa-question-circle" tabindex="0"></i></sup></p>
-                                    <p class="mrgn-tp-md" id="uv"></p>
-                                </section>
-                            </div>
-                            <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                                <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p class="blue-box"><strong data-i18n="Averagevisits"></strong> <sup><i data-template="hlp-average-visits" class="fas fa-question-circle" tabindex="0"></i></sup></p>
-                                    <p class="mrgn-tp-md" id="visit"></p>
-                                </section>
-                            </div>
-                            <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
-                                <section class="bg bg-info text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p class="blue-box"><strong data-i18n="Averagepageviews"></strong> <sup><i data-template="hlp-average-pgv" class="fas fa-question-circle" tabindex="0"></i></sup></p>
-                                    <p class="mrgn-tp-md" id="pagev"></p>
+                                    <p class="blue-box"><strong data-i18n="Averageuniquevisitors"></strong> <sup><i data-template="hlp-unique-visitors" class="fas fa-question-circle" tabindex="0"></i></sup>
+                                        <div id="uv"></div>
+                                    </p>
                                 </section>
                             </div>
                             <div class="col-md-3" style="vertical-align: top;">
-                                <section class="bg bg-warning text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm" style="min-height: 137px;">
-                                   <p class="blue-box"><strong data-i18n="Averagetimespent"></strong> <sup><i data-template="hlp-average-tmspnt" class="fas fa-question-circle" tabindex="0"></i></sup></p>
-                                    <p class="mrgn-tp-md" id="avgtime"></p>
+                                <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                    <p class="blue-box"><strong data-i18n="Averagevisits"></strong> <sup><i data-template="hlp-average-visits" class="fas fa-question-circle" tabindex="0"></i></sup>
+                                        <div id="visit"></div>
+                                    </p>
                                 </section>
                             </div>
                             <div class="row">
-                                <!--
-                                <div class="col-md-6">
-                                    <h2><strong data-i18n="Uniquevisitors"></strong> <sup><i data-template="hlp-unique-visitors" class="fas fa-question-circle fas-1" tabindex="0"></i></sup></h2>
-                                    <p id="uv"></p>
-                                </div>
-                            -->
-                                
+
+                            <div class="col-md-3" style="vertical-align: top;">
+                                <section class="bg bg-info text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                    <p class="blue-box"><strong data-i18n="Averagepageviews"></strong> <sup><i data-template="hlp-average-pgv" class="fas fa-question-circle" tabindex="0"></i></sup>
+                                        <div id="pagev"></div>
+                                    </p>
+                                </section>
+                            </div>
+                            <div class="col-md-3" style="vertical-align: top;">
+                                <section class="bg bg-warning text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                   <p class="blue-box"><strong data-i18n="Averagetimespent"></strong> <sup><i data-template="hlp-average-tmspnt" class="fas fa-question-circle" tabindex="0"></i></sup>
+                                        <div id="avgtime"></div>
+                                   </p>
+                                </section>
+                            </div>
+
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="fwlf-container">
                                     <div id="rap-container">
                                         <h2><strong data-i18n="Reportaproblem"></strong> <sup><i data-template="hlp-rap" class="fas fa-question-circle fas-1" tabindex="0"></i></sup></h2>
                                         <div id="rapCont"></div>
@@ -370,11 +426,11 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="snum-container">
                                     <h2><strong data-i18n="Searchesstartedfromthispage"></strong> <sup><i data-template="hlp-srch-started" class="fas fa-question-circle fas-1" tabindex="0"></i></sup></h2>
                                     <p id="snum"></p>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="search-container">
                                     <h2><strong data-i18n="Phrasessearchedfromthispage"></strong> <sup><i data-template="hlp-phrases-search" class="fas fa-question-circle fas-1" tabindex="0"></i></sup></h2>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -393,24 +449,25 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                </div>
                             <div class="row">
-                                <div class="col-md-6">
+
+                                <div class="col-md-6" id="reft-container">
                                     <h2><span data-i18n="Referringtypes"></span>&nbsp;<sup><i data-template="hlp-refferrer-type" class="fas fa-question-circle fas-1" tabindex="0"></i></sup> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup>--></h2>
                                     <div id="reft"></div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="ppt-container">
                                     <h2><span data-i18n="Whereuserscamefrom"></span>&nbsp;<sup><i data-template="hlp-users-came-from" class="fas fa-question-circle fas-1" tabindex="0"></i></sup> <!--<sup id="fn2-rf"><a class="fn-lnk" href="#fn2"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup>--></h2>
                                     <div id="ppt"></div>
                                     <!--<p id="pp" data-i18n="Nodata"></p>-->
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="srchA-container">
                                     <h2><span data-i18n="Searchtermsleadingtothispage"></span>&nbsp;<sup><i data-template="hlp-search-terms-lead" class="fas fa-question-circle fas-1" tabindex="0"></i></sup></h2>
                                     <div id="srchA"></div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" id="np-container">
                                     <h2><span data-i18n="Whatusersclickedon"></span>&nbsp;<sup><i data-template="hlp-users-click" class="fas fa-question-circle fas-1" tabindex="0"></i></sup> <sup id="fn1-rf"><a class="fn-lnk fas-1" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></h2>
                                     <div id="np"></div>
                                 </div>
@@ -420,8 +477,8 @@
                                     <h2><span data-i18n="Devicesused"></span>&nbsp;<sup><i data-template="hlp-device-used" class="fas fa-question-circle fas-1" tabindex="0"></i></sup></h2>
                                     <div id="chrtp" data-i18n="Nodata"></div>
                                     <div id="chart-pltfrms">
-                                        <p class="h3" data-i18n="Numberofvisits(%)bydevicesused"></p>
-                                        <div id="chart-canvas">
+                                        <h3 data-i18n="Numberofvisits(%)bydevicesused"></h3>
+                                        <div id="chart-canvas" style="width: 100%; height: 40vh;">
                                             <canvas id="chart" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow." aria-hidden="true"></canvas>
                                         </div>
                                         <details>
@@ -435,14 +492,16 @@
                                     <h2><span data-i18n="Visitstrend"></span>&nbsp;<sup><i data-template="hlp-trends" class="fas fa-question-circle fas-1" tabindex="0"></i></sup></h2>
                                     <div id="chrtt" data-i18n="Nodata"></div>
                                     <div id="chart-trnds">
-                                        <p class="h3" data-i18n="Visitstrendbycurrentyearandpreviousyear"></p>
-                                        <div id="trends-canvas">
+                                        <h3 data-i18n="Visitstrendbycurrentyearandpreviousyear"></h3>
+                                        <div id="trends-canvas" style="width: 100%; height: 40vh;">
                                             <canvas id="trends" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow." aria-hidden="true"></canvas>
                                         </div>
                                         <details>
                                             <summary data-i18n="Visitstrendbycurrentandpreviousyear-Table"></summary>
+                                            <div id="tbl-trnds-container">
                                             <table id="tbl-trnds" class="table table-border">
                                             </table>
+                                        </div>
                                         </details>
                                     </div>
                                 </div>
@@ -465,21 +524,22 @@
                             </aside>
                         </div>
                     </details>
-                    <details id="details-panel2" open="open">
-                        <summary>Search analytics</summary>
-
+                    <span id="numDaysgsc" class="hidden"></span>
+                    <details id="details-panel2">
+                        <summary>Google search analytics</summary>
+                        <div id="gsc-content">
                         <p>
-                            <strong data-i18n="Period:"></strong> <span id="numDaysgsc"></span> <span data-i18n="days-"></span> <span id="fromdaterangegsc"></span> <span data-i18n="to"></span> <span id="todaterangegsc"></span> <sup id="fn1b-rf"><a class="fn-lnk" href="#fn1b"><span class="wb-inv">Footnote </span>1</a></sup>
+                            <strong data-i18n="Period:"></strong> <span id="gscDate"></span> - <span id="fromdaterangegsc"></span> <span id="gscto" data-i18n="to"></span> <span id="todaterangegsc"></span> <sup id="fn1b-rf"><a class="fn-lnk" href="#fn1b"><span class="wb-inv">Footnote </span>1</a></sup>
                         </p>
-                        <div class="col-md-3 col-md-offset-3" style="vertical-align: top; min-height: 102px;">
+                        <div class="col-md-3 col-md-offset-3" style="vertical-align: top;">
                             <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                <p><strong data-i18n="Totalclicks"></strong> <sup><i data-template="hlp-total-clicks" class="fas fa-question-circle" tabindex="0"></i></sup></p>
+                                <p class="blue-box"><strong data-i18n="Totalclicks"></strong> <sup><i data-template="hlp-total-clicks" class="fas fa-question-circle" tabindex="0"></i></sup></p>
                                 <p class="mrgn-tp-md" id="gsc-clicks"></p>
                             </section>
                         </div>
-                        <div class="col-md-3" style="vertical-align: top; min-height: 102px;">
+                        <div class="col-md-3" style="vertical-align: top;">
                             <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                <p><strong data-i18n="Totalimpressions"></strong> <sup><i data-template="hlp-total-impressions" class="fas fa-question-circle" tabindex="0"></i></sup></p>
+                                <p class="blue-box"><strong data-i18n="Totalimpressions"></strong> <sup><i data-template="hlp-total-impressions" class="fas fa-question-circle" tabindex="0"></i></sup></p>
                                 <p class="mrgn-tp-md" id="gsc-imp"></p>
                             </section>
                         </div>
@@ -497,12 +557,13 @@
                             </section>
                         </div>
                     -->
+                    <div class="row">
                         <div class="col-md-12">
-                            <p class="h2 hidden"><strong data-i18n="Tableclicksimp"></strong></p>
+                            <h2 class="hidden"><strong data-i18n="Tableclicksimp"></strong></h2>
                             <div id="chrtgsc" data-i18n="Nodata"></div>
                             <div id="chartgsc">
-                                <p class="h3 hidden" data-i18n="Visitstrendbycurrentyearandpreviousyear"></p>
-                                <div id="gsc-canvas" class="gsc-chart-container">
+                                <h3 class="hidden" data-i18n="Visitstrendbycurrentyearandpreviousyear"></h3>
+                                <div id="gsc-canvas" style="width: 100%; height: 60vh;">
                                     <canvas id="gsc" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow." aria-hidden="true"></canvas>
                                 </div>
                                 <details>
@@ -512,26 +573,27 @@
                                 </details>
                             </div>
                         </div>
+                    </div>
 
                         <div class="row">
                             <div class="col-md-12">
-                                <p class="h2"><span data-i18n="AllQuery"></span></p>
+                                <h2 data-i18n="AllQuery"></h2>
                                 <div id="gscQryAll"></div>
                             </div>
                             <div class="col-md-12">
-                                <p class="h2"><span data-i18n="MobileQuery"></span></p>
+                                <h2 data-i18n="MobileQuery"></h2>
                                 <div id="gscQryMob"></div>
                             </div>
                             <div class="col-md-12">
-                                <p class="h2"><span data-i18n="DesktopQuery"></span></p>
+                                <h2 data-i18n="DesktopQuery"></h2>
                                 <div id="gscQryDesk"></div>
                             </div>
                             <div class="col-md-12">
-                                <p class="h2"><span data-i18n="TabletQuery"></span></p>
+                                <h2 data-i18n="TabletQuery"></h2>
                                 <div id="gscQryTab"></div>
                             </div>
                             <div class="col-md-12">
-                                <p class="h2"><span data-i18n="Countrieswhereuserscamefrom"></span></p>
+                                <h2 data-i18n="Countrieswhereuserscamefrom"></h2>
                                 <div id="gscCountry"></div>
                             </div>
                         </div>
@@ -547,6 +609,7 @@
 
                             </dl>
                         </aside>
+                    </div>
                     </details>
                     <details id="details-panel3">
                         <summary id="bp-summary">Feedback by page</summary>
@@ -571,7 +634,7 @@
             <script>
                 var defPreFooter = document.getElementById("def-preFooter");
                 defPreFooter.outerHTML = wet.builder.preFooter({
-                    "dateModified": "2020-12-01"
+                    "dateModified": "2021-01-29"
                 });
             </script>
     </main>
@@ -612,9 +675,20 @@
             $(this).parents('.dropdown').find('.dd-button').html($(this).html());
             $("input[name='dd-value']").val($(this).attr("data-index"));;
         });
+        if ( altLangC == "eng" ) {
+            $title = "Page Analytics Tool";
+            $creator = "Canada Revenue Agency";
+        } else {
+            $title = "Outil d'analyse de page";
+            $creator = "Agence du revenu du Canada";
+        }
+        $('meta[name="dcterms.title"]').attr('content',$title);
+        $('meta[name="dcterms.language"]').attr('content',altLangC);
+        $('meta[name="dcterms.creator"]').attr('content',$creator);
     </script>
-    <script type="text/javascript" src="js/api.min.js"></script>
+    <script type="text/javascript" src="js/api.js"></script>
     </span>
+    <script type="text/javascript">_satellite.pageBottom();</script>
 </body>
 
 </html>

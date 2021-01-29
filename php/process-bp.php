@@ -22,7 +22,7 @@ if ((isset($start) && !empty($start)) && (isset($end) && !empty($end))) {
 }
 $dates = "$start/$end";
 $byPageURL = 'https://feedback-by-page.tbs.alpha.canada.ca/bypage?page='.$url.'&start_date='.$start.'&end_date='.$end.'&lang='.$oLang;
-$md = mongoGet($byPageURL, $dates, 'html', 'multi', "search");
+$md = mongoGet($byPageURL, $dates, 'html', 'multi', "search", "bi");
 $output = '';
 if ($md) {
   $output = $md;
@@ -33,7 +33,7 @@ if ($md) {
     $output = $output->innertext();
     $output = json_encode($output);
     $output = '{ "html":'.' '.$output.'}';
-    mongoUpdate($byPageURL, $dates, 'html', $output, "multi", "search");
+    mongoUpdate($byPageURL, $dates, 'html', $output, "multi", "search", "bi");
   } catch (Throwable $e) {
     $output = "no data";
   }
