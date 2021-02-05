@@ -5,6 +5,7 @@ COPY assets/ /var/www/html/assets/
 COPY js/ /var/www/html/js/
 COPY php/ /var/www/html/php/
 COPY docker/performance_php/secrets/php/config.php /var/www/html/php/config.php
+COPY docker/performance_php/secrets/php/config-at.php /var/www/html/php/config-at.php
 COPY docker/performance_php/secrets/php/service-account-credentials.json /var/www/html/php/service-account-credentials.json
 COPY docker/performance_php/secrets/keys /var/www/html/keys
 #COPY docker/performance_php/mongo_connect.php /var/www/html/php/mongo_connect.php
