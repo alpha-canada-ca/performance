@@ -409,7 +409,7 @@ catch(Exception $ex) {
     echo json_encode(array('error' => $ex));
 }
 
-$result = api_post($config['ADOBE_API_KEY'], $config['COMPANY_ID'], $_SESSION['token'], $api);
+$result = api_post($config[0]['ADOBE_API_KEY'], $config[0]['COMPANY_ID'], $_SESSION['token'], $api);
 
 $trnd = [];
 
