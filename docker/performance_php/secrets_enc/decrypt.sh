@@ -12,8 +12,6 @@ gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
 --output ./docker/performance_php/secrets/php/config.php ./docker/performance_php/secrets_enc/php/config.php.gpg
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
---output ./docker/performance_php/secrets/php/config-at.php ./docker/performance_php/secrets_enc/php/config-at.php.gpg
-gpg --quiet --batch --yes --decrypt --passphrase="$SECRETS_PASSPHRASE" \
 --output ./docker/performance_php/secrets/php/service-account-credentials.json ./docker/performance_php/secrets_enc/php/service-account-credentials.json.gpg
 ls -la ./docker/performance_php/secrets/keys
 ls -la ./docker/performance_php/secrets/php
