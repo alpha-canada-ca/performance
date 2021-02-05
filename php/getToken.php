@@ -11,14 +11,14 @@ $priv_key = fread($fp, 8192);
 fclose($fp);
 
 $jwt = generate_jwt ( $priv_key,
-                     $config['ADOBE_ORG_ID'],
-                     $config['ADOBE_TECH_ID'],
+                     $config[0]['ADOBE_ORG_ID'],
+                     $config[0]['ADOBE_TECH_ID'],
                      'https://ims-na1.adobelogin.com/c/' .
-                        $config['ADOBE_API_KEY'] 
+                        $config[0]['ADOBE_API_KEY'] 
                     );
 
-$token = generate_token ( $config['ADOBE_API_KEY'],
-                         $config['ADOBE_API_SECRET'],
+$token = generate_token ( $config[0]['ADOBE_API_KEY'],
+                         $config[0]['ADOBE_API_SECRET'],
                          $jwt
                         ); 
 
