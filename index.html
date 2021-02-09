@@ -218,6 +218,19 @@
             white-space: inherit;
         }
 
+        button#black {
+          background-color: #444444; /* Green */
+          border: none;
+          color: white;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          cursor: pointer;
+          font-size: 8px;
+          padding: 3px 4px;
+          border-radius: 50%;
+        }
+
         #dt-rng {  }
 
         @media (min-width: 320px) and (max-width: 991px) {
@@ -340,7 +353,6 @@
      <label class="control-label" id="dt-rng" for="date-range" data-i18n="select-date"></label>
                     <div class="input-group">
                <select  id="date-range" class="form-control" name="date-range" style="width:100%">
-                                <option data-index="" value=""></option>
                                 <option data-value="31" data-index="0" value="0" data-i18n="Last30days"></option>
                                 <option data-value="8" data-index="1" value="1" data-i18n="Last7days" selected="selected"></option>
                                 <option data-value="2" data-index="2" value="2" data-i18n="Yesterday"></option>
@@ -381,14 +393,14 @@
 
                             <div class="col-md-3" style="vertical-align: top;">
                                 <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p class="blue-box"><strong data-i18n="Averageuniquevisitors"></strong> <sup><i data-template="hlp-unique-visitors" class="fas fa-question-circle" tabindex="0"></i></sup>
+                                    <p class="blue-box"><strong data-i18n="Averageuniquevisitors"></strong> <sup><button data-template="hlp-unique-visitors" class="fas fa-question" id="black"></button></sup>
                                         <div id="uv"></div>
                                     </p>
                                 </section>
                             </div>
                             <div class="col-md-3" style="vertical-align: top;">
                                 <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p class="blue-box"><strong data-i18n="Averagevisits"></strong> <sup><i data-template="hlp-average-visits" class="fas fa-question-circle" tabindex="0"></i></sup>
+                                    <p class="blue-box"><strong data-i18n="Averagevisits"></strong> <sup><button data-template="hlp-unique-visitors" class="fas fa-question" id="black"></button></sup>
                                         <div id="visit"></div>
                                     </p>
                                 </section>
@@ -397,14 +409,14 @@
 
                             <div class="col-md-3" style="vertical-align: top;">
                                 <section class="bg bg-info text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p class="blue-box"><strong data-i18n="Averagepageviews"></strong> <sup><i data-template="hlp-average-pgv" class="fas fa-question-circle" tabindex="0"></i></sup>
+                                    <p class="blue-box"><strong data-i18n="Averagepageviews"></strong> <sup><button data-template="hlp-unique-visitors" class="fas fa-question" id="black"></button></sup>
                                         <div id="pagev"></div>
                                     </p>
                                 </section>
                             </div>
                             <div class="col-md-3" style="vertical-align: top;">
                                 <section class="bg bg-warning text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                   <p class="blue-box"><strong data-i18n="Averagetimespent"></strong> <sup><i data-template="hlp-average-tmspnt" class="fas fa-question-circle" tabindex="0"></i></sup>
+                                   <p class="blue-box"><strong data-i18n="Averagetimespent"></strong> <sup><button data-template="hlp-unique-visitors" class="fas fa-question" id="black"></button></sup>
                                         <div id="avgtime"></div>
                                    </p>
                                 </section>
@@ -432,22 +444,7 @@
                                 </div>
                                 <div class="col-md-6" id="search-container">
                                     <h2><strong data-i18n="Phrasessearchedfromthispage"></strong> <sup><i data-template="hlp-phrases-search" class="fas fa-question-circle fas-1" tabindex="0"></i></sup></h2>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div id="search0"></div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div id="search1"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div id="search2"></div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div id="search3"></div>
-                                        </div>
-                                    </div>
+                                    <div id="srchP"></div>
                                 </div>
                                 </div>
                             <div class="row">
@@ -646,7 +643,7 @@
     <script>
         var defFooter = document.getElementById("def-footer");
         defFooter.outerHTML = wet.builder.appFooter({
-            "showFeatures": false
+            "showFeatures": true
         });
     </script>
     <!-- Write closure template -->
