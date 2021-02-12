@@ -1252,6 +1252,7 @@ function makeTable(data) {
 */
 
 const jsonSearch = (json, val, title, day) => {
+    
     var rows = json["rows"][0];
     var $search = $(val);
 
@@ -1292,6 +1293,15 @@ const jsonSearch = (json, val, title, day) => {
     }
 }
 
+const jsonSearchesPhrases = (json, day) => {
+
+    var title = $.i18n("Searches from page");
+    var val = "#srchP";
+    jsonSearch(json, val, title, day);
+
+
+    $(val + " table").trigger("wb-init.wb-tables");
+}
 
 const jsonSearchesAll = (json, day) => {
 
@@ -2022,7 +2032,7 @@ const apiCall = (d, i, a, uu, dd, fld, lg) => a.map(type => {
             case "snmAll":
                 return jsonSnum(res, dd);
             case "srchLeftAll":
-                return jsonSearches(res, dd);
+                return jsonSearchesPhrases(res, dd);
             case "trnd":
                 return jsonTrendGenerate(res, dd, d);
                 //case "pltfrm" : return jsonPieGenerate(res);
