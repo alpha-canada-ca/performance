@@ -416,8 +416,11 @@
                                 <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                     <p class="blue-box"><strong data-i18n="Averageuniquevisitors"></strong>
                                         <sup>
-                                            <button data-template="hlp-unique-visitors" class="fas fa-question" id="black"></button>
-                                            <!-- <button data-template="hlp-unique-visitors" class="fas fa-question" id="black"></button> -->
+                                            <!-- <button data-template="hlp-unique-visitors" class="fas fa-question" id="black"></button>
+                                             <button data-template="hlp-unique-visitors" class="fas fa-question" id="black"></button> -->
+                                            <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'unique visitors'" href="#uniquev_content_modal"></a>
+
+                                           
                                         </sup>
                                         <div id="uv"></div>
                                     </p>
@@ -427,8 +430,10 @@
                                 <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                     <p class="blue-box"><strong data-i18n="Averagevisits"></strong> 
                                         <sup>
-                                            <button data-template="hlp-average-visits" class="fas fa-question" id="black"></button>
                                             <!-- <button data-template="hlp-average-visits" class="fas fa-question" id="black"></button> -->
+                                            <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'visits'" href="#visits_content_modal"></a>
+
+                                            
                                         </sup>
                                         <div id="visit"></div>
                                     </p>
@@ -440,8 +445,10 @@
                                 <section class="bg bg-info text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                     <p class="blue-box"><strong data-i18n="Averagepageviews"></strong> 
                                         <sup>
-                                            <button data-template="hlp-average-pgv" class="fas fa-question" id="black"></button>
                                             <!-- <button data-template="hlp-average-pgv" class="fas fa-question" id="black"></button> -->
+                                            <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'page views'" href="#pv_content_modal"></a>
+
+                                            
                                         </sup>
                                         <div id="pagev"></div>
                                     </p>
@@ -451,8 +458,10 @@
                                 <section class="bg bg-warning text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                    <p class="blue-box"><strong data-i18n="Averagetimespent"></strong> 
                                     <sup>
-                                        <button data-template="hlp-average-tmspnt" class="fas fa-question" id="black"></button>
                                         <!-- <button data-template="hlp-average-tmspnt" class="fas fa-question" id="black"></button> -->
+                                        <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'time on page'" href="#tmspnt_content_modal"></a>
+
+                                            
                                     </sup>
                                         <div id="avgtime"></div>
                                    </p>
@@ -463,11 +472,19 @@
                             <div class="row">
                                 <div class="col-md-6" id="fwlf-container">
                                     <div id="rap-container">
-                                        <h2><strong data-i18n="Reportaproblem"></strong> <sup><button data-template="hlp-rap" class="fas fa-question" id="black"></button></sup></h2>
+                                        <h2><strong data-i18n="Reportaproblem"></strong> <sup>
+                                            <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term report a problem" href="#rap_content_modal"></a>
+
+                                            
+                                        </sup></h2>
+
                                         <div id="rapCont"></div>
                                     </div>
                                     <div id="fwylf-container">
-                                        <h2><strong data-i18n="FindWhatYoureLookingFor"></strong> <sup><button data-template="hlp-rap" class="fas fa-question" id="black"></button></sup></h2>
+                                        <h2><strong data-i18n="FindWhatYoureLookingFor"></strong> <sup>
+                                            <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'did you find what you were looking for?'" href="#fwylf_content_modal"></a>
+
+                                            </sup></h2>
                                         <div id="fwylfCont">
                                             <div id="fwylfTable"></div>
                                             <div id="fwylfReason"></div>
@@ -476,39 +493,67 @@
                                 </div>
 
                                 <div class="col-md-6" id="snum-container">
-                                    <h2><strong data-i18n="Searchesstartedfromthispage"></strong> <sup><button data-template="hlp-srch-started" class="fas fa-question" id="black"></button></sup></h2>
+                                    <h2><strong data-i18n="Searchesstartedfromthispage"></strong> <sup>
+                                        <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site searches started from this page'" href="#snum_content_modal"></a>
+
+                                            
+                                    </sup></h2>
                                     <p id="snum"></p>
                                 </div>
                                 <div class="col-md-6" id="search-container">
-                                    <h2><strong data-i18n="Phrasessearchedfromthispage"></strong> <sup><button data-template="hlp-phrases-search" class="fas fa-question" id="black"></button></sup></h2>
+                                    <h2><strong data-i18n="Phrasessearchedfromthispage"></strong> <sup>
+                                         <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Phrases searched on Canada.ca from this page'" href="#srchP_content_modal"></a>
+
+                                            
+                                    </sup></h2>
                                     <div id="srchP"></div>
                                 </div>
                                 </div>
                             <div class="row">
 
                                 <div class="col-md-6" id="reft-container">
-                                    <h2><span data-i18n="Referringtypes"></span>&nbsp;<sup><button data-template="hlp-refferrer-type" class="fas fa-question" id="black"></button></sup> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup>--></h2>
+                                    <h2><span data-i18n="Referringtypes"></span>&nbsp;<sup>
+                                        <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Referrer type'" href="#reft_content_modal"></a>
+
+                                            
+                                    </sup> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup>--></h2>
                                     <div id="reft"></div>
                                 </div>
                                 <div class="col-md-6" id="ppt-container">
-                                    <h2><span data-i18n="Whereuserscamefrom"></span>&nbsp;<sup><button data-template="hlp-users-came-from" class="fas fa-question" id="black"></button></sup> <!--<sup id="fn2-rf"><a class="fn-lnk" href="#fn2"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup>--></h2>
+                                    <h2><span data-i18n="Whereuserscamefrom"></span>&nbsp;<sup>
+                                        <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Where visitors came from'" href="#ppt_content_modal"></a>
+
+                                            
+                                    </sup> <!--<sup id="fn2-rf"><a class="fn-lnk" href="#fn2"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup>--></h2>
                                     <div id="ppt"></div>
                                     <!--<p id="pp" data-i18n="Nodata"></p>-->
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6" id="srchA-container">
-                                    <h2><span data-i18n="Searchtermsleadingtothispage"></span>&nbsp;<sup><button data-template="hlp-search-terms-lead" class="fas fa-question" id="black"></button></sup></h2>
+                                    <h2><span data-i18n="Searchtermsleadingtothispage"></span>&nbsp;<sup>
+                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#srchA_content_modal"></a>
+
+                                            
+                                        </sup></h2>
                                     <div id="srchA"></div>
                                 </div>
                                 <div class="col-md-6" id="np-container">
-                                    <h2><span data-i18n="Whatusersclickedon"></span>&nbsp;<sup><button data-template="hlp-users-click" class="fas fa-question" id="black"></button></sup> <sup id="fn1-rf"><a class="fn-lnk fas-1" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></h2>
+                                    <h2><span data-i18n="Whatusersclickedon"></span>&nbsp;<sup>
+                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'What visitors clicked on'" href="#np_content_modal"></a>
+
+                                            
+                                        </sup> <sup id="fn1-rf"><a class="fn-lnk fas-1" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></h2>
                                     <div id="np"></div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h2><span data-i18n="Devicesused"></span>&nbsp;<sup><button data-template="hlp-device-used" class="fas fa-question" id="black"></button></sup></h2>
+                                    <h2><span data-i18n="Devicesused"></span>&nbsp;<sup>
+                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Devices used'" href="#chrtp_content_modal"></a>
+
+                                            
+                                        </sup></h2>
                                     <div id="chrtp" data-i18n="Nodata"></div>
                                     <div id="chart-pltfrms">
                                         <h3 data-i18n="Numberofvisits(%)bydevicesused"></h3>
@@ -523,7 +568,11 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <h2><span data-i18n="Visitstrend"></span>&nbsp;<sup><button data-template="hlp-trends" class="fas fa-question" id="black"></button></sup></h2>
+                                    <h2><span data-i18n="Visitstrend"></span>&nbsp;<sup>
+                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Visits trend'" href="#chrtt_content_modal"></a>
+
+                                            
+                                        </sup></h2>
                                     <div id="chrtt" data-i18n="Nodata"></div>
                                     <div id="chart-trnds">
                                         <h3 data-i18n="Visitstrendbycurrentyearandpreviousyear"></h3>
@@ -567,13 +616,21 @@
                         </p>
                         <div class="col-md-3 col-md-offset-3" style="vertical-align: top;">
                             <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                <p class="blue-box"><strong data-i18n="Totalclicks"></strong> <sup><i data-template="hlp-total-clicks" class="fas fa-question-circle" tabindex="0"></i></sup></p>
+                                <p class="blue-box"><strong data-i18n="Totalclicks"></strong> <sup>
+                                <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Clicks'" href="#gscc_content_modal"></a>
+
+                                            
+                                        </sup></p>
                                 <p class="mrgn-tp-md" id="gsc-clicks"></p>
                             </section>
                         </div>
                         <div class="col-md-3" style="vertical-align: top;">
                             <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                <p class="blue-box"><strong data-i18n="Totalimpressions"></strong> <sup><i data-template="hlp-total-impressions" class="fas fa-question-circle" tabindex="0"></i></sup></p>
+                                <p class="blue-box"><strong data-i18n="Totalimpressions"></strong> <sup>
+                                <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Impressions'" href="#gsci_content_modal"></a>
+
+                                            
+                                        </sup></p>
                                 <p class="mrgn-tp-md" id="gsc-imp"></p>
                             </section>
                         </div>
@@ -658,6 +715,103 @@
                 </div>
             </div>
         </div>
+
+<section id="uniquev_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-unique-visitors-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-unique-visitors"></div>
+</section>
+<section id="visits_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-average-visits-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-average-visits"></div>
+</section>
+<section id="pv_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-average-pgv-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-average-pgv"></div>
+</section>
+<section id="tmspnt_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-average-tmspnt-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-average-tmspnt"></div>
+</section>
+<section id="rap_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-rap-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-rap"></div>
+</section>
+<section id="fwylf_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-fwylf-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-fwylf"></div>
+</section>
+<section id="snum_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-srch-started-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-srch-started"></div>
+</section>
+<section id="srchP_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-phrases-search-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-phrases-search"></div>
+</section>
+<section id="reft_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-refferrer-type-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-refferrer-type"></div>
+</section>
+<section id="ppt_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-users-came-from-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-users-came-from"></div>
+</section>
+<section id="srchA_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-search-terms-lead-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-search-terms-lead"></div>
+</section>
+<section id="np_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-users-click-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-users-click"></div>
+</section>
+<section id="chrtp_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-device-used-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-device-used"></div>
+</section>
+<section id="chrtt_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-trends-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-trends"></div>
+</section>
+<section id="gscc_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-total-clicks-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-total-clicks"></div>
+</section>
+<section id="gsci_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-total-impressions-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-total-impressions"></div>
+</section>
 
 
             <div id="def-preFooter">
