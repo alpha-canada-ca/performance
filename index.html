@@ -287,6 +287,15 @@
                 "href": "?lang=" + altLang,
                 "text": altLangText
             }]
+            /*,
+        "breadcrumbs": [{
+            "title": "Home",
+            "href": "https://www.canada.ca/en/index.html"
+        }, {
+            "title": "CDTS",
+            "acronym": "Centrally Deployed Templates Solution",
+            "href": "https://www.canada.ca/en/index.html"
+        }]*/
     });
 
     </script>
@@ -400,7 +409,7 @@
 
             <!-- <button class="btn btn-default" onClick="getPDF();">Print to PDF</button> -->
 
-            <div class="wb-tabs">
+            <div class="wb-tabs ignore-session">
                 <div class="tabpanels">
                     <details id="details-panel1" open="open">
                         <summary>Web analytics</summary>
@@ -701,12 +710,13 @@
                             </dl>
                         </aside>
                     </div>
+                    <!--
                     </details>
                     <details id="details-panel3">
                         <summary id="bp-summary">Feedback by page</summary>
                         <div id="bp-content"></div>
                     </details>
-                    <!--
+                    
                     <details id="details-panel4">
                         <summary id="read-summary">Web readability score</summary>
                         <div id="read-content"></div>
