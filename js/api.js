@@ -2499,7 +2499,7 @@ const mainQueue = (url, start, end, lang) => {
             .then(() => getMatch())
             .then(res => checkErrorMatch(res))//, chainError())
             .then(res => getGSC(res))
-            .then(res => dbGetBPMatch(res))
+            //.then(res => dbGetBPMatch(res))
             //.then(() => dbGetReadMatch())
             /*.then( res => { getPreviousPage(res[0]); return res; })
              */
@@ -2513,29 +2513,6 @@ const mainQueue = (url, start, end, lang) => {
                     $("a#h2href").html($.i18n("LanguageToggleFR"));
                 } else {
                     $("a#h2href").html($.i18n("LanguageToggleEN"));
-                }
-
-                if ( res ) {
-                    $("#loading").addClass("hidden");
-                    $("#loadFD").addClass("hidden");
-                    $("#notfound").addClass("hidden");
-                    $("#error").removeClass("hidden");
-                    $('#errorHeader').val($('#urlStatic').text());
-                    $("#searchBttn").prop("disabled", false);
-                    $('#urlval').val($('#urlStatic').text());
-                    date = $('#date-range').val();
-                    setQueryParams(oUrl, date);
-                } else {
-                    $("#loading").addClass("hidden");
-                    $("#loadFD").addClass("hidden");
-                    $("#error").addClass("hidden");
-                    $("#notfound").addClass("hidden");
-                    $("#whole-canvas").removeClass("hidden");
-                    $("#canvas-container").removeClass("hidden");
-                    $("#searchBttn").prop("disabled", false);
-                    $('#urlval').val($('#urlStatic').text());
-                    date = $('#date-range').val();
-                    setQueryParams(oUrl, date);
                 }
 
                 if ( $isApp ) {
@@ -2559,6 +2536,31 @@ const mainQueue = (url, start, end, lang) => {
                     ($("#details-panel2-lnk").closest("li")).removeClass("hidden");
                     ($("#details-panel2")).removeClass("hidden");
                 }
+
+                if ( res ) {
+                    $("#loading").addClass("hidden");
+                    $("#loadFD").addClass("hidden");
+                    $("#notfound").addClass("hidden");
+                    $("#error").removeClass("hidden");
+                    $('#errorHeader').val($('#urlStatic').text());
+                    $("#searchBttn").prop("disabled", false);
+                    $('#urlval').val($('#urlStatic').text());
+                    date = $('#date-range').val();
+                    setQueryParams(oUrl, date);
+                } else {
+                    $("#loading").addClass("hidden");
+                    $("#loadFD").addClass("hidden");
+                    $("#error").addClass("hidden");
+                    $("#notfound").addClass("hidden");
+                    $("#whole-canvas").removeClass("hidden");
+                    $("#searchBttn").prop("disabled", false);
+                    $('#urlval').val($('#urlStatic').text());
+                    date = $('#date-range').val();
+                    setQueryParams(oUrl, date);
+                    $("#canvas-container").removeClass("hidden");
+                }
+
+                
 
                 if ( $dd == 0 ) { $("#gscDate").html($.i18n("Last30days")); $("#ddDate").html($.i18n("Last30days")); }
                 else if ( $dd == 1 ) { $("#gscDate").html($.i18n("Last7days")); $("#ddDate").html($.i18n("Last7days")); }
