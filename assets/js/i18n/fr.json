@@ -133,6 +133,8 @@
     "hlp-trends-title": "Aide pour le terme ' Tendance des visites '",
     "hlp-device-used": "Indique le type d'appareil utilisé par les visiteurs pour accéder à la page Web.",
     "hlp-device-used-title": "Aide pour le terme ' Appareils utilisés '",
+    "hlp-whereaccess": "Provinces du Canada à partir desquelles les utilisateurs visitent cette page.",
+    "hlp-whereaccess-title": "Aide pour le terme ' Où les utilisateurs accèdent à la page '",
     "hlp-total-clicks": "Le nombre total de clics correspond au nombre de fois qu'un utilisateur a cliqué sur votre site à partir de la page de résultats de recherche",
     "hlp-total-clicks-title": "Aide pour le terme ' Clics '",
     "hlp-total-impressions": "Le nombre total d'impressions correspond au nombre de fois où un utilisateur a vu un lien vers votre site dans la page de résultats de recherche",
@@ -148,6 +150,7 @@
     "errorOccured": "Une erreur s'est produite — Veuillez réessayer dans 15 secondes.",
     "moreDetails": "Afficher plus de détails",
     "title": "Titre",
-    "message": "Message"
+    "message": "Message",
+    "Whereaccess": "Où les utilisateurs accèdent à la page"
 
 }
