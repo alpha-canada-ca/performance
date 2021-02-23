@@ -542,7 +542,7 @@ const jsonPieGenerate = (arr) => {
     let dtx = Object.keys(srch[0]);
     table.innerHTML = ""
     generateTable(table, srch);
-    generateTableHead(table, dtx, $.i18n("Number of visits by devices used"));
+    generateTableHead(table, dtx, $.i18n("Percentage (%) of visits by device used"));
 
     $("#chart-pltfrms").show();
     $("#chrtp").hide();
@@ -959,7 +959,8 @@ const jsonSnum = (json, day) => {
         snum = (rows["data"][day])
         snumDays = parseInt(snum / $days).toLocaleString(document.documentElement.lang + "-CA");
         snum = parseInt(snum).toLocaleString(document.documentElement.lang + "-CA");
-        $snum.prepend("<span class='h1'>" + snumDays + "</span> <strong>" + $.i18n("averageperday") + "</strong></br><span class='small'>" + snum + " " + $.i18n("total") + "</span>");
+        if (day == 2) { $snum.prepend("<span class='h1'>" + snum + "</span> <strong>" + $.i18n("total") + "</strong>"); }
+        else { $snum.prepend("<span class='h1'>" + snumDays + "</span> <strong>" + $.i18n("averageperday") + "</strong></br><span class='small'>" + snum + " " + $.i18n("total") + "</span>"); }
 
         itemid = (rows["itemId"]);
         //console.log(itemid);
@@ -1157,6 +1158,70 @@ const jsonRT = (json, day) => {
             */
 
             $(val).html(getTable(5, "false", "false", "false"));
+            let table = document.querySelector(val + " table");
+            let data = Object.keys(ref[0]);
+            generateTable(table, ref);
+            generateTableHead(table, data, title);
+
+            $(val + " table").trigger("wb-init.wb-tables");
+
+        } else {
+            $ref.html($.i18n("Nodata"));
+        }
+}
+
+const jsonTable = (json, val, title, headers, day) => {
+    //var rows = json["rows"][0];
+    title = $.i18n(title);
+    var $ref = $(val);
+
+        var array = json;
+        $ref.html("");
+
+        var ref = [];
+
+        $.each(array, function(index, value) {
+
+            var obj = {};
+
+            for ( var $i = 0; $i < headers.length; $i++ ) {
+                
+                term = value[$i];
+
+                if (!isInt(term)) {
+                    if ( term.indexOf("||") !== -1 ) {
+                    var terms = term.split("||");
+                    if (terms.length > 1) {
+                        if (document.documentElement.lang == "en") {
+                            term = terms[0];
+                        } else {
+                            term = terms[1];
+                        }
+                    }
+                }
+                }
+                obj[$.i18n(headers[$i])] = term;
+            }
+
+            ref.push(obj);
+        });
+
+        //console.log(ref);
+        //console.log(ref.length)
+
+        if (ref.length != 0) {
+            //ref.sort((a, b)=> b[$.i18n("Visits")] - a[$.i18n("Visits")] );
+
+            /*let div = document.querySelector("div#reft");
+            let tbl = div.html('<table></table>').addClass('wb-table');
+            let data = Object.keys(ref[0]);
+            generateTable(tbl, ref);
+            generateTableHead(tbl, data, title);
+
+            $(val).trigger("wb-init.wb-tables");
+            */
+
+            $(val).html(getTable(10, "false", "false", "false"));
             let table = document.querySelector(val + " table");
             let data = Object.keys(ref[0]);
             generateTable(table, ref);
@@ -1460,7 +1525,7 @@ const jsonMetrics = (json, day) => {
     var uvNum = 9 + parseInt(day);
 
     var avgtimeNum = 24 + parseInt(day);
-    var rapNum = 36 + parseInt(day);
+    var rapNum = 30 + parseInt(day);
 
     var desktopNum = 12 + parseInt(day);
     var mobileNum = 15 + parseInt(day);
@@ -1486,6 +1551,21 @@ const jsonMetrics = (json, day) => {
     var quebecNum = 90 + parseInt(day);
     var saskatchewanNum = 93 + parseInt(day);
     var yukonNum = 96 + parseInt(day);
+
+    var rapICantFindNum = 111 + parseInt(day);
+    var rapLoginErrorNum = 114 + parseInt(day);
+    var rapOtherIssueNum = 117 + parseInt(day);
+    var rapSINNum = 120 + parseInt(day);
+    var rapInfoIsMissingNum = 123 + parseInt(day);
+    var rapSecureKeyNum = 126 + parseInt(day);
+    var rapOtherLoginNotListNum = 129 + parseInt(day);
+    var rapGCKeyNum = 132 + parseInt(day);
+    var rapInfoOutdatedNum = 135 + parseInt(day);
+    var rapSpellingMistakeNum = 138 + parseInt(day);
+    var rapPACNum = 141 + parseInt(day);
+    var rapLinkButtonNotWorkNum = 144 + parseInt(day);
+    var rap404Num = 147 + parseInt(day);
+    var rapBlankNum = 150 + parseInt(day);
 
     var searchEngineNum = 99 + parseInt(day);
     var otherWebsitesNum = 102 + parseInt(day);
@@ -1541,7 +1621,8 @@ const jsonMetrics = (json, day) => {
             if (day == 2) $weeks = 1;
             rapWeeks = parseInt(rap / $weeks).toLocaleString(document.documentElement.lang + "-CA");
             rap = parseInt(rap).toLocaleString(document.documentElement.lang + "-CA");
-            $("#rap").prepend("<span class='h1'>" + rapWeeks + "</span> <strong>" + $.i18n("averageperweek") + "</strong></br><span class='small'>" + rap + " " + $.i18n("total") + "</span>");
+            if (day == 2) { $("#rap").prepend("<span class='h1'>" + rap + "</span> <strong>" + $.i18n("total") + "</strong>"); }
+            else { $("#rap").prepend("<span class='h1'>" + rapWeeks + "</span> <strong>" + $.i18n("averageperweek") + "</strong></br><span class='small'>" + rap + " " + $.i18n("total") + "</span>"); }
             $("#fwylfCont").html('<div id="fwylfTable"></div><div id="fwylfReason"></div>');
             $("#rap-container").show();
             $("#fwylf-container").hide();
@@ -1577,6 +1658,82 @@ const jsonMetrics = (json, day) => {
         ];
 
         jsonRT(referrerType, day)
+
+        rapVal = "#rapReason";
+        rapTitle = $.i18n("reportaproblem");
+        rapHeaders = [ "Response", "Clicks" ]
+
+        rapICantFind = parseInt(rows[rapICantFindNum])
+        rapLoginError = parseInt(rows[rapLoginErrorNum])
+        rapOtherIssue = parseInt(rows[rapOtherIssueNum])
+        rapSIN = parseInt(rows[rapSINNum])
+        rapInfoIsMissing = parseInt(rows[rapInfoIsMissingNum])
+        rapSecureKey = parseInt(rows[rapSecureKeyNum])
+        rapOtherLoginNotList = parseInt(rows[rapOtherLoginNotListNum])
+        rapGCKey = parseInt(rows[rapGCKeyNum])
+        rapInfoOutdated = parseInt(rows[rapInfoOutdatedNum])
+        rapSpellingMistake = parseInt(rows[rapSpellingMistakeNum])
+        rapPAC = parseInt(rows[rapPACNum])
+        rapLinkButtonNotWork = parseInt(rows[rapLinkButtonNotWorkNum])
+        rap404 = parseInt(rows[rap404Num])
+        rapBlank = parseInt(rows[rapBlankNum])
+
+        let reportAProblemArray = [
+            [ "I can't find what I'm looking for||Je n'arrive pas à trouver ce que je cherche", rapICantFind ],
+            [ "Login error when trying to access an account (e.g. My Service Canada Account)||Message d'erreur à l'ouverture de la session lorsque je tente d'accéder à un compte (ex. Mon dossier Service Canada)", rapLoginError ],
+            [ "Other issue not in this list||Autre problème qui ne figure pas sur cette liste", rapOtherIssue ],
+            [ "Social Insurance Number (SIN) validation problems||Problème lié à la validation du numéro d'assurance sociale (NAS)", rapSIN ],
+            [ "Information is missing||Les renseignements sont incomplets",  rapInfoIsMissing ],
+            [ "SecureKey Concierge (Banking Credential) access||Accès SecureKey Service de Concierge (justificatifs d'identité bancaires)", rapSecureKey ],
+            [ "Other login error not in this list||Autre erreur lors de l'ouverture de session qui ne figure pas sur cette liste", rapOtherLoginNotList ],
+            [ "GC Key access||Accès CléGC", rapGCKey ],
+            [ "Information is outdated or wrong||L'information n'est plus à jour ou est erronée", rapInfoOutdated ],
+            [ "It has a spelling mistake||Il y a une erreur d'orthographe ou de grammaire", rapSpellingMistake ],
+            [ "Personal Access Code (PAC) problems or EI Access Code (AC) problems||Problème avec le Code d'accès personnel (CAP) ou avec le Code d'accès (CA) de l'assurance emploi", rapPAC ],
+            [ "A link, button or video is not working||Un lien, un bouton ou une vidéo ne fonctionne pas", rapLinkButtonNotWork ],
+            [ "Report a problem submissions that are 404 Pages||Signaler un problème dans les soumissions de 404 pages", rap404 ],
+            [ "Report a problem submissions with no boxes checked||Signaler une soumission de problème sans case cochée", rapBlank ],
+        ];
+
+        jsonTable(reportAProblemArray, rapVal, rapTitle, rapHeaders, day)
+
+        provVal = "#provChart";
+        provTitle = $.i18n("provTerr");
+        provHeaders = [ "Province or Territory", "Visits" ]
+
+        provAlberta = parseInt(rows[albertaNum])
+        provBC = parseInt(rows[bcNum])
+        provMB = parseInt(rows[manitobaNum])
+        provNB = parseInt(rows[newBrunswickNum])
+        provNFL = parseInt(rows[newfoundlandNum])
+        provNWT = parseInt(rows[northwestTerritoriesNum])
+        provNS = parseInt(rows[novaScotiaNum])
+        provNV = parseInt(rows[nunavutNum])
+        provON = parseInt(rows[ontarioNum])
+        provOutCAN = parseInt(rows[outsideCanadaNum])
+        provPEI = parseInt(rows[peiNum])
+        provQB = parseInt(rows[quebecNum])
+        provSK = parseInt(rows[saskatchewanNum])
+        provYK = parseInt(rows[yukonNum])
+        
+        let provArray = [
+            [ "Alberta||L'Alberta", provAlberta],
+            [ "British Columbia||La Colombie-Britannique", provBC],
+            [ "Manitoba||Le Manitoba", provMB],
+            [ "New Brunswick||Le Nouveau-Brunswick", provNB],
+            [ "Newfoundland and Labrador||La Terre-Neuve-et-Labrador", provNFL],
+            [ "Northwest Territories||Les Territoires du Nord-Ouest", provNWT],
+            [ "Nova Scotia||La Nouvelle-Écosse", provNS],
+            [ "Nunavut||Le Nunavut", provNV],
+            [ "Ontario||L'Ontario", provON],
+            [ "Outside Canada||À l'extérieur du Canada", provOutCAN],
+            [ "Prince Edward Island||Île-du-Prince-Édouard", provPEI],
+            [ "Quebec||Le Québec", provQB],
+            [ "Saskatchewan||La Saskatchewan", provSK],
+            [ "Yukon (Territory)||Le Yukon (Territoire)", provYK]
+        ];
+
+      jsonTable(provArray, provVal, provTitle, provHeaders, day)
 
     } else {
         $uv.html("0");

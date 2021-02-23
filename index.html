@@ -268,7 +268,7 @@
 </head>
 
 <body vocab="http://schema.org/" typeof="WebPage">
-    <span id="allspan" class="hidden">
+    
             <section class="experimental alpha-top">
                <h2 class="wb-inv" data-i18n="Alpha"></h2>
                <div class="container"><small><label class="alpha-label" data-i18n="Alpha"></label>&nbsp;&nbsp; <span data-i18n="alphaMsg"></span> </small>
@@ -421,6 +421,8 @@
                                 <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
                             </p>
 
+                            <div class="row">
+
                             <div class="col-md-3" style="vertical-align: top;">
                                 <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                     <p class="blue-box"><strong data-i18n="Averageuniquevisitors"></strong>
@@ -448,10 +450,9 @@
                                     </p>
                                 </section>
                             </div>
-                            <div class="row">
 
                             <div class="col-md-3" style="vertical-align: top;">
-                                <section class="bg bg-info text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                     <p class="blue-box"><strong data-i18n="Averagepageviews"></strong> 
                                         <sup>
                                             <!-- <button data-template="hlp-average-pgv" class="fas fa-question" id="black"></button> -->
@@ -464,7 +465,7 @@
                                 </section>
                             </div>
                             <div class="col-md-3" style="vertical-align: top;">
-                                <section class="bg bg-warning text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                    <p class="blue-box"><strong data-i18n="Averagetimespent"></strong> 
                                     <sup>
                                         <!-- <button data-template="hlp-average-tmspnt" class="fas fa-question" id="black"></button> -->
@@ -488,6 +489,7 @@
                                         </sup></h2>
 
                                         <div id="rapCont"></div>
+                                        <div id="rapReason"></div>
                                     </div>
                                     <div id="fwylf-container">
                                         <h2><strong data-i18n="FindWhatYoureLookingFor"></strong> <sup>
@@ -596,6 +598,16 @@
                                         </div>
                                         </details>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" id="geo-container">
+                                    <h2><span data-i18n="Whereaccess"></span>&nbsp;<sup>
+                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#provChart_content_modal"></a>
+
+                                            
+                                        </sup></h2>
+                                    <div id="provChart"></div>
                                 </div>
                             </div>
                             <aside class="wb-fnote" role="note">
@@ -810,6 +822,12 @@
     </header>
     <div class="modal-body" data-i18n="hlp-trends"></div>
 </section>
+<section id="provChart_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-whereaccess-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-whereaccess"></div>
+</section>
 <section id="gscc_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
     <header class="modal-header">
         <h2 class="modal-title" data-i18n="hlp-total-clicks-title"></h2>
@@ -884,7 +902,6 @@
         $('meta[name="dcterms.creator"]').attr('content',$creator);
     </script>
     <script type="text/javascript" src="js/api.min.js"></script>
-    </span>
     <script type="text/javascript">_satellite.pageBottom();</script>
 </body>
 

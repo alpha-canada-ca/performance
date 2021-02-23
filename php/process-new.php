@@ -362,6 +362,8 @@ try {
                             $json = str_replace("*month*", $dates2[0], $json);
                             $json = str_replace("*week*", $dates2[1], $json);
                             $json = str_replace("*yesterday*", $dates2[2], $json);
+
+                            echo "Month: " . $dates2[0] . " Week: " . $dates2[1] . " Yesterday: " . $dates2[2] . " END: " . $end;
                         }
                         
                         //echo "<br /><br />$t&nbsp;&nbsp;&nbsp;$start&nbsp;&nbsp;&nbsp;&nbsp;$end&nbsp;&nbsp;&nbsp;&nbsp;$oDate";
