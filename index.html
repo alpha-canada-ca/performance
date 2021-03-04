@@ -206,7 +206,7 @@
         }
 
         #qwert {
-            font-family: 'Font Awesome 5 Free'
+            font-family: 'Font Awesome 5 Free';
             font-weight: 900;
         }
         button#searchBttn.btn.btn-default span {
@@ -256,6 +256,18 @@
             font-size: 17px;
         }
 
+        #ajax-status-alert {
+    position: fixed;
+    bottom: 10px;
+    right: 15px;
+    z-index: 1001;
+}
+
+.ajax-status-alert__text + .ajax-status-alert__icon {
+    display: inline-block;
+    margin-left: 5px;
+}
+
 
     </style>
     <!-- Write closure template -->
@@ -300,7 +312,7 @@
 
     </script>
     <main property="mainContentOfPage" class="container" typeof="WebPageElement">
-        <h1 id="wb-cont" data-i18n="app-title"></h1>
+        <h1 id="wb-cont" property="name" data-i18n="app-title"></h1>
         <div class="clearfix"></div>
 
         <div class="wb-frmvld">
@@ -308,8 +320,8 @@
             <p data-i18n="BlurbP1"></p>
             <!-- <p data-i18n="BlurbP2"></p> -->
             <input type='hidden' name='dd-value'>
-            <label for="btngrp-search2" class="wb-inv" data-i18n="Search"></label>
-            <!-- <p data-i18n="EnterthepageURL"></p> -->
+            <!--<label for="btngrp-search2" class="wb-inv" data-i18n="Search"></label>
+         <p data-i18n="EnterthepageURL"></p> -->
 
             <!--
                 <label for="urlval" class="required"><span class="field-name" data-i18n="SearchCanada"></span> <strong class="required" data-i18n="Required"></strong></label>
@@ -343,9 +355,10 @@
         
 
         <div id="loading" class="hidden" style="margin-top: 10px;">
-            <p id="loadGSC" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataGSC"></span> </p>
-            <p id="loadAA" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataAA"></span> </p>
-            <p id="loadFD" class="hidden"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataFD"></span> </p>
+            <p id="loadGSC" class="hidden" aria-live="polite"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataGSC"></span> </p>
+            <p id="loadAA" class="hidden" aria-live="polite"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataAA"></span> </p>
+            <p id="loadFD" class="hidden" aria-live="polite"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataFD"></span> </p>
+            <p id="loadComp" class="hidden" aria-live="polite"><span data-i18n="Fetchcomplete"></span> </p>
         </div>
         <div id="notfound" class="hidden">
             <p><i class="fas fa-exclamation-triangle"></i><span data-i18n="Opps"></span></p>
@@ -361,7 +374,15 @@
 
         </div>
 
-        <div id="whole-canvas" class="hidden">
+        <!--
+
+        <div id="ajax-status-alert" aria-live="polite" data-toggle-class="alert alert-warning">
+    <span class="ajax-status-alert__text"></span>
+    <i class="ajax-status-alert__icon glyphicon glyphicon-refresh glyphicon-spin" role="presentation" aria-hidden="true"></i>
+</div>
+-->
+
+        <div id="whole-canvas" class="hidden" aria-live="polite">
 
             <!-- <button type="button" id="download-pdf">Download PDF</button> -->
 
@@ -369,7 +390,7 @@
             <span id="numDays" class="hidden"></span>
             <div class="row">
                 <div class="col-md-12">
-                    <h2><span id="h2title" data-i18n="Page-levelstatistics"></span></h2>
+                    <h2><span class="wb-inv" data-i18n="Datafor"></span><span id="h2title" data-i18n="Page-levelstatistics"></span></h2>
                     <span id="urlStatic" class="small"></span>
                     <p class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></p>
                     <p id="urlLang" class="hidden"></p>
@@ -392,7 +413,6 @@
                 </span>
    </div>
 </form>
--->
 
                             <div id="langCheckID" class="hidden">
                                  <label id ="langCheck" for="dt-rng" data-i18n="LanguageCheck"></label>
@@ -402,6 +422,7 @@
                                     <option data-index="1" value="1" data-i18n="LanguageCheckFrench"></option>
                                 </select>
                             </div>
+                            -->
 
                     </div>
                      </div>
@@ -520,8 +541,15 @@
                                     <div id="srchP"></div>
                                 </div>
                                 </div>
-                            <div class="row">
+                                <div class="row">
+                                    <div class="col-md-6" id="srchA-container">
+                                    <h2><span data-i18n="Searchtermsleadingtothispage"></span>&nbsp;<sup>
+                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#srchA_content_modal"></a>
 
+                                            
+                                        </sup></h2>
+                                    <div id="srchA"></div>
+                                </div>
                                 <div class="col-md-6" id="reft-container">
                                     <h2><span data-i18n="Referringtypes"></span>&nbsp;<sup>
                                         <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Referrer type'" href="#reft_content_modal"></a>
@@ -530,7 +558,9 @@
                                     </sup> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup>--></h2>
                                     <div id="reft"></div>
                                 </div>
-                                <div class="col-md-6" id="ppt-container">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" id="ppt-container">
                                     <h2><span data-i18n="Whereuserscamefrom"></span>&nbsp;<sup>
                                         <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Where visitors came from'" href="#ppt_content_modal"></a>
 
@@ -540,15 +570,8 @@
                                     <!--<p id="pp" data-i18n="Nodata"></p>-->
                                 </div>
                             </div>
+                            
                             <div class="row">
-                                <div class="col-md-6" id="srchA-container">
-                                    <h2><span data-i18n="Searchtermsleadingtothispage"></span>&nbsp;<sup>
-                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#srchA_content_modal"></a>
-
-                                            
-                                        </sup></h2>
-                                    <div id="srchA"></div>
-                                </div>
                                 <div class="col-md-6" id="np-container">
                                     <h2><span data-i18n="Whatusersclickedon"></span>&nbsp;<sup>
                                     <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'What visitors clicked on'" href="#np_content_modal"></a>
@@ -557,6 +580,16 @@
                                         </sup> <sup id="fn1-rf"><a class="fn-lnk fas-1" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></h2>
                                     <div id="np"></div>
                                 </div>
+                                <div class="col-md-6" id="geo-container">
+                                    <h2><span data-i18n="Whereaccess"></span>&nbsp;<sup>
+                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#provChart_content_modal"></a>
+
+                                            
+                                        </sup></h2>
+                                    <div id="provChart"></div>
+                                </div>
+                                
+                                
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -568,7 +601,7 @@
                                     <div id="chrtp" data-i18n="Nodata"></div>
                                     <div id="chart-pltfrms">
                                         <h3 data-i18n="Numberofvisits(%)bydevicesused"></h3>
-                                        <div id="chart-canvas" style="width: 100%; height: 40vh;">
+                                        <div id="chart-canvas" style="width: 100%; height: 40vh;" aria-hidden="true">
                                             <canvas id="chart" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow." aria-hidden="true"></canvas>
                                         </div>
                                         <details>
@@ -587,7 +620,7 @@
                                     <div id="chrtt" data-i18n="Nodata"></div>
                                     <div id="chart-trnds">
                                         <h3 data-i18n="Visitstrendbycurrentyearandpreviousyear"></h3>
-                                        <div id="trends-canvas" style="width: 100%; height: 40vh;">
+                                        <div id="trends-canvas" style="width: 100%; height: 40vh;" aria-hidden="true">
                                             <canvas id="trends" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow." aria-hidden="true"></canvas>
                                         </div>
                                         <details>
@@ -598,16 +631,6 @@
                                         </div>
                                         </details>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6" id="geo-container">
-                                    <h2><span data-i18n="Whereaccess"></span>&nbsp;<sup>
-                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#provChart_content_modal"></a>
-
-                                            
-                                        </sup></h2>
-                                    <div id="provChart"></div>
                                 </div>
                             </div>
                             <aside class="wb-fnote" role="note">
@@ -675,7 +698,7 @@
                             <div id="chrtgsc" data-i18n="Nodata"></div>
                             <div id="chartgsc">
                                 <h3 class="hidden" data-i18n="Visitstrendbycurrentyearandpreviousyear"></h3>
-                                <div id="gsc-canvas" style="width: 100%; height: 60vh;">
+                                <div id="gsc-canvas" style="width: 100%; height: 60vh;" aria-hidden="true">
                                     <canvas id="gsc" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow." aria-hidden="true"></canvas>
                                 </div>
                                 <details>
@@ -722,8 +745,8 @@
                             </dl>
                         </aside>
                     </div>
-                    <!--
                     </details>
+                    <!--
                     <details id="details-panel3">
                         <summary id="bp-summary">Feedback by page</summary>
                         <div id="bp-content"></div>
@@ -850,7 +873,7 @@
             <script>
                 var defPreFooter = document.getElementById("def-preFooter");
                 defPreFooter.outerHTML = wet.builder.preFooter({
-                    "dateModified": "2021-01-29"
+                    "dateModified": "2021-02-23"
                 });
             </script>
     </main>
