@@ -125,6 +125,7 @@ function isInt(value) {
         !isNaN(parseInt(value, 10));
 }
 
+
 /**
  * Generates table head
  *
@@ -139,6 +140,8 @@ function generateTableHead(table, data, title) {
     for (let key of data) {
         let th = document.createElement("th");
         let text = document.createTextNode(key);
+
+        th.setAttribute("scope", "col")
         th.appendChild(text);
         row.appendChild(th);
     }
@@ -443,9 +446,11 @@ const jsonPieGenerate = (arr) => {
     val = arr;
     cnt = val.length;
 
+    bgColor = [ "#56B4E9", "#009E73", "#0072B2", "#000000"]
+
     var data = [{
         data: val,
-        backgroundColor: poolColors(cnt)
+        backgroundColor: bgColor
     }];
 
     var options = {
@@ -479,7 +484,8 @@ const jsonPieGenerate = (arr) => {
                 borderRadius: 4,
                 color: "white",
                 font: {
-                    weight: "bold"
+                    weight: "bold",
+                    size: 14
                 }
             }
         },
@@ -498,6 +504,9 @@ const jsonPieGenerate = (arr) => {
             position: "bottom",
             minSize: {
                 height: 500
+            },
+            labels: {
+                fontSize: 14
             }
         },
         layout: {
@@ -641,7 +650,8 @@ const jsonTrendGenerate = (json, day, dates) => {
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: $.i18n("Numberofvisits")
+                        labelString: $.i18n("Numberofvisits"),
+                        fontSize: 16
                     },
                     ticks: {
                         beginAtZero: true,
@@ -649,13 +659,21 @@ const jsonTrendGenerate = (json, day, dates) => {
                         // Return `null` or `undefined` to hide the tick line entirely
                        callback: function(value, index, values) {
                             return Intl.NumberFormat().format((value/1000));
-                        }
+                        },
+                        fontSize: 16
                     }
                 }],
                 xAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: ($.i18n(granularity) + $.i18n("Dayofselecteddaterange"))
+                        labelString: ($.i18n(granularity) + $.i18n("Dayofselecteddaterange")),
+                        fontSize: 16
+                    },
+                    gridLines: {
+                        display:false
+                    },
+                    ticks: {
+                        fontSize: 16
                     }
                 }]
             },
@@ -677,7 +695,8 @@ const jsonTrendGenerate = (json, day, dates) => {
             legend: {
                 position: "bottom",
                 labels: {
-                    usePointStyle: true
+                    usePointStyle: true,
+                    fontSize: 14
                 }
             },
             layout: {
@@ -694,11 +713,13 @@ const jsonTrendGenerate = (json, day, dates) => {
                 datasets: [{
                     label: $.i18n("CurrentYear"),
                     data: val,
-                    backgroundColor: dynamicColors()
+                    borderColor: "#56B4E9",
+                    fill: false
                 }, {
                     label: $.i18n("PreviousYear"),
                     data: lval,
-                    backgroundColor: dynamicColors()
+                    borderColor: "#009E73",
+                    fill: false
                 }]
             },
             options: options
@@ -1628,7 +1649,7 @@ const jsonMetrics = (json, day) => {
             $("#fwylf-container").hide();
         } else {
             $("#fwylfCont").html('<div id="fwylfTable"></div><div id="fwylfReason"></div>');
-            $("#fwylfTable").html('<table class="table table-striped"><thead><th>' + $.i18n("Yes") + '</th><th>' + $.i18n("No") + '</th></thead><tr><td id="fwylfYes"></td><td id="fwylfNo"></td></tr></table>');
+            $("#fwylfTable").html('<table class="table table-striped"><thead><th scope="col">' + $.i18n("Yes") + '</th><th scope="col">' + $.i18n("No") + '</th></thead><tr><td id="fwylfYes"></td><td id="fwylfNo"></td></tr></table>');
             $("#fwylfYes").html(rows[findLookingForYesNum]);
             $("#fwylfNo").html(rows[findLookingForTotalNum]);
             $("#rapCont").html("");
@@ -1771,7 +1792,7 @@ const jsonGSCTotal = (json, day) => {
     var $pos = $("#gsc-pos");
 
     var $days = parseInt($("#numDaysgsc").html());
-    console.log( "DAAAAAAAAAAAAYSSSS: ---------- " + day + " -------- $daysss: -------- " + $days)
+    //console.log( "DAAAAAAAAAAAAYSSSS: ---------- " + day + " -------- $daysss: -------- " + $days)
 
     $clicks.html("")
     $imp.html("")
@@ -1884,11 +1905,13 @@ const jsonGSCGenerate = (json, day) => {
                         beginAtZero: true,
                         callback: function(value, index, values) {
                             return Intl.NumberFormat().format((value/1000));
-                        }
+                        },
+                        fontSize: 16
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: $.i18n("GSCClicks")
+                        labelString: $.i18n("GSCClicks"),
+                        fontSize: 16
                     }
                 }, {
 
@@ -1900,11 +1923,13 @@ const jsonGSCGenerate = (json, day) => {
                         beginAtZero: true,
                         callback: function(value, index, values) {
                             return Intl.NumberFormat().format((value/1000));
-                        }
+                        },
+                        fontSize: 16
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: $.i18n("GSCImpressions")
+                        labelString: $.i18n("GSCImpressions"),
+                        fontSize: 16
                     }
                 }/*, {
 
@@ -1936,7 +1961,11 @@ const jsonGSCGenerate = (json, day) => {
                 xAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: $.i18n("Dayofselecteddaterange2")
+                        labelString: $.i18n("Dayofselecteddaterange2"),
+                        fontSize: 16
+                    },
+                    ticks: {
+                        fontSize: 16
                     }
                 }]
             },
@@ -2453,8 +2482,8 @@ const mainQueue = (url, start, end, lang) => {
     //console.log(url);
     url = (url.substring(0, 8) == "https://") ? url.substring(8, url.length) : url;
 
-    if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html" ||
-        /^(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ) {
+    //if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html" ||
+      //  /^(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ) {
 
         $isApp = ( /^(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ) ? 1 : 0;
 
@@ -2741,7 +2770,7 @@ const mainQueue = (url, start, end, lang) => {
 
         $success = 1;
 
-    }
+    //}
 
     if (!$success) {
         $("#loading").addClass("hidden");
