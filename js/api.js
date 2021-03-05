@@ -606,9 +606,11 @@ const jsonTrendGenerate = (json, day, dates) => {
         $cnt = val.length;
 
         var valVar = [];
+        var valVarLong = [];
 
         for (var m = moment(dates[0]); m.isBefore(dates[1]); m.add(1, 'days')) {
-            valVar.push( m.format('YYYY-MM-DD'));
+            valVar.push( m.format('MMM-DD'));
+            valVarLong.push( m.format('MMMM DD'));
         }
 
         //console.log(val)
@@ -732,8 +734,10 @@ const jsonTrendGenerate = (json, day, dates) => {
             vals = val[index]
             lvals = lval[index]
             lab = chart2.data.labels[index]
+            /*
             gran = $.i18n(granularity) + "&nbsp;" + cntrx
             cntrx++
+            */
             diff = ((vals - lvals) / lvals * 100).toFixed(1);
             if (diff == "Infinity") diff = $.i18n("NotAvailable");
             else if (document.documentElement.lang == "fr") {
@@ -744,7 +748,7 @@ const jsonTrendGenerate = (json, day, dates) => {
             vals = val[index].toLocaleString(document.documentElement.lang + "-CA")
             lvals = lval[index].toLocaleString(document.documentElement.lang + "-CA")
             var obj = {};
-            obj[$.i18n(granularity)] = gran;
+            obj[$.i18n(granularity)] = valVarLong[index];
             obj[$.i18n("CurrentYear")] = vals;
             obj[$.i18n("PreviousYear")] = lvals;
             obj[$.i18n("Difference")] = diff;
@@ -1874,10 +1878,12 @@ const jsonGSCGenerate = (json, day) => {
             ctr.push(parseFloat((val['ctr'] * 100)).toFixed(1));
             pos.push(parseFloat(val['position']).toFixed(1));
             */
-            keys.push(val['keys'][0]);
+            var $date = moment( val['keys'][0] ).format("MMM-DD")
+            var $dateLong = moment( val['keys'][0] ).format("MMMM DD, YYYY")
+            keys.push( $date );
 
             var obj = {};
-            obj[$.i18n("Day")] = val['keys'][0];
+            obj[$.i18n("Day")] = $dateLong;
             obj[$.i18n("Clicks")] = val['clicks'].toLocaleString(document.documentElement.lang + "-CA");
             obj[$.i18n("Impressions")] = val['impressions'].toLocaleString(document.documentElement.lang + "-CA");
             /*
@@ -2691,7 +2697,10 @@ const mainQueue = (url, start, end, lang) => {
              */
             .then(res => {
                 console.log("log: " + res)
-
+                /*
+                $("#loadGSC").addClass("hidden");
+                $("#loadAA").removeClass("hidden");
+                */
             //Object.keys(res)
                 
                 if ( ( ( $("#urlStatic").html() ).indexOf("/fr/") !== -1 && !$isApp ) ||
