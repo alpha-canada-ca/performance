@@ -817,10 +817,10 @@ const getPageTitle = a => Object.keys(a).map((key, index) => {
 const getPageH1 = url => {
     console.log("1: " + url);
     url = (url.indexOf("https://") !== -1) ? url : "https://" + url;
-    if (url.indexOf("canada.ca") !== -1) {
+    //if (url.indexOf("canada.ca") !== -1) {
         let request = new Request(url, { method: "GET" });
         return fetch(request).then(res => res.text()).then(res => $(res).find("h1:first").text()).catch(console.error.bind(console));
-    }
+    //}
 };
 
 const getPage = url => {
@@ -2474,6 +2474,16 @@ const removeQueryString = (url) => {
     return $href;
 }
 
+const containsAny = (str, substrings) => {
+    for (var i = 0; i != substrings.length; i++) {
+       var substring = substrings[i];
+       if (str.indexOf(substring) != - 1) {
+         return substring;
+       }
+    }
+    return null; 
+}
+
 const mainQueue = (url, start, end, lang) => {
 
     url = removeQueryString(url);
@@ -2484,24 +2494,38 @@ const mainQueue = (url, start, end, lang) => {
     $("#loading").removeClass("hidden");
 
     $success = 0;
-
-    //console.log(url);
+    
+        /*
+    console.log(url);
     url = (url.substring(0, 8) == "https://") ? url.substring(8, url.length) : url;
+    console.log(url)
+    /*
+    if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html" ||
+        /^(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ) {
+    
+    if (substrings.some(url.includes.bind(url))) {
+        console.log("worked")
+    } else {
+        console.log("not work")
+    }
+    */
 
-    //if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html" ||
-      //  /^(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ) {
+    if ( (url.substring(0, 8) == "https://") && containsAny( url, substrings ) ) {
 
-        $isApp = ( /^(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ) ? 1 : 0;
+        $isApp = ( /(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ) ? 1 : 0;
 
     console.log("isApp: " + $isApp)
 
-        oUrl = "https://" + url;
+        oUrl = url;
+        url = url.substring(8, url.length)
+        console.log(url)
+
         url = (url.length > 255) ? url.substring((url.length) - 255, url.length) : url;
 
         moment.locale('en'); // default the locale to English
 
         $dd = $('#date-range').find(':selected').data('index');
-        console.log( "---------------------->> " + $dd );
+        //console.log( "---------------------->> " + $dd );
         //$dd = $("input[name=dd-value").val();
         if (!$.isNumeric($dd)) $dd = 1;
         
@@ -2611,12 +2635,12 @@ const mainQueue = (url, start, end, lang) => {
         const getMatch = () => {
             $("#loadAA").addClass("hidden");
             $("#loadFD").removeClass("hidden");
-            if ( $isApp ) { oUrl = url.substring(13, url.length); url = url.substring(13, url.length) }
+            if ( $isApp ) { oUrl2 = url.substring(13, url.length); url = url.substring(13, url.length) }
             else {
                 url = $("#urlStatic").html();
-                oUrl = $("#urlStatic").html();
+                oUrl2 = $("#urlStatic").html();
             }
-            return Promise.all(apiCall(d, url, match, oUrl, $dd, "aa", langAbbr))
+            return Promise.all(apiCall(d, url, match, oUrl2, $dd, "aa", langAbbr))
         }
 
         // pull GSC data and display
@@ -2741,6 +2765,7 @@ const mainQueue = (url, start, end, lang) => {
                     $("#searchBttn").prop("disabled", false);
                     $('#urlval').val($('#urlStatic').text());
                     date = $('#date-range').val();
+                    console.log( oUrl );
                     setQueryParams(oUrl, date);
                 } else {
                     $("#loading").addClass("hidden");
@@ -2752,6 +2777,7 @@ const mainQueue = (url, start, end, lang) => {
                     $('#urlval').val($('#urlStatic').text());
                     date = $('#date-range').val();
                     setQueryParams(oUrl, date);
+                    console.log( oUrl );
                     $("#canvas-container").removeClass("hidden");
                 }
 
@@ -2773,13 +2799,14 @@ const mainQueue = (url, start, end, lang) => {
                     $("#gscto").removeClass('hidden');
                 }
                 
+
                 
             })
             .catch(console.error.bind(console));
 
         $success = 1;
 
-    //}
+    }
 
     if (!$success) {
         $("#loading").addClass("hidden");
