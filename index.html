@@ -382,7 +382,7 @@
 </div>
 -->
 
-        <div id="whole-canvas" class="hidden" aria-live="polite">
+        <div id="whole-canvas" class="hidden" aria-live="assertive" aria-atomic="true" aria-relevant="additions">
 
             <!-- <button type="button" id="download-pdf">Download PDF</button> -->
 
@@ -924,6 +924,7 @@
         $('meta[name="dcterms.language"]').attr('content',altLangC);
         $('meta[name="dcterms.creator"]').attr('content',$creator);
     </script>
+    <script type="text/javascript" src="js/whitelist.js"></script>
     <script type="text/javascript" src="js/api.min.js"></script>
     <script type="text/javascript">_satellite.pageBottom();</script>
 </body>
