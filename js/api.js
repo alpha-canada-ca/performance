@@ -2494,7 +2494,7 @@ const mainQueue = (url, start, end, lang) => {
     $("#loading").removeClass("hidden");
 
     $success = 0;
-    
+
         /*
     console.log(url);
     url = (url.substring(0, 8) == "https://") ? url.substring(8, url.length) : url;
@@ -2765,8 +2765,9 @@ const mainQueue = (url, start, end, lang) => {
                     $("#searchBttn").prop("disabled", false);
                     $('#urlval').val($('#urlStatic').text());
                     date = $('#date-range').val();
-                    console.log( oUrl );
+                    $("#loadComp").removeClass("hidden");
                     setQueryParams(oUrl, date);
+                    $("#loadComp").addClass("hidden");
                 } else {
                     $("#loading").addClass("hidden");
                     $("#loadFD").addClass("hidden");
@@ -2776,8 +2777,10 @@ const mainQueue = (url, start, end, lang) => {
                     $("#searchBttn").prop("disabled", false);
                     $('#urlval').val($('#urlStatic').text());
                     date = $('#date-range').val();
+                    $("#loadComp").removeClass("hidden");
                     setQueryParams(oUrl, date);
-                    console.log( oUrl );
+                    $("#loadComp").addClass("hidden");
+
                     $("#canvas-container").removeClass("hidden");
                 }
 
