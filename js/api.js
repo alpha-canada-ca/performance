@@ -2486,7 +2486,9 @@ const containsAny = (str, substrings) => {
 
 const mainQueue = (url, start, end, lang) => {
 
-    url = removeQueryString(url);
+    console.log(url);
+
+    //url = removeQueryString(url);
     $("#canvas-container").addClass("hidden");
     $("#whole-canvas").addClass("hidden");
     $("#notfound").addClass("hidden")
@@ -2494,6 +2496,8 @@ const mainQueue = (url, start, end, lang) => {
     $("#loading").removeClass("hidden");
 
     $success = 0;
+
+    console.log(url);
 
         /*
     console.log(url);
