@@ -354,11 +354,12 @@
     </div>
         
 
-        <div id="loading" aria-live="assertive" aria-atomic="true" aria-relevant="additions" class="hidden" style="margin-top: 10px;">
-            <p id="loadGSC" class="hidden" aria-live="polite"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataGSC"></span> </p>
-            <p id="loadAA" class="hidden" aria-live="polite"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataAA"></span> </p>
-            <p id="loadFD" class="hidden" aria-live="polite"><i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i><span data-i18n="FetchdataFD"></span> </p>
-            <p id="loadComp" class="hidden" aria-live="polite"><span data-i18n="Fetchcomplete"></span> </p>
+        <div id="loading" aria-live="polite" aria-atomic="true" aria-relevant="additions" class="hidden" style="margin-top: 10px;">
+            <i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i>
+            <span id="loadGSC" aria-live="polite"></span>
+            <span id="loadAA" aria-live="polite"></span>
+            <span id="loadFD" aria-live="polite"></span>
+            <span id="loadComp" aria-live="polite"></span>
         </div>
         <div id="notfound" class="hidden" aria-live="assertive" aria-atomic="true" aria-relevant="additions">
             <p><i class="fas fa-exclamation-triangle"></i><span data-i18n="Opps"></span></p>
