@@ -2619,8 +2619,8 @@ const mainQueue = (url, start, end, lang) => {
 
         // Get AA data and if it is not in database pull it
         const dbGetMatch = () => {
-            $("#loadGSC").addClass("hidden");
-            $("#loadAA").removeClass("hidden");
+            $("#loadGSC").empty();
+            $("#loadAA").html($.i18n("FetchdataAA"));
             url = $("#urlStatic").html();
             oUrl = $("#urlStatic").html();
 
@@ -2630,15 +2630,15 @@ const mainQueue = (url, start, end, lang) => {
         // Get Google Search Console data if it is cached, if not it will query and update database 
         const dbGetGSC = () => {
                 if ( !$isApp ) {
-                    $("#loadGSC").removeClass("hidden");
+                    $("#loadGSC").html($.i18n("FetchdataGSC"));
                     return Promise.all(apiCallGSC2(d, url, dbCall, oUrl, dDay, lang))
                 }
                 return Promise.resolve("null");
             }
             // pull AA data and display
         const getMatch = () => {
-            $("#loadAA").addClass("hidden");
-            $("#loadFD").removeClass("hidden");
+            $("#loadAA").empty();
+            $("#loadFD").html($.i18n("FetchdataFD"));
             if ( $isApp ) { oUrl2 = url.substring(13, url.length); url = url.substring(13, url.length) }
             else {
                 url = $("#urlStatic").html();
@@ -2762,28 +2762,27 @@ const mainQueue = (url, start, end, lang) => {
 
                 if ( res ) {
                     $("#loading").addClass("hidden");
-                    $("#loadFD").addClass("hidden");
                     $("#notfound").addClass("hidden");
                     $("#error").removeClass("hidden");
                     $('#errorHeader').val($('#urlStatic').text());
                     $("#searchBttn").prop("disabled", false);
                     $('#urlval').val($('#urlStatic').text());
                     date = $('#date-range').val();
-                    $("#loadComp").removeClass("hidden");
+                    $("#loadComp").html($.i18n("FetchdataComplete"))
                     setQueryParams(oUrl, date);
-                    $("#loadComp").addClass("hidden");
+                    $("#loadComp").empty()
                 } else {
                     $("#loading").addClass("hidden");
-                    $("#loadFD").addClass("hidden");
+                    $("#loadFD").empty();
                     $("#error").addClass("hidden");
                     $("#notfound").addClass("hidden");
                     $("#whole-canvas").removeClass("hidden");
                     $("#searchBttn").prop("disabled", false);
                     $('#urlval').val($('#urlStatic').text());
                     date = $('#date-range').val();
-                    $("#loadComp").removeClass("hidden");
+                    $("#loadComp").html($.i18n("FetchdataComplete"))
                     setQueryParams(oUrl, date);
-                    $("#loadComp").addClass("hidden");
+                    $("#loadComp").empty()
 
                     $("#canvas-container").removeClass("hidden");
                 }
