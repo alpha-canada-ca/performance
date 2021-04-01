@@ -354,12 +354,12 @@
     </div>
         
 
-        <p id="loading" aria-live="assertive" aria-atomic="true" aria-relevant="all" class="hidden" style="margin-top: 10px;">
+        <p id="loading" role="region" class="hidden" style="margin-top: 10px;">
             <i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i>
-            <span id="loadGSC"></span>
-            <span id="loadAA"></span>
-            <span id="loadFD"></span>
-            <span id="loadComp"></span>
+            <span id="loadGSC" aria-live="assertive" aria-atomic="true" aria-relevant="all"></span>
+            <span id="loadAA" aria-live="polite" aria-atomic="true" aria-relevant="all"></span>
+            <span id="loadFD" aria-live="polite" aria-atomic="true" aria-relevant="all"></span>
+            <span id="loadComp" aria-live="assertive" aria-atomic="true" aria-relevant="all"></span>
         </p>
         <div id="notfound" class="hidden" aria-live="assertive" aria-atomic="true" aria-relevant="additions">
             <p><i class="fas fa-exclamation-triangle"></i><span data-i18n="Opps"></span></p>
