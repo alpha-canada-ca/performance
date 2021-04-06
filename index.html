@@ -392,7 +392,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2><span class="wb-inv" data-i18n="Datafor"></span><span id="h2title" data-i18n="Page-levelstatistics"></span></h2>
-                    <span id="urlStatic" class="small"></span>
+                    <span id="urlStatic" class="small" aria-hiddeb="true"></span>
                     <p class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></p>
                     <p id="urlLang" class="hidden"></p>
                 </div>
@@ -637,7 +637,7 @@
                             <aside class="wb-fnote" role="note">
                                 <h2 id="fn" data-i18n="Footnotes"></h2>
                                 <dl>
-                                    <dt data-i18n="Footnote3"></dt>
+                                    <dt data-i18n="Footnote1"></dt>
                                     <dd id="fn1">
                                         <p data-i18n="Display25"></p>
                                         <ul>
@@ -713,23 +713,43 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <h2 data-i18n="AllQuery"></h2>
+                                <h2><span data-i18n="AllQuery"></span> 
+                                    <sup id="fn2-1b-rf"><a class="fn-lnk fas-1" href="#fn2b"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup>
+                                </h2>
                                 <div id="gscQryAll"></div>
                             </div>
                             <div class="col-md-12">
-                                <h2 data-i18n="MobileQuery"></h2>
+                                <h2>
+                                    <span data-i18n="MobileQuery"></span>
+                                    <sup id="fn2-2b-rf"><a class="fn-lnk fas-1" href="#fn2b"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup>
+                                </h2>
                                 <div id="gscQryMob"></div>
                             </div>
                             <div class="col-md-12">
-                                <h2 data-i18n="DesktopQuery"></h2>
+                                <h2>
+                                    <span data-i18n="DesktopQuery"></span>
+                                    <sup id="fn2-3b-rf"><a class="fn-lnk fas-1" href="#fn2b"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup>
+                                </h2>
                                 <div id="gscQryDesk"></div>
                             </div>
                             <div class="col-md-12">
-                                <h2 data-i18n="TabletQuery"></h2>
+                                <h2>
+                                    <span data-i18n="TabletQuery"></span>
+                                    <sup id="fn2-4b-rf"><a class="fn-lnk fas-1" href="#fn2b"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup>
+                                </h2>
                                 <div id="gscQryTab"></div>
                             </div>
                             <div class="col-md-12">
-                                <h2 data-i18n="Countrieswhereuserscamefrom"></h2>
+                                <h2>
+                                    <span data-i18n="Countrieswhereuserscamefrom"></span>
+                                    <sup id="fn2-5b-rf"><a class="fn-lnk fas-1" href="#fn2b"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup>
+                                    <!--
+                                    &nbsp;
+                                    <sup>
+                                        <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Region'" href="#gscr_content_modal"></a>
+                                    </sup>
+                                    -->
+                                </h2>
                                 <div id="gscCountry"></div>
                             </div>
                         </div>
@@ -741,6 +761,14 @@
                                 <dd id="fn1b">
                                     <p data-i18n="ThedatesshownFootnote"></p>
                                     <p class="fn-rtn"><a href="#fn1b-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>1<span class="wb-inv" data-i18n="referrer"> </span></a></p>
+                                </dd>
+                                <dt data-i18n="Footnote2"></dt>
+                                <dd id="fn2b">
+                                    <p data-i18n="hlp-ctr-title"></p>
+                                    <ul><li><span data-i18n="hlp-ctr"></span></li></ul>
+                                    <p data-i18n="hlp-position-title"></p>
+                                    <ul><li><span data-i18n="hlp-position"></span></li></ul>
+                                    <p class="fn-rtn"><a href="#fn2b-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>2<span class="wb-inv" data-i18n="referrer"> </span></a></p>
                                 </dd>
 
                             </dl>
@@ -863,6 +891,24 @@
         <h2 class="modal-title" data-i18n="hlp-total-impressions-title"></h2>
     </header>
     <div class="modal-body" data-i18n="hlp-total-impressions"></div>
+</section>
+<section id="gscr_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-region-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-region"></div>
+</section>
+<section id="gscctr_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-ctr-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-ctr"></div>
+</section>
+<section id="gscpos_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-position-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-position"></div>
 </section>
 
 
