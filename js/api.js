@@ -618,8 +618,8 @@ const jsonTrendGenerate = (json, day, dates) => {
         var valVarLong = [];
 
         for (var m = moment(dates[0]); m.isBefore(dates[1]); m.add(1, 'days')) {
-            valVar.push( m.format('MMM-DD'));
-            valVarLong.push( m.format('MMMM DD'));
+            valVar.push( m.locale(document.documentElement.lang).format('MMM-DD'));
+            valVarLong.push( m.locale(document.documentElement.lang).format('MMMM DD'));
         }
 
         //console.log(val)
@@ -1889,8 +1889,8 @@ const jsonGSCGenerate = (json, day) => {
             ctr.push(parseFloat((val['ctr'] * 100)).toFixed(1));
             pos.push(parseFloat(val['position']).toFixed(1));
             */
-            var $date = moment( val['keys'][0] ).format("MMM-DD")
-            var $dateLong = moment( val['keys'][0] ).format("MMMM DD, YYYY")
+            var $date = moment( val['keys'][0] ).locale(document.documentElement.lang).format('MMM-DD');
+            var $dateLong = moment( val['keys'][0] ).locale(document.documentElement.lang).format("MMMM DD, YYYY")
             keys.push( $date );
 
             var obj = {};
