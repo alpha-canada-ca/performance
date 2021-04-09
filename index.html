@@ -217,7 +217,7 @@
             white-space: inherit;
         }
 
-        button#black {
+        button.black {
           background-color: #444444; /* Green */
           border: none;
           color: white;
@@ -230,7 +230,7 @@
           border-radius: 50%;
         }
 
-        button#black:hover {
+        button.black:hover {
           background-color: #000000;
         }
 
@@ -449,7 +449,7 @@
                                 <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                     <p class="blue-box"><strong data-i18n="Averageuniquevisitors"></strong>
                                         <sup>
-                                             <button id="black" class="fas fa-question fas-1" onclick="openOverlay('uniquev_content_modal')">
+                                             <button class="fas fa-question fas-1 black" onclick="openOverlay('uniquev_content_modal')">
                                                  <span class="wb-inv" data-i18n="hlp-unique-visitors-title"></span>
                                              </button>
 
@@ -464,7 +464,7 @@
                                     <p class="blue-box"><strong data-i18n="Averagevisits"></strong> 
                                         <sup>
                                             <!-- <button data-template="hlp-average-visits" class="fas fa-question" id="black"></button> -->
-                                            <button id="black" class="fas fa-question fas-1" onclick="openOverlay('visits_content_modal')">
+                                            <button class="fas fa-question fas-1 black" onclick="openOverlay('visits_content_modal')">
                                                  <span class="wb-inv" data-i18n="hlp-average-visits-title"></span>
                                              </button>
                                             <!--
@@ -482,7 +482,7 @@
                                     <p class="blue-box"><strong data-i18n="Averagepageviews"></strong> 
                                         <sup>
                                             <!-- <button data-template="hlp-average-pgv" class="fas fa-question" id="black"></button> -->
-                                            <button id="black" class="fas fa-question fas-1" onclick="openOverlay('pv_content_modal')">
+                                            <button class="fas fa-question fas-1 black" onclick="openOverlay('pv_content_modal')">
                                                  <span class="wb-inv" data-i18n="hlp-average-pgv-title"></span>
                                              </button>
                                              <!--
@@ -498,7 +498,7 @@
                                    <p class="blue-box"><strong data-i18n="Averagetimespent"></strong> 
                                     <sup>
                                         <!-- <button data-template="hlp-average-tmspnt" class="fas fa-question" id="black"></button> -->
-                                        <button id="black" class="fas fa-question fas-1" onclick="openOverlay('tmspnt_content_modal')">
+                                        <button class="fas fa-question fas-1 black" onclick="openOverlay('tmspnt_content_modal')">
                                                  <span class="wb-inv" data-i18n="hlp-average-tmspnt-title"></span>
                                              </button>
                                              <!--
@@ -516,7 +516,10 @@
                                 <div class="col-md-6" id="fwlf-container">
                                     <div id="rap-container">
                                         <h2><strong data-i18n="Reportaproblem"></strong> <sup>
-                                            <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term report a problem" href="#rap_content_modal"></a>
+                                            <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term report a problem" href="#rap_content_modal"></a> -->
+                                            <button class="fas fa-question fas-1 black" onclick="openOverlay('rap_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-rap-title"></span>
+                                             </button>
 
                                             
                                         </sup></h2>
@@ -526,7 +529,10 @@
                                     </div>
                                     <div id="fwylf-container">
                                         <h2><strong data-i18n="FindWhatYoureLookingFor"></strong> <sup>
-                                            <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'did you find what you were looking for?'" href="#fwylf_content_modal"></a>
+                                            <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'did you find what you were looking for?'" href="#fwylf_content_modal"></a> -->
+                                            <button class="fas fa-question fas-1 black" onclick="openOverlay('fwylf_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-fwylf-title"></span>
+                                             </button>
 
                                             </sup></h2>
                                         <div id="fwylfCont">
@@ -538,16 +544,20 @@
 
                                 <div class="col-md-6" id="snum-container">
                                     <h2><strong data-i18n="Searchesstartedfromthispage"></strong> <sup>
-                                        <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site searches started from this page'" href="#snum_content_modal"></a>
-
+                                        <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site searches started from this page'" href="#snum_content_modal"></a> -->
+                                        <button class="fas fa-question fas-1 black" onclick="openOverlay('snum_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-srch-started-title"></span>
+                                             </button>
                                             
                                     </sup></h2>
                                     <p id="snum"></p>
                                 </div>
                                 <div class="col-md-6" id="search-container">
                                     <h2><strong data-i18n="Phrasessearchedfromthispage"></strong> <sup>
-                                         <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Phrases searched on Canada.ca from this page'" href="#srchP_content_modal"></a>
-
+                                         <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Phrases searched on Canada.ca from this page'" href="#srchP_content_modal"></a> -->
+                                         <button class="fas fa-question fas-1 black" onclick="openOverlay('srchP_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-phrases-search-title"></span>
+                                             </button>
                                             
                                     </sup></h2>
                                     <div id="srchP"></div>
@@ -556,7 +566,10 @@
                                 <div class="row">
                                     <div class="col-md-6" id="srchA-container">
                                     <h2><span data-i18n="Searchtermsleadingtothispage"></span>&nbsp;<sup>
-                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#srchA_content_modal"></a>
+                                    <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#srchA_content_modal"></a> -->
+                                    <button class="fas fa-question fas-1 black" onclick="openOverlay('srchA_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-search-terms-lead-title"></span>
+                                             </button>
 
                                             
                                         </sup></h2>
@@ -564,8 +577,10 @@
                                 </div>
                                 <div class="col-md-6" id="reft-container">
                                     <h2><span data-i18n="Referringtypes"></span>&nbsp;<sup>
-                                        <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Referrer type'" href="#reft_content_modal"></a>
-
+                                        <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Referrer type'" href="#reft_content_modal"></a> -->
+                                        <button class="fas fa-question fas-1 black" onclick="openOverlay('reft_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-refferrer-type-title"></span>
+                                             </button>
                                             
                                     </sup> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup>--></h2>
                                     <div id="reft"></div>
@@ -574,8 +589,10 @@
                             <div class="row">
                                 <div class="col-md-12" id="ppt-container">
                                     <h2><span data-i18n="Whereuserscamefrom"></span>&nbsp;<sup>
-                                        <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Where visitors came from'" href="#ppt_content_modal"></a>
-
+                                        <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Where visitors came from'" href="#ppt_content_modal"></a> -->
+                                        <button class="fas fa-question fas-1 black" onclick="openOverlay('ppt_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-users-came-from-title"></span>
+                                             </button>
                                             
                                     </sup> <!--<sup id="fn2-rf"><a class="fn-lnk" href="#fn2"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup>--></h2>
                                     <div id="ppt"></div>
@@ -586,7 +603,10 @@
                             <div class="row">
                                 <div class="col-md-6" id="np-container">
                                     <h2><span data-i18n="Whatusersclickedon"></span>&nbsp;<sup>
-                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'What visitors clicked on'" href="#np_content_modal"></a>
+                                    <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'What visitors clicked on'" href="#np_content_modal"></a> -->
+                                    <button class="fas fa-question fas-1 black" onclick="openOverlay('np_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-users-click-title"></span>
+                                             </button>
 
                                             
                                         </sup> <sup id="fn1-rf"><a class="fn-lnk fas-1" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></h2>
@@ -594,7 +614,10 @@
                                 </div>
                                 <div class="col-md-6" id="geo-container">
                                     <h2><span data-i18n="Whereaccess"></span>&nbsp;<sup>
-                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#provChart_content_modal"></a>
+                                    <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#provChart_content_modal"></a> -->
+                                    <button class="fas fa-question fas-1 black" onclick="openOverlay('provChart_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-whereaccess-title"></span>
+                                             </button>
 
                                             
                                         </sup></h2>
@@ -606,14 +629,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <h2><span data-i18n="Devicesused"></span>&nbsp;<sup>
-                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Devices used'" href="#chrtp_content_modal"></a>
+                                    <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Devices used'" href="#chrtp_content_modal"></a> -->
+                                    <button class="fas fa-question fas-1 black" onclick="openOverlay('chrtp_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-device-used-title"></span>
+                                             </button>
 
                                             
                                         </sup></h2>
                                     <div id="chrtp" data-i18n="Nodata"></div>
                                     <div id="chart-pltfrms">
                                         <h3 data-i18n="Numberofvisits(%)bydevicesused"></h3>
-                                        <div id="chart-canvas" style="width: 100%; height: 40vh;" aria-hidden="true">
+                                        <div id="chart-canvas" style="width: 100%; height: 50vh;" aria-hidden="true">
                                             <canvas id="chart" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow." aria-hidden="true"></canvas>
                                         </div>
                                         <details>
@@ -625,14 +651,16 @@
                                 </div>
                                 <div class="col-md-6">
                                     <h2><span data-i18n="Visitstrend"></span>&nbsp;<sup>
-                                    <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Visits trend'" href="#chrtt_content_modal"></a>
-
+                                    <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Visits trend'" href="#chrtt_content_modal"></a> -->
+                                    <button class="fas fa-question fas-1 black" onclick="openOverlay('chrtt_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-trends-title"></span>
+                                             </button>
                                             
                                         </sup></h2>
                                     <div id="chrtt" data-i18n="Nodata"></div>
                                     <div id="chart-trnds">
                                         <h3 data-i18n="Visitstrendbycurrentyearandpreviousyear"></h3>
-                                        <div id="trends-canvas" style="width: 100%; height: 40vh;" aria-hidden="true">
+                                        <div id="trends-canvas" style="width: 100%; height: 50vh;" aria-hidden="true">
                                             <canvas id="trends" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow." aria-hidden="true"></canvas>
                                         </div>
                                         <details>
@@ -673,8 +701,10 @@
                         <div class="col-md-3 col-md-offset-3" style="vertical-align: top;">
                             <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                 <p class="blue-box"><strong data-i18n="Totalclicks"></strong> <sup>
-                                <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Clicks'" href="#gscc_content_modal"></a>
-
+                                <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Clicks'" href="#gscc_content_modal"></a> -->
+                                <button class="fas fa-question fas-1 black" onclick="openOverlay('gscc_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-total-clicks-title"></span>
+                                             </button>
                                             
                                         </sup></p>
                                 <p class="mrgn-tp-md" id="gsc-clicks"></p>
@@ -683,8 +713,10 @@
                         <div class="col-md-3" style="vertical-align: top;">
                             <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                 <p class="blue-box"><strong data-i18n="Totalimpressions"></strong> <sup>
-                                <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Impressions'" href="#gsci_content_modal"></a>
-
+                                <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Impressions'" href="#gsci_content_modal"></a> -->
+                                <button class="fas fa-question fas-1 black" onclick="openOverlay('gsci_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-total-impressions-title"></span>
+                                             </button>
                                             
                                         </sup></p>
                                 <p class="mrgn-tp-md" id="gsc-imp"></p>

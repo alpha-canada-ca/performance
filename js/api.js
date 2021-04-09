@@ -494,11 +494,13 @@ const jsonPieGenerate = (arr) => {
                 color: "white",
                 font: {
                     weight: "bold",
-                    size: 14
+                    size: 18
                 }
             }
         },
-        tooltips: {
+        tooltips: "false",
+        /*
+        {
             mode: 'index',
             titleFontSize: 18,
             bodyFontSize: 16,
@@ -508,14 +510,14 @@ const jsonPieGenerate = (arr) => {
                     return  data.labels[indice] +': '+ (data.datasets[0].data[indice]).toLocaleString() + ' visits';
                 }
             }
-        },
+        },*/
         legend: {
             position: "bottom",
             minSize: {
                 height: 500
             },
             labels: {
-                fontSize: 14
+                fontSize: 18
             }
         },
         layout: {
@@ -662,7 +664,7 @@ const jsonTrendGenerate = (json, day, dates) => {
                     scaleLabel: {
                         display: true,
                         labelString: $.i18n("Numberofvisits"),
-                        fontSize: 16
+                        fontSize: 18
                     },
                     ticks: {
                         beginAtZero: true,
@@ -671,24 +673,25 @@ const jsonTrendGenerate = (json, day, dates) => {
                        callback: function(value, index, values) {
                             return Intl.NumberFormat().format((value/1000));
                         },
-                        fontSize: 16
+                        fontSize: 18
                     }
                 }],
                 xAxes: [{
                     scaleLabel: {
                         display: true,
                         labelString: ($.i18n(granularity) + $.i18n("Dayofselecteddaterange")),
-                        fontSize: 16
+                        fontSize: 18
                     },
                     gridLines: {
                         display:false
                     },
                     ticks: {
-                        fontSize: 16
+                        fontSize: 18
                     }
                 }]
             },
-            tooltips: {
+            tooltips: "false",
+            /*{
                 mode: "index",
                 intersect: false,
                 titleFontSize: 18,
@@ -698,7 +701,7 @@ const jsonTrendGenerate = (json, day, dates) => {
                       return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel) + ' visits';
                     }
                 }
-            },
+            },*/
             hover: {
                 mode: "nearest",
                 intersect: true
@@ -707,7 +710,7 @@ const jsonTrendGenerate = (json, day, dates) => {
                 position: "bottom",
                 labels: {
                     usePointStyle: true,
-                    fontSize: 14
+                    fontSize: 18
                 }
             },
             layout: {
@@ -1923,12 +1926,12 @@ const jsonGSCGenerate = (json, day) => {
                         callback: function(value, index, values) {
                             return Intl.NumberFormat().format((value/1000));
                         },
-                        fontSize: 16
+                        fontSize: 18
                     },
                     scaleLabel: {
                         display: true,
                         labelString: $.i18n("GSCClicks"),
-                        fontSize: 16
+                        fontSize: 18
                     }
                 }, {
 
@@ -1941,12 +1944,12 @@ const jsonGSCGenerate = (json, day) => {
                         callback: function(value, index, values) {
                             return Intl.NumberFormat().format((value/1000));
                         },
-                        fontSize: 16
+                        fontSize: 18
                     },
                     scaleLabel: {
                         display: true,
                         labelString: $.i18n("GSCImpressions"),
-                        fontSize: 16
+                        fontSize: 18
                     }
                 }/*, {
 
@@ -1979,24 +1982,14 @@ const jsonGSCGenerate = (json, day) => {
                     scaleLabel: {
                         display: true,
                         labelString: $.i18n("Dayofselecteddaterange2"),
-                        fontSize: 16
+                        fontSize: 18
                     },
                     ticks: {
-                        fontSize: 16
+                        fontSize: 18
                     }
                 }]
             },
-            tooltips: {
-                mode: "index",
-                intersect: false,
-                titleFontSize: 18,
-                bodyFontSize: 16,
-                callbacks: {
-                    label: function(tooltipItem, data) { 
-                      return data.datasets[tooltipItem.datasetIndex].label + ": " + numberWithCommas(tooltipItem.yLabel);
-                    }
-                }
-            },
+            tooltips: false,
             hover: {
                 mode: "nearest",
                 intersect: true
@@ -2013,6 +2006,8 @@ const jsonGSCGenerate = (json, day) => {
                 }
             }
         };
+
+        Chart.defaults.global.showTooltips = false;
 
         var ctx3 = document.getElementById("gsc").getContext("2d");
         var chart3 = new Chart(ctx3, {
