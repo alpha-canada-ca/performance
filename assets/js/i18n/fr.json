@@ -1,4 +1,5 @@
 {
+    "Comingsoon": "Bientôt disponible ...",
     "select-date": "Sélectionnez la plage de dates : ",
     "app-title": "Outil d'analyse de page",
     "Last30days": "Derniers 30 jours",
@@ -64,7 +65,7 @@
     "Typed/Bookmarked": "Entrés - Favoris",
     "OtherWebSites": "Autres sites Web",
     "SocialNetworks": "Médias sociaux",
-    "Numberofvisits": "Nombre de visites (en milliers)",
+    "Numberofvisits": "Visites (en milliers)",
     "LanguageToggleEN": "Afficher les données de la page équivalente en français",
     "LanguageToggleFR": "Afficher les données de la page équivalente en anglais",
     "Dayofselecteddaterange": " de l'intervalle de dates sélectionné",
