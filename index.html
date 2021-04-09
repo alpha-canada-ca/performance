@@ -449,9 +449,9 @@
                                 <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
                                     <p class="blue-box"><strong data-i18n="Averageuniquevisitors"></strong>
                                         <sup>
-                                            <!-- <button data-template="hlp-unique-visitors" class="fas fa-question" id="black"></button>
-                                             <button data-template="hlp-unique-visitors" class="fas fa-question" id="black"></button> -->
-                                            <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'unique visitors'" href="#uniquev_content_modal"></a>
+                                             <button id="black" class="fas fa-question fas-1" onclick="openOverlay('uniquev_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-unique-visitors-title"></span>
+                                             </button>
 
                                            
                                         </sup>
@@ -464,8 +464,12 @@
                                     <p class="blue-box"><strong data-i18n="Averagevisits"></strong> 
                                         <sup>
                                             <!-- <button data-template="hlp-average-visits" class="fas fa-question" id="black"></button> -->
+                                            <button id="black" class="fas fa-question fas-1" onclick="openOverlay('visits_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-average-visits-title"></span>
+                                             </button>
+                                            <!--
                                             <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'visits'" href="#visits_content_modal"></a>
-
+                                            -->
                                             
                                         </sup>
                                         <div id="visit"></div>
@@ -478,9 +482,12 @@
                                     <p class="blue-box"><strong data-i18n="Averagepageviews"></strong> 
                                         <sup>
                                             <!-- <button data-template="hlp-average-pgv" class="fas fa-question" id="black"></button> -->
+                                            <button id="black" class="fas fa-question fas-1" onclick="openOverlay('pv_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-average-pgv-title"></span>
+                                             </button>
+                                             <!--
                                             <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'page views'" href="#pv_content_modal"></a>
-
-                                            
+                                            -->
                                         </sup>
                                         <div id="pagev"></div>
                                     </p>
@@ -491,8 +498,12 @@
                                    <p class="blue-box"><strong data-i18n="Averagetimespent"></strong> 
                                     <sup>
                                         <!-- <button data-template="hlp-average-tmspnt" class="fas fa-question" id="black"></button> -->
+                                        <button id="black" class="fas fa-question fas-1" onclick="openOverlay('tmspnt_content_modal')">
+                                                 <span class="wb-inv" data-i18n="hlp-average-tmspnt-title"></span>
+                                             </button>
+                                             <!--
                                         <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'time on page'" href="#tmspnt_content_modal"></a>
-
+                                    -->
                                             
                                     </sup>
                                         <div id="avgtime"></div>
@@ -790,7 +801,7 @@
             </div>
         </div>
 
-<section id="uniquev_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+<section id="uniquev_content_modal" class="modal-dialog modal-content overlay-def mfp-hide">
     <header class="modal-header">
         <h2 class="modal-title" data-i18n="hlp-unique-visitors-title"></h2>
     </header>
@@ -970,6 +981,18 @@
         $('meta[name="dcterms.title"]').attr('content',$title);
         $('meta[name="dcterms.language"]').attr('content',altLangC);
         $('meta[name="dcterms.creator"]').attr('content',$creator);
+
+        const openOverlay = ( id ) => {
+            console.log("Overlay opened : " + id)
+            $( "#" + id ).trigger( "open.wb-lbx", [
+            [
+                {
+                    src: "#" + id,
+                    type: "inline"
+                }
+            ]
+        ]);
+        }
     </script>
     <script type="text/javascript" src="js/whitelist.js"></script>
     <script type="text/javascript" src="js/api.min.js"></script>
