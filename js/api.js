@@ -1669,7 +1669,7 @@ const jsonMetrics = (json, day) => {
             $("#fwylfCont").html('<div id="fwylfTable"></div><div id="fwylfReason"></div>');
             $("#fwylfTable").html('<table class="table table-striped"><thead><th scope="col">' + $.i18n("Yes") + '</th><th scope="col">' + $.i18n("No") + '</th></thead><tr><td id="fwylfYes"></td><td id="fwylfNo"></td></tr></table>');
             $("#fwylfYes").html(rows[findLookingForYesNum]);
-            $("#fwylfNo").html(rows[findLookingForTotalNum]);
+            $("#fwylfNo").html(rows[findLookingForNoNum]);
             $("#rapCont").html("");
             $("#rap-container").hide();
             $("#fwylf-container").show();
@@ -2768,6 +2768,7 @@ const mainQueue = (url, start, end, lang) => {
 
                 if ( res ) {
                     $("#loading").addClass("hidden");
+                    $("#loadFD").empty();
                     $("#notfound").addClass("hidden");
                     $("#error").removeClass("hidden");
                     $('#errorHeader').val($('#urlStatic').text());
