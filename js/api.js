@@ -498,6 +498,40 @@ const jsonPieGenerate = (arr) => {
                 }
             }
         },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display:false
+                },
+                ticks: {
+                    fontSize: 18
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: $.i18n("Devicesused"),
+                    fontSize: 18
+                }
+            }],
+            yAxes: [{
+                gridLines: {
+                    display:false
+                },
+                ticks: {
+                    fontSize: 18,
+                    beginAtZero: true,
+                    // Return an empty string to draw the tick line but hide the tick label
+                    // Return `null` or `undefined` to hide the tick line entirely
+                    callback: function(value, index, values) {
+                        return Intl.NumberFormat().format((value/1000));
+                    }
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: $.i18n("Numberofvisits"),
+                    fontSize: 18
+                }
+            }]
+        },
         tooltips: "false",
         /*
         {
@@ -512,13 +546,15 @@ const jsonPieGenerate = (arr) => {
             }
         },*/
         legend: {
+            /*
             position: "bottom",
             minSize: {
                 height: 500
             },
             labels: {
                 fontSize: 18
-            }
+            }*/
+            display: false
         },
         layout: {
             padding: {
@@ -528,7 +564,7 @@ const jsonPieGenerate = (arr) => {
     };
     var ctx = document.getElementById("chart").getContext("2d");
     var chart = new Chart(ctx, {
-        type: "pie",
+        type: "bar",
         data: {
             datasets: data,
             labels: [$.i18n("Desktop"), $.i18n("MobilePhone"), $.i18n("Tablet"), $.i18n("Other")]
@@ -1005,7 +1041,7 @@ const jsonSnum = (json, day) => {
         //console.log(itemid);
         return itemid;
     } else {
-        $snum.html("No data");
+        $snum.html($.i18n("Nodata"));
     }
 
 }
@@ -1373,7 +1409,7 @@ const jsonSearch = (json, val, title, day) => {
             if (term != "(Low Traffic)" && term != "Unspecified" && clicks != 0) {
                 var obj = {};
                 obj[$.i18n("Term")] = term;
-                obj[$.i18n("Clicks")] = clicks;
+                obj[$.i18n("Searches")] = clicks;
                 srch.push(obj);
             }
         });
@@ -1657,11 +1693,10 @@ const jsonMetrics = (json, day) => {
         if (parseInt(rows[findLookingForInstancesNum]) == NaN || parseInt(rows[findLookingForTotalNum]) == 0) {
             $("#rapCont").html('<p id="rap"></p>');
             rap = parseInt(rows[rapNum])
-            if (day == 2) $weeks = 1;
-            rapWeeks = parseInt(rap / $weeks).toLocaleString(document.documentElement.lang + "-CA");
+            rapDays = Math.round(rap / $days).toLocaleString(document.documentElement.lang + "-CA");
             rap = parseInt(rap).toLocaleString(document.documentElement.lang + "-CA");
             if (day == 2) { $("#rap").prepend("<span class='h1'>" + rap + "</span> <strong>" + $.i18n("total") + "</strong>"); }
-            else { $("#rap").prepend("<span class='h1'>" + rapWeeks + "</span> <strong>" + $.i18n("averageperweek") + "</strong></br><span class='small'>" + rap + " " + $.i18n("total") + "</span>"); }
+            else { $("#rap").prepend("<span class='h1'>" + rapDays + "</span> <strong>" + $.i18n("averageperday") + "</strong></br><span class='small'>" + rap + " " + $.i18n("total") + "</span>"); }
             $("#fwylfCont").html('<div id="fwylfTable"></div><div id="fwylfReason"></div>');
             $("#rap-container").show();
             $("#fwylf-container").hide();
@@ -1700,7 +1735,7 @@ const jsonMetrics = (json, day) => {
 
         rapVal = "#rapReason";
         rapTitle = $.i18n("reportaproblem");
-        rapHeaders = [ "Response", "Clicks" ]
+        rapHeaders = [ $.i18n("Itemsselected"), $.i18n("Timesreported") ]
 
         rapICantFind = parseInt(rows[rapICantFindNum])
         rapLoginError = parseInt(rows[rapLoginErrorNum])
@@ -2057,7 +2092,7 @@ const jsonGSCGenerate = (json, day) => {
     }
 }
 
-const jsonGSC = (json, val, title, lang) => {
+const jsonGSC = (json, val, title, col, lang) => {
 
     var rows = json["rows"];
     var $qry = $(val);
@@ -2082,11 +2117,11 @@ const jsonGSC = (json, val, title, lang) => {
                 var end = "%";
             }
             var obj = {};
-            obj[$.i18n("Term")] = term;
-            obj[$.i18n("Clicks")] = clicks;
-            obj[$.i18n("Impressions")] = imp;
-            obj[$.i18n("CTR")] = (ctr + end);
-            obj[$.i18n("Position")] = pos;
+            obj[col[0]] = term;
+            obj[col[1]] = clicks;
+            obj[col[2]] = imp;
+            obj[col[3]] = (ctr + end);
+            obj[col[4]] = pos;
             srch.push(obj);
         });
 
@@ -2112,7 +2147,8 @@ const jsonGSCQryAll = (json, day) => {
 
     var title = $.i18n("All - Queries");
     var val = "#gscQryAll";
-    jsonGSC(json, val, title, 0);
+    var col = [ $.i18n("Term"), $.i18n("Clicks"), $.i18n("Impressions"), $.i18n("CTR"), $.i18n("Position") ];
+    jsonGSC(json, val, title, col, 0);
 
     $(val + " table").trigger("wb-init.wb-tables");
 }
@@ -2121,7 +2157,8 @@ const jsonGSCQryMobile = (json, day) => {
 
     var title = $.i18n("Mobile - Queries");
     var val = "#gscQryMob";
-    jsonGSC(json, val, title, 0);
+    var col = [ $.i18n("Term"), $.i18n("Clicks"), $.i18n("Impressions"), $.i18n("CTR"), $.i18n("Position") ];
+    jsonGSC(json, val, title, col, 0);
 
     $(val + " table").trigger("wb-init.wb-tables");
 }
@@ -2130,7 +2167,8 @@ const jsonGSCQryDesktop = (json, day) => {
 
     var title = $.i18n("Desktop - Queries");
     var val = "#gscQryDesk";
-    jsonGSC(json, val, title, 0);
+    var col = [ $.i18n("Term"), $.i18n("Clicks"), $.i18n("Impressions"), $.i18n("CTR"), $.i18n("Position") ];
+    jsonGSC(json, val, title, col, 0);
 
     $(val + " table").trigger("wb-init.wb-tables");
 }
@@ -2139,7 +2177,8 @@ const jsonGSCQryTablet = (json, day) => {
 
     var title = $.i18n("Desktop - Queries");
     var val = "#gscQryTab";
-    jsonGSC(json, val, title, 0);
+    var col = [ $.i18n("Term"), $.i18n("Clicks"), $.i18n("Impressions"), $.i18n("CTR"), $.i18n("Position") ];
+    jsonGSC(json, val, title, col, 0);
 
     $(val + " table").trigger("wb-init.wb-tables");
 }
@@ -2154,7 +2193,8 @@ const jsonGSCCountry = (json, day) => {
 
     var title = $.i18n("Countries");
     var val = "#gscCountry";
-    jsonGSC(json, val, title, lang);
+    var col = [ $.i18n("Country"), $.i18n("Clicks"), $.i18n("Impressions"), $.i18n("CTR"), $.i18n("Position") ];
+    jsonGSC(json, val, title, col, lang);
 
     $(val + " table").trigger("wb-init.wb-tables");
 }
