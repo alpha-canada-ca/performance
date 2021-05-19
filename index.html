@@ -434,7 +434,7 @@
             <div class="wb-tabs ignore-session">
                 <div class="tabpanels">
                     <details id="details-panel1" open="open">
-                        <summary>Web analytics</summary>
+                        <summary><span data-i18n="Webanalytics"></span></summary>
                         <div id="canvas-container" class="hidden">
                             <p>
                                 <span id="fromGSC" class="hidden"></span>
@@ -609,7 +609,7 @@
                                              </button>
 
                                             
-                                        </sup> <sup id="fn1-rf"><a class="fn-lnk fas-1" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup></h2>
+                                        <!--</sup> <sup id="fn1-rf"><a class="fn-lnk fas-1" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup>--></h2>
                                     <div id="np"></div>
                                 </div>
                                 <div class="col-md-6" id="geo-container">
@@ -673,6 +673,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--
                             <aside class="wb-fnote" role="note">
                                 <h2 id="fn" data-i18n="Footnotes"></h2>
                                 <dl>
@@ -689,11 +690,12 @@
                                     </dd>
                                 </dl>
                             </aside>
+                        -->
                         </div>
                     </details>
                     <span id="numDaysgsc" class="hidden"></span>
                     <details id="details-panel2">
-                        <summary>Google search analytics</summary>
+                        <summary><span data-i18n="Googlesearchanalytics"></span></summary>
                         <div id="gsc-content">
                         <p>
                             <strong data-i18n="Period:"></strong> <span id="gscDate"></span> - <span id="fromdaterangegsc"></span> <span id="gscto" data-i18n="to"></span> <span id="todaterangegsc"></span> <sup id="fn1b-rf"><a class="fn-lnk" href="#fn1b"><span class="wb-inv">Footnote </span>1</a></sup>
@@ -861,7 +863,10 @@
     <header class="modal-header">
         <h2 class="modal-title" data-i18n="hlp-rap-title"></h2>
     </header>
-    <div class="modal-body" data-i18n="hlp-rap"></div>
+    <div class="modal-body">
+        <p data-i18n="hlp-rap"></p>
+        <p data-i18n="hlp-rap2"></p>
+    </div>
 </section>
 <section id="fwylf_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
     <header class="modal-header">
@@ -903,7 +908,16 @@
     <header class="modal-header">
         <h2 class="modal-title" data-i18n="hlp-users-click-title"></h2>
     </header>
-    <div class="modal-body" data-i18n="hlp-users-click"></div>
+    <div class="modal-body">
+        <p data-i18n="hlp-users-click"></p>
+        <p data-i18n="Display25"></p>
+        <ul>
+            <li data-i18n="foreign"></li>
+            <li data-i18n="filedownloads"></li>
+            <li data-i18n="pageswhere"></li>
+        </ul>
+        <p><strong data-i18n="Notice:"></strong> <span data-i18n="Depending"></span></p>
+    </div>
 </section>
 <section id="chrtp_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
     <header class="modal-header">
@@ -963,7 +977,7 @@
             <script>
                 var defPreFooter = document.getElementById("def-preFooter");
                 defPreFooter.outerHTML = wet.builder.preFooter({
-                    "dateModified": "2021-02-23"
+                    "dateModified": "2021-05-19"
                 });
             </script>
     </main>
