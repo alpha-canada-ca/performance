@@ -455,10 +455,37 @@ const jsonPieGenerate = (arr) => {
     val = arr;
     cnt = val.length;
 
+    let datas = [];
+
+    sum = val.reduce(function(acc, val) { return acc + val; }, 0)
+
+    for ( i = 0; i < val.length; i++ ) {
+        value = val[i]
+        per = parseFloat((value * 100 / sum).toFixed(0)); //.toLocaleString(document.documentElement.lang + "-CA")
+
+        datas.push( per );
+    };
+
     bgColor = [ "#56B4E9", "#009E73", "#0072B2", "#000000"]
 
+    /*
+    const formatter = (value, ctx) => {
+        let total = 0;
+        let dataArr = ctx.chart.data.datasets[0].data;
+        dataArr.map(data => {
+            total += data;
+        });
+
+        if (document.documentElement.lang == "fr") {
+            return parseFloat( (value / total * 100).toFixed(1) ).toLocaleString(document.documentElement.lang + "-CA") + " %";
+        } else {
+            return parseFloat( (value / total * 100).toFixed(1) ).toLocaleString(document.documentElement.lang + "-CA") + "%";
+        }
+    };
+    */
+
     var data = [{
-        data: val,
+        data: datas,
         backgroundColor: bgColor
     }];
 
@@ -472,21 +499,7 @@ const jsonPieGenerate = (arr) => {
                 };
             },
             datalabels: {
-                formatter: (value, ctx) => {
-                    let sum = 0;
-                    let dataArr = ctx.chart.data.datasets[0].data;
-                    dataArr.map(data => {
-                        sum += data;
-                    });
-
-                    let percentage = parseFloat((value * 100 / sum).toFixed(1)).toLocaleString(document.documentElement.lang + "-CA");
-                    if (document.documentElement.lang == "fr") {
-                        var end = " %"
-                    } else {
-                        var end = "%";
-                    }
-                    return percentage + end;
-                },
+                //formatter: formatter,
                 backgroundColor: function(context) {
                     return context.dataset.backgroundColor;
                 },
@@ -508,26 +521,38 @@ const jsonPieGenerate = (arr) => {
                 },
                 scaleLabel: {
                     display: true,
-                    labelString: $.i18n("Devicesused"),
+                    labelString: $.i18n("DeviceType"),
                     fontSize: 18
                 }
             }],
             yAxes: [{
-                gridLines: {
+                /*gridLines: {
                     display:false
-                },
+                },*/
                 ticks: {
                     fontSize: 18,
                     beginAtZero: true,
                     // Return an empty string to draw the tick line but hide the tick label
                     // Return `null` or `undefined` to hide the tick line entirely
-                    callback: function(value, index, values) {
+                    
+                    /*callback: function(value, index, values) {
                         return Intl.NumberFormat().format((value/1000));
-                    }
+                    }*/
+                    
+                    callback: function (value) {
+                        if (document.documentElement.lang == "fr") {
+                            return (value).toFixed(0) + ' %'; // convert it to percentage
+                        } else {
+                            return (value).toFixed(0) + '%'; // convert it to percentage
+                        }                    
+                    },
+                    min: 0,
+                    max: 100,
+                    step: 10
                 },
                 scaleLabel: {
                     display: true,
-                    labelString: $.i18n("Numberofvisits"),
+                    labelString: $.i18n("Percentageofvisits"),
                     fontSize: 18
                 }
             }]
@@ -572,27 +597,27 @@ const jsonPieGenerate = (arr) => {
         options: options
     });
 
-    sum = val.reduce(function(acc, val) { return acc + val; }, 0)
-
     let srch = [];
 
-    $.each(val, function(index, value) {
-        val = value
-        lab = chart.data.labels[index]
-        per = parseFloat((val * 100 / sum).toFixed(2)).toLocaleString(document.documentElement.lang + "-CA")
+    for ( i = 0; i < val.length; i++ ) {
+        value = val[i]
+
+        lab = chart.data.labels[i]
+        per = parseFloat((value * 100 / sum).toFixed(2)).toLocaleString(document.documentElement.lang + "-CA")
         if (document.documentElement.lang == "fr") {
             var end = "&nbsp;%"
         } else {
             var end = "%";
         }
         per = per + end;
-        val = value.toLocaleString(document.documentElement.lang + "-CA")
+        vals = value.toLocaleString(document.documentElement.lang + "-CA")
         var obj = {};
         obj[$.i18n("DeviceType")] = lab;
-        obj[$.i18n("Visits")] = val;
+        obj[$.i18n("Visits")] = vals;
         obj[$.i18n("Percent")] = per;
         srch.push(obj);
-    });
+    };
+
 
     let table = document.querySelector("table#tbl-pltfrm");
     let dtx = Object.keys(srch[0]);
