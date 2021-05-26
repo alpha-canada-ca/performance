@@ -740,7 +740,7 @@ const jsonTrendGenerate = (json, day, dates) => {
                 xAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: ($.i18n(granularity) + $.i18n("Dayofselecteddaterange")),
+                        labelString: ( $.i18n("Day") ),
                         fontSize: 18
                     },
                     gridLines: {
@@ -1282,11 +1282,15 @@ const jsonTable = (json, val, title, headers, day) => {
 
         $.each(array, function(index, value) {
 
+            console.log(array)
+
             var obj = {};
 
             for ( var $i = 0; $i < headers.length; $i++ ) {
                 
                 term = value[$i];
+
+                console.log(term)
 
                 if (!isInt(term)) {
                     if ( term.indexOf("||") !== -1 ) {
@@ -1551,6 +1555,17 @@ const jsonFWYLF = (json, day) => {
     var val = "#fwylfReason";
     var title = $.i18n("NoClicks");
 
+    arrEn = [ "I can't find the information",
+              "The information is hard to understand",
+              "There was an error or something didn't work",
+              "Other reason"
+        ]
+    arrFr = [ "Je ne peux pas trouver l’information",
+            "L'information est difficile à comprendre",
+            "Il y avait une erreur / quelque chose ne fonctionnait pas",
+            "Autre raison"
+          ]
+
     if (rows != null) {
         var array = json["rows"];
         $next.html("");
@@ -1573,6 +1588,16 @@ const jsonFWYLF = (json, day) => {
             } else {
                 term = $.i18n(terms[0]);
             }
+
+            if (document.documentElement.lang == "fr") {
+                for ( i = 0; i < arrEn.length; i++) {
+                    if ( term == arrEn[i] ) {
+                        term = arrFr[i];
+                        break;
+                    }   
+                }
+            }
+
             obj[$.i18n("Reason")] = term;
             obj[$.i18n("Submits")] = clicks;
             next.push(obj);
