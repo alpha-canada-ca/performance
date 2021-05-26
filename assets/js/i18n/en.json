@@ -24,6 +24,7 @@
     "Numberofvisits(%)bydevicesused": "Percentage (%) of visits by device used",
     "Textalternativeforthiscanvasgraphicisinthedatatablebelow.": "Text alternative for this canvas graphic is in the datatable below.",
     "Numberofvisits(%)bydevicesused-Table": "Percentage (%) of visits by device used - Table",
+    "Percentageofvisits": "Percentage (%) of visits",
     "Visitstrend": "Year-over-year comparison of visits",
     "Visitstrendbycurrentyearandpreviousyear": "Visits for current year and previous year",
     "Visitstrendbycurrentandpreviousyear-Table": "Visits for current year and previous year - Table",
@@ -50,11 +51,11 @@
     "Clicks": "Clicks",
     "GSCClicks": "Clicks (in thousands)",
     "GSCImpressions": "Impressions (in thousands)",
-    "DeviceType": "Device Type",
+    "DeviceType": "Device type",
     "Visits": "Visits",
     "Percent": "Percent",
     "Desktop": "Desktop",
-    "MobilePhone": "Mobile Phone",
+    "MobilePhone": "Mobile",
     "Tablet": "Tablet",
     "Other": "Other",
     "Day": "Day",
@@ -168,6 +169,7 @@
     "Googlesearchanalytics" : "Google Search analytics",
     "Itemsselected" : "Items selected",
     "Timesreported" : "Times reported",
-    "Searches" : "Searches"
+    "Searches" : "Searches",
+    "Country" : "Country"
 
 }
