@@ -1557,7 +1557,7 @@ const jsonFWYLF = (json, day) => {
 
     arrEn = [ "I can't find the information",
               "The information is hard to understand",
-              "There was an error or something didn't work",
+              "There was an error / something didn't work",
               "Other reason"
         ]
     arrFr = [ "Je ne peux pas trouver l’information",
