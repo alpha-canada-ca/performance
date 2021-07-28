@@ -94,6 +94,12 @@ try {
                         $md = json_encode( $md );
                     }
 
+                    // TODO:
+                    // Create a function to run the api call from another service (one up)
+                    // Parameters needed, such as the type (call), url, date, lang
+                    // include api_post.php
+                    // i.e. $result = api_post($config[0]['ADOBE_API_KEY'], $config[0]['COMPANY_ID'], $_SESSION['token'], $api);
+                    
                     if ( $error ) {
                         if ($field == "aa") {
                             mongoDelete($oUrl, "search", $type, $oMd, $sm, $oDate, $lang);
