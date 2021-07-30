@@ -2558,6 +2558,14 @@ $("#ddRange").submit(function(event) {
     mainQueue(url, start, end, 0);//, dd);
 });
 
+function hideError() {
+    $("#error").addClass("hidden");
+}
+
+function showError() {
+    $("#error").removeClass("hidden");
+}
+
 
 const removeQueryString = (url) => {
     var a = document.createElement('a'); // dummy element
@@ -2588,7 +2596,7 @@ const mainQueue = (url, start, end, lang) => {
     $("#canvas-container").addClass("hidden");
     $("#whole-canvas").addClass("hidden");
     $("#notfound").addClass("hidden")
-    $("#error").addClass("hidden");
+    hideError();
     $("#loading").removeClass("hidden");
 
     $success = 0;
@@ -2860,7 +2868,7 @@ const mainQueue = (url, start, end, lang) => {
                     $("#loading").addClass("hidden");
                     $("#loadFD").empty();
                     $("#notfound").addClass("hidden");
-                    $("#error").removeClass("hidden");
+                    showError();
                     $('#errorHeader').val($('#urlStatic').text());
                     $("#searchBttn").prop("disabled", false);
                     $('#urlval').val($('#urlStatic').text());
@@ -2871,7 +2879,7 @@ const mainQueue = (url, start, end, lang) => {
                 } else {
                     $("#loading").addClass("hidden");
                     $("#loadFD").empty();
-                    $("#error").addClass("hidden");
+                    hideError();
                     $("#notfound").addClass("hidden");
                     $("#whole-canvas").removeClass("hidden");
                     $("#searchBttn").prop("disabled", false);
