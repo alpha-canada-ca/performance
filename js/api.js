@@ -2563,6 +2563,7 @@ function hideError() {
 }
 
 function showError() {
+    _satellite.track("CUSTOM_TRACK");  // error tracking beacon
     $("#error").removeClass("hidden");
 }
 
