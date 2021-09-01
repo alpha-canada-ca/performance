@@ -2159,8 +2159,8 @@ const jsonGSC = (json, val, title, col, lang) => {
             term = value["keys"][lang];
             clicks = value["clicks"];
             imp = value["impressions"];
-            ctr = parseFloat((value['ctr'] * 100)).toFixed(1);
-            pos = value['position'].toFixed(1);
+            ctr = parseFloat((value['ctr'] * 100)).toFixed(1).toLocaleString(document.documentElement.lang + "-CA";
+            pos = value['position'].toFixed(1).toLocaleString(document.documentElement.lang + "-CA";
             if (document.documentElement.lang == "fr") {
                 var end = "&nbsp;%"
             } else {
