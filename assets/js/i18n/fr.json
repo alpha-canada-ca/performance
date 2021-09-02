@@ -155,7 +155,7 @@
     "Getdata": "Obtenez des données",
     "BlurbP1": "Utilisez cet outil pour accéder au Web et rechercher des données analytiques pour toute page Web Canada.ca existante. Vous pouvez afficher les données d'analyse d'hier, des 7 derniers jours ou des 30 derniers jours.",
     "BlurbP2": "Copiez et collez simplement l'URL de la page Web qui vous intéresse dans la barre de recherche ci-dessous. Vous obtiendrez alors des données sur le nombre de personnes qui visitent un site, d'où elles viennent, qui elles sont, ce qu'ils font, et plus encore.",
-    "SearchCanada": "Copiez et collez une URL Canada.ca",
+    "SearchCanada": "Copiez et collez une URL Canada.ca, y compris le https://",
     "Required": "(obligatoire)",
     "errorOccured": "Une erreur s'est produite — Veuillez réessayer dans 15 secondes.",
     "moreDetails": "Afficher plus de détails",
