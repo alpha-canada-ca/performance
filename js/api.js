@@ -2564,6 +2564,7 @@ function hideError() {
 
 function showError() {
     $("#error").removeClass("hidden");
+    _satellite.track("CUSTOM_TRACK");
 }
 
 
