@@ -2564,8 +2564,8 @@ function hideError() {
 
 function showError() {
     $("#error").removeClass("hidden");
-    _satellite.track("CUSTOM_TRACK");
     $("#error").attr("data-gc-analytics-customcall","CRA-ARC:Page analytics tool - Error:Error message impression"); 
+    _satellite.track("CUSTOM_TRACK");
 }
 
 
