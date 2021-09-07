@@ -2564,7 +2564,25 @@ function hideError() {
 
 function showError() {
     $("#error").removeClass("hidden");
-    $("#error").attr("data-gc-analytics-customcall","CRA-ARC:Page analytics tool - Error:Error message impression"); 
+
+    if ($("#errorHeader").text().includes("No data")) {
+        errTrack = "CRA-ARC:Page analytics tool - Error: No data";
+        errKey = "errorOccuredNodata";
+      }
+      else if ($("#errorHeader").text().includes("429050")) {
+        errTrack = "CRA-ARC:Page analytics tool - Error: Too many requests";
+        errKey = "errorOccuredTooMany";
+      }
+      else {
+        errTrack = "CRA-ARC:Page analytics tool - Error: Generic Error Message";
+        errKey = "errorOccured";
+      }
+      
+      $("#error-canvas").addClass("hidden");
+      
+      $("#error").attr("data-gc-analytics-customcall",errTrack);
+      $(".error_display").attr("data-i18n",errKey);
+
     _satellite.track("CUSTOM_TRACK");
 }
 
