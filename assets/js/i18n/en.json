@@ -9,7 +9,7 @@
     "EnterthepageURL": "Enter the page URL",
     "PlaceURL": "Place URL",
     "Loading...": "Loading...",
-    "Opps": "Error: Your search was unsuccessful.",
+    "Opps": "Uh oh! Looks like there are too many people using this tool right now… Please refresh and try again in a minute. This is an alpha site, so bear with us as we work out the kinks!",
     "Page-levelstatistics": "Page-level statistics",
     "Period:": "Date range:",
     "days-": "days - ",
