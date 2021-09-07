@@ -2568,20 +2568,19 @@ function showError() {
     if ($("#errorHeader").text().includes("No data")) {
         errTrack = "CRA-ARC:Page analytics tool - Error: No data";
         errKey = "errorOccuredNodata";
-      }
-      else if ($("#errorHeader").text().includes("429050")) {
+    } else if ($("#errorHeader").text().includes("429050")) {
         errTrack = "CRA-ARC:Page analytics tool - Error: Too many requests";
         errKey = "errorOccuredTooMany";
-      }
-      else {
+    } else {
         errTrack = "CRA-ARC:Page analytics tool - Error: Generic Error Message";
         errKey = "errorOccured";
-      }
+    }
       
-      $("#error-canvas").addClass("hidden");
+    $("#error-canvas").addClass("hidden");
       
-      $("#error").attr("data-gc-analytics-customcall",errTrack);
-      $(".error_display").attr("data-i18n",errKey);
+    $("#error").attr("data-gc-analytics-customcall",errTrack);
+    $(".error_display").attr("data-i18n",errKey);
+    $(".error_display").text($.i18n(errKey));
 
     _satellite.track("CUSTOM_TRACK");
 }
@@ -2942,6 +2941,9 @@ const mainQueue = (url, start, end, lang) => {
     if (!$success) {
         $("#loading").addClass("hidden");
         $("#notfound").removeClass("hidden");
+
+        $("#notfound").attr("data-gc-analytics-customcall","CRA-ARC Page analytics tool - Error:Search unsuccessful");
+        _satellite.track("CUSTOM_TRACK");
+
     }
 }
-

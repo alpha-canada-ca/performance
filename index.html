@@ -267,13 +267,6 @@
     display: inline-block;
     margin-left: 5px;
 }
-    #error {
-        padding-top: 15px;
-    }
-
-    .fa-exclamation-triangle {
-        padding-right: 15px;
-    }
 
     </style>
     <!-- Write closure template -->
@@ -367,11 +360,11 @@
             <span id="loadFD" aria-live="polite" aria-atomic="true" aria-relevant="all"></span>
             <span id="loadComp" aria-live="assertive" aria-atomic="true" aria-relevant="all"></span>
         </p>
-        <div id="notfound" class="hidden" aria-live="assertive" aria-atomic="true" aria-relevant="additions">
-            <p><i class="fas fa-exclamation-triangle"></i><span data-i18n="Opps"></span></p>
+        <div id="notfound" class="hidden" aria-live="assertive" aria-atomic="true" aria-relevant="additions" style="padding-top:15px">
+            <p><i class="fas fa-exclamation-triangle" style="padding-right:15px"></i><span data-i18n="Opps"></span></p>
         </div>
-        <div id="error" class="hidden" aria-live="assertive" aria-atomic="true" aria-relevant="additions">
-            <p><i class="fas fa-exclamation-triangle"></i><span class="error_display" data-i18n="errorOccured"></span></p>
+        <div id="error" class="hidden" aria-live="assertive" aria-atomic="true" aria-relevant="additions" style="padding-top:15px">
+            <p><i class="fas fa-exclamation-triangle" style="padding-right:15px"></i><span class="error_display" data-i18n="errorOccured"></span></p>
 
             <details id="error-canvas">
                 <summary data-i18n="moreDetails"></summary>
