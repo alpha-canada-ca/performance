@@ -397,7 +397,7 @@ catch(Exception $ex)
     ));
 }
 
-$result = api_post($config[$randIndex]['ADOBE_API_KEY'], $config[$randIndex]['COMPANY_ID'], $_SESSION['token'], $api);
+$result = api_post($config[$_SESSION['randIndex']]['ADOBE_API_KEY'], $config[$_SESSION['randIndex']]['COMPANY_ID'], $_SESSION['token'], $api);
 
 foreach($result as $r => $res) {
     mongoUpdate($oUrl, $oDate, $type[$r], $res, "multi", "cache");
