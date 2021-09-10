@@ -159,7 +159,7 @@
     "SearchCanada": "Copy and paste a Canada.ca URL, including the https://",
     "Required": "(required)",
     "errorOccured": "An error has occured — Please try again in 15 seconds.",
-    "errorOccuredNodata": "Uh oh! Looks like we couldnt fetch data from the database for this page… Please refresh and try again in a minute. This is an alpha site, so bear with us as we work out the kinks!",
+    "errorOccuredNodata": "Uh oh! Looks like we couldn't fetch data from the database for this page… Please refresh and try again in a minute. This is an alpha site, so bear with us as we work out the kinks!",
     "errorOccuredTooMany": "Uh oh! Looks like there are too many people using this tool right now… Please refresh and try again in a minute. This is an alpha site, so bear with us as we work out the kinks!",
     "moreDetails": "Show more details",
     "title": "Title",
