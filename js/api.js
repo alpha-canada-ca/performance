@@ -1338,7 +1338,7 @@ const jsonTable = (json, val, title, headers, day) => {
         }
 }
 
-function getTable($pageLength = null, $search = null, $info = null, $lengthChange = null, $order = null, $length = null, $display = null, $class = null) {
+function getTable($pageLength = null, $search = null, $info = null, $lengthChange = null, $order = null, $length = null, $display = null, $class = null, $tableFormatedNum = null) {
     if (!$class) { $class = "wb-tables table table-responsive"; }
     if (!$pageLength) { $pageLength = 5; }
     if (!$search) { $search = false; }
@@ -1347,6 +1347,18 @@ function getTable($pageLength = null, $search = null, $info = null, $lengthChang
     if (!$order) { $order = [1, "&quot;desc&quot;"]; }
     if (!$length) { $length = [5, 10, 25, -1]; }
     if (!$display) { $display = [5, 10, 25, "&quot;All&quot;"]; }
+    if (!$tableFormatedNum) { $tableFormatedNum = [
+                                                    { "&quot;type&quot;": "&quot;html&quot;" },
+                                                    { "&quot;type&quot;": "&quot;formatted-num&quot;" }
+                                                  ];
+    } else if ($tableFormatedNum == "gcs-tables") { $tableFormatedNum = [
+                                                    { "&quot;type&quot;": "&quot;html&quot;" },
+                                                    { "&quot;type&quot;": "&quot;html&quot;" },
+                                                    { "&quot;type&quot;": "&quot;formatted-num&quot;" },
+                                                    { "&quot;type&quot;": "&quot;formatted-num&quot;" },
+                                                    { "&quot;type&quot;": "&quot;html&quot;" }
+                                                  ];
+    }
 
     return '<table class="' + $class + '" data-wb-tables=\'{ ' +
         '&quot;pageLength&quot; : ' + $pageLength + ', ' +
@@ -1354,8 +1366,8 @@ function getTable($pageLength = null, $search = null, $info = null, $lengthChang
         '&quot;lengthMenu&quot; : [ [ ' + $length + ' ], [ ' + $display + ' ] ] ,' +
         '&quot;searching&quot; : ' + $search + ',' +
         '&quot;info&quot; : ' + $info + ',' +
-        '&quot;lengthChange&quot; : ' + $lengthChange +
-
+        '&quot;lengthChange&quot; : ' + $lengthChange + ',' +
+        '&quot;columns&quot; : [ ' + $tableFormatedNum + ' ] ' +
         '}\'>' +
         '</table>';
 }
@@ -2178,7 +2190,8 @@ const jsonGSC = (json, val, title, col, lang) => {
         if (srch.length != 0) {
             //srch.sort((a, b)=> b[$.i18n("Clicks")] - a[$.i18n("Clicks")]);
             var $pageLength = 10;
-            $(val).html(getTable($pageLength));
+            //$(val).html(getTable($pageLength));
+            $(val).html(getTable($pageLength, null, null, null, null, null, null, null, "gcs-tables"));
             let table = document.querySelector(val + " table");
             let data = Object.keys(srch[0]);
             generateTable(table, srch);
