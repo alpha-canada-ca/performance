@@ -1353,10 +1353,10 @@ function getTable($pageLength = null, $search = null, $info = null, $lengthChang
                                                   ];
     } else if ($tableFormatedNum == "gcs-tables") { $tableFormatedNum = [
                                                     { "&quot;type&quot;": "&quot;html&quot;" },
-                                                    { "&quot;type&quot;": "&quot;html&quot;" },
                                                     { "&quot;type&quot;": "&quot;formatted-num&quot;" },
                                                     { "&quot;type&quot;": "&quot;formatted-num&quot;" },
-                                                    { "&quot;type&quot;": "&quot;html&quot;" }
+                                                    { "&quot;type&quot;": "&quot;formatted-num&quot;" },
+                                                    { "&quot;type&quot;": "&quot;formatted-num&quot;" }
                                                   ];
     }
 
