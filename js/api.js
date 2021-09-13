@@ -1337,7 +1337,7 @@ const jsonTable = (json, val, title, headers, day) => {
             $ref.html($.i18n("Nodata"));
         }
 }
-
+/*
 function getTable($pageLength = null, $search = null, $info = null, $lengthChange = null, $order = null, $length = null, $display = null, $class = null) {
     if (!$class) { $class = "wb-tables table table-responsive"; }
     if (!$pageLength) { $pageLength = 5; }
@@ -1355,6 +1355,44 @@ function getTable($pageLength = null, $search = null, $info = null, $lengthChang
         '&quot;searching&quot; : ' + $search + ',' +
         '&quot;info&quot; : ' + $info + ',' +
         '&quot;lengthChange&quot; : ' + $lengthChange +
+
+        '}\'>' +
+        '</table>';
+}
+*/
+
+function getTable($pageLength = null, $search = null, $info = null, $lengthChange = null, $order = null, $length = null, $display = null, $class = null, $TableFormattedCol = null) {
+    if (!$class) { $class = "wb-tables table table-responsive"; }
+    if (!$pageLength) { $pageLength = 5; }
+    if (!$search) { $search = false; }
+    if (!$info) { $info = true; }
+    if (!$lengthChange) { $lengthChange = true; }
+    if (!$order) { $order = [1, "&quot;desc&quot;"]; }
+    if (!$length) { $length = [5, 10, 25, -1]; }
+    if (!$display) { $display = [5, 10, 25, "&quot;All&quot;"]; }
+    if (!$TableFormattedCol) { $TableFormattedCol = [
+                                                    '{ &quot;type&quot;: &quot;html&quot; }',
+                                                    '{ &quot;type&quot;: &quot;formatted-num&quot; }'
+                                                  ];
+    } else if ($TableFormattedCol == "gsc-tables") { $TableFormattedCol = [
+                                                    '{ &quot;type&quot;: &quot;html&quot; }',
+                                                    '{ &quot;type&quot;: &quot;formatted-num&quot; }',
+                                                    '{ &quot;type&quot;: &quot;formatted-num&quot; }',
+                                                    '{ &quot;type&quot;: &quot;formatted-num&quot; }',
+                                                    '{ &quot;type&quot;: &quot;formatted-num&quot; }'
+                                                  ];
+    }
+
+
+
+    return '<table class="' + $class + '" data-wb-tables=\'{ ' +
+        '&quot;pageLength&quot; : ' + $pageLength + ', ' +
+        '&quot;order&quot; : [ ' + $order + ' ] , ' +
+        '&quot;lengthMenu&quot; : [ [ ' + $length + ' ], [ ' + $display + ' ] ] ,' +
+        '&quot;searching&quot; : ' + $search + ',' +
+        '&quot;info&quot; : ' + $info + ',' +
+        '&quot;lengthChange&quot; : ' + $lengthChange + ',' +
+        '&quot;columns&quot; : [ ' + $TableFormattedCol + ' ] ' +
 
         '}\'>' +
         '</table>';
@@ -2178,7 +2216,8 @@ const jsonGSC = (json, val, title, col, lang) => {
         if (srch.length != 0) {
             //srch.sort((a, b)=> b[$.i18n("Clicks")] - a[$.i18n("Clicks")]);
             var $pageLength = 10;
-            $(val).html(getTable($pageLength));
+            //$(val).html(getTable($pageLength));
+            $(val).html(getTable($pageLength, null, null, null, null, null, null, null, "gsc-tables"));
             let table = document.querySelector(val + " table");
             let data = Object.keys(srch[0]);
             generateTable(table, srch);
