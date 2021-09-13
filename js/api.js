@@ -1348,15 +1348,15 @@ function getTable($pageLength = null, $search = null, $info = null, $lengthChang
     if (!$length) { $length = [5, 10, 25, -1]; }
     if (!$display) { $display = [5, 10, 25, "&quot;All&quot;"]; }
     if (!$tableFormatedNum) { $tableFormatedNum = [
-                                                    { "&quot;type&quot;": "&quot;html&quot;" },
-                                                    { "&quot;type&quot;": "&quot;formatted-num&quot;" }
+                                                    &lbrace; "&quot;type&quot;": "&quot;html&quot;" &rbrace;,
+                                                    &lbrace; "&quot;type&quot;": "&quot;formatted-num&quot;" &rbrace;
                                                   ];
     } else if ($tableFormatedNum == "gcs-tables") { $tableFormatedNum = [
-                                                    { "&quot;type&quot;": "&quot;html&quot;" },
-                                                    { "&quot;type&quot;": "&quot;formatted-num&quot;" },
-                                                    { "&quot;type&quot;": "&quot;formatted-num&quot;" },
-                                                    { "&quot;type&quot;": "&quot;formatted-num&quot;" },
-                                                    { "&quot;type&quot;": "&quot;formatted-num&quot;" }
+                                                    &lbrace; "&quot;type&quot;": "&quot;html&quot;" &rbrace;,
+                                                    &lbrace; "&quot;type&quot;": "&quot;formatted-num&quot;" &rbrace;,
+                                                    &lbrace; "&quot;type&quot;": "&quot;formatted-num&quot;" &rbrace;,
+                                                    &lbrace; "&quot;type&quot;": "&quot;formatted-num&quot;" &rbrace;,
+                                                    &lbrace; "&quot;type&quot;": "&quot;formatted-num&quot;" &rbrace;
                                                   ];
     }
 
