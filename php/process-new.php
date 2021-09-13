@@ -411,6 +411,7 @@ catch(Exception $ex) {
     echo json_encode(array('error' => $ex));
 }
 
+echo $_SESSION['randIndex'];
 $result = api_post($config[$_SESSION['randIndex']]['ADOBE_API_KEY'], $config[$_SESSION['randIndex']]['COMPANY_ID'], $_SESSION['token'], $api);
 
 $trnd = [];
