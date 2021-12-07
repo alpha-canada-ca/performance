@@ -315,7 +315,7 @@
         <div class="clearfix"></div>
 
         <div class="wb-frmvld">
-        <form id="urlform" action="#" method="post">
+        <form id="urlform" action="#" method="post" data-gc-analytics-formname="CRA-ESDC-TBS|ARC-EDSC-SCT:Page analytics tool" >
             <p data-i18n="BlurbP1"></p>
             <!-- <p data-i18n="BlurbP2"></p> -->
             <input type='hidden' name='dd-value'>
@@ -334,7 +334,7 @@
         -->
         <div class="form-group">
                 <label for="urlval" class="required"><span class="field-name" data-i18n="SearchCanada"></span> <strong class="required" data-i18n="Required"></strong></label>
-                <input type="search" id="urlval" name="urlval" class="form-control" required="required" style="width: 100%" />
+                <input data-gc-analytics-collect="notPrivate" type="search" id="urlval" name="urlval" class="form-control" required="required" style="width: 100%" />
             </div>
 
             <div class="form-group">
@@ -346,7 +346,7 @@
                                 <option data-value="2" data-index="2" value="2" data-i18n="Yesterday"></option>
                             </select>
                 </div>
-                <button class="btn btn-default" id="searchBttn" type="submit"><span class="glyphicon-search glyphicon"></span> <span data-i18n="Getdata"></span></button>
+                <button data-gc-analytics-formsubmit="submit" class="btn btn-default" id="searchBttn" type="submit"><span class="glyphicon-search glyphicon"></span> <span data-i18n="Getdata"></span></button>
 
 
         </form>
