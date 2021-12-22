@@ -153,7 +153,7 @@
     "hlp-region-title": "Aide pour le terme ' Localisation des visiteurs '",
     "Feedbackbypage": "Données de rétroaction",
     "Getdata": "Obtenez des données",
-    "BlurbP1": "Utilisez cet outil pour accéder aux données analytiques Web et aux données de recherche pour toute page Web Canada.ca existante (c.-à-d. les pages commençant par https://www.canada.ca). Pour le moment, cet outil ne fonctionne pas avec les sous-domaines Canada.ca (p. ex. sous-domaine.canada.ca).<br/><br/>Nous sommes toujours à la recherche de moyens pour améliorer cet outil. <a href='https://www.canada.ca/fr/analytique/oap-retroaction.html'>Faites-nous part de vos commentaires</a> pour nous aider à l'améliorer.",
+    "BlurbP1": "Utilisez cet outil pour accéder aux données analytiques Web et aux données de recherche pour toute page Web Canada.ca existante.",
     "BlurbP2": "Copiez et collez simplement l'URL de la page Web qui vous intéresse dans la barre de recherche ci-dessous. Vous obtiendrez alors des données sur le nombre de personnes qui visitent un site, d'où elles viennent, qui elles sont, ce qu'ils font, et plus encore.",
     "SearchCanada": "Copiez et collez une URL Canada.ca, y compris le https://",
     "Required": "(obligatoire)",
