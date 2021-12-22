@@ -154,7 +154,7 @@
     "hlp-region-title": "Help for term 'Visitor location'",
     "Feedbackbypage": "Feedback by page",
     "Getdata": "Get data",
-    "BlurbP1":"Use this tool to access web and search analytics data for any existing Canada.ca web page. You can view the analytics data from yesterday, the last 7 days, or the last 30 days.",
+    "BlurbP1":"Use this tool to access web and search analytics data for any existing Canada.ca web page (i.e. pages starting with https://www.canada.ca). At this time, this tool does not work with Canada.ca subdomains (e.g. subdomain.canada.ca).<br/><br/>We are always looking for ways to make this tool better. <a href='https://www.canada.ca/en/analytics/pat-feedback.html'>Give feedback</a> to help improve it.",
     "BlurbP2":"Simply copy and paste the URL of the web page you are interested in into the search bar below. You will then get back data on how many people are visiting a site, where they are coming from, whom they are, what they are doing, and more.",
     "SearchCanada": "Copy and paste a Canada.ca URL, including the https://",
     "Required": "(required)",
