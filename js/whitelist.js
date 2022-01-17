@@ -525,4 +525,7 @@ const substrings = [
 		,'www.asc-csa.gc.ca'
 		,'csa-asc.gc.ca'
 		,'www.csa-asc.gc.ca'
+	//Transport and Infrastructure
+		,'www.infrastructure.gc.ca'
+		,'infrastructure.gc.ca'
 	];
