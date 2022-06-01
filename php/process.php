@@ -80,13 +80,13 @@ try {
                     $oMd = $md;
                     $md = json_decode( $md, true );
 
-                    if ( $md['error'] ) {
+                    if ( array_key_exists('error', $md) ) {
                         $error = 1;
                         $md = json_encode( array('error' => $md['error'], 'message' => $md['message'] ));
-                    } else if ( $md['errorCode'] ) {
+                    } else if ( array_key_exists('errorCode', $md) ) {
                         $error = 1;
                         $md = json_encode( array('error' => ( $md['errorId'] . ' - ' . $md['errorCode'] ), 'message' => $md['errorDescription'] ));
-                    } else if ( $md['error_code'] ) {
+                    } else if ( array_key_exists('error_code', $md) ) {
                         $error = 1;
                         $md = json_encode( array('error' => $md['error_code'], 'message' => $md['message'] ));
                     } else {
