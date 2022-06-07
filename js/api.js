@@ -2676,6 +2676,9 @@ const mainQueue = (url, start, end, lang) => {
     }
     */
 
+    url = (url.indexOf("www") === 0) ? "https://" + url : url;
+    //url = (url.substring(0, 3) == "www") ? "https://" + url : url;
+
     if ( (url.substring(0, 8) == "https://") && containsAny( url, substrings ) ) {
 
         $isApp = ( /(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ) ? 1 : 0;
