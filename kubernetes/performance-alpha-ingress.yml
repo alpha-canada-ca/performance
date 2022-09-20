@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: extensions/v1
 kind: Ingress
 metadata:
   name: performance-alpha-ingress
@@ -21,7 +21,9 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: performance-nginx
-          servicePort: 80
+          service:
+            name: performance-nginx
+            port:
+              number: 80
         path: /
       
