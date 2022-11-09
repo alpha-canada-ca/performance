@@ -2172,11 +2172,11 @@ const jsonGSCGenerate = (json, day) => {
         generateTable(table, $obj);
         generateTableHead(table, dtx, $.i18n("Visitstrendbycurrentyearandpreviousyear"));
 
-        $("#chart-gsc").show();
+        $("#chartgsc").show();
         $("#chrtgsc").hide();
     } else {
-        $("#chart-gsc").hide();
-        $("#chrtgsc").show();
+        $("#chartgsc").hide();
+        $("#chrtgsc").hide();
     }
 }
 
@@ -2819,7 +2819,7 @@ const mainQueue = (url, start, end, lang) => {
                 url = $("#urlStatic").html();
                 oUrl = $("#urlStatic").html();
                 dd = [$("#fromGSC").text(), $("#toGSC").text()];
-                Promise.all(apiCall(dd, url, gsc, oUrl, $dd, "gsc"))
+                Promise.all(apiCall(dd, url, gsc, oUrl, $dd, "gsc", langAbbr))
                 return res;
             }
             return res;

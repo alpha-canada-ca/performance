@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors', 1);
+//ini_set('display_errors', 1);
 /*
  * Copyright 2011 Google Inc.
  *
@@ -184,13 +184,15 @@ function printResults($client, $q, $t) {
           $u->rows[$k]->keys[1] = $rep2;
        } 
      } elseif ( $t == 'totalDateTest') {
-      //print_r($u->rows);
+      if ($u->rows) {
         foreach ( $u->rows as $k => $v ) { 
             end($u->rows);
             
             if ($k === key($u->rows))
                 return $v['keys'][0];
            } 
+       }
+        return;
      }
 
        return json_encode($u);
