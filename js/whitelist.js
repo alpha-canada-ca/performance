@@ -515,6 +515,8 @@ const substrings = [
 		,'uatirppub.devosfi.ca'
 		,'uatirppub.osfi-bsif.gc.ca'	
 		,'uatirppub.devosfi.ca'	
+		,'www.osfi-bsif.gc.ca'	
+		,'osfi-bsif.gc.ca'	
 	//Women and Gender Equality Canada	
 		,'canada/testing/page1-fr.html'	
 		,'canada/testing/page1-en.html'	
