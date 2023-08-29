@@ -16,28 +16,28 @@ $oLang = $d->lang;
 
 
 if ((isset($start) && !empty($start)) && (isset($end) && !empty($end))) {
-        $iso = 'Y-m-d';
-        $end = (new DateTime($end))->format($iso);
+  $iso = 'Y-m-d';
+  $end = (new DateTime($end))->format($iso);
 }
 $dates = "$start/$end";
-$byPageURL = 'https://readability-lisibilite.tbs.alpha.canada.ca/read_score?url='.$url.'&lang='.$oLang;
+$byPageURL = 'https://readability-lisibilite.tbs.alpha.canada.ca/read_score?url=' . $url . '&lang=' . $oLang;
 $md = mongoGet($byPageURL, $end, 'html', 'multi', "search", "bi");
 $output = '';
 if ($md) {
   $output = $md;
-} else  {
+} else {
   try {
     $html = file_get_html($byPageURL);
     $output = $html->getElementById('content');
     $output = $output->innertext();
     $output = json_encode($output);
-    $output = '{ "html":'.' '.$output.'}';
+    $output = '{ "html":' . ' ' . $output . '}';
     mongoUpdate($byPageURL, $end, 'html', $output, "multi", "search", "bi");
   } catch (Throwable $e) {
     $output = "no data";
   }
 }
-$pos = strpos($output,'no data');
+$pos = strpos($output, 'no data');
 if ($pos === false) {
   echo $output;
 } else {

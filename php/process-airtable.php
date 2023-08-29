@@ -19,24 +19,25 @@ $airtable = new Airtable($config);
 
 $url = 'https://www.canada.ca/en/revenue-agency/services/e-services/e-services-individuals/account-individuals.html';
 
-$params =  array(
-                "filterByFormula" => "( URL = '$url' )" );
+$params = array(
+	"filterByFormula" => "( URL = '$url' )"
+);
 
-$request = $airtable->getContent( 'Pages' , $params );
+$request = $airtable->getContent('Pages', $params);
 
 $response = $request->getResponse();
 
-$r = ( json_decode( $response, true ) )['records'];
+$r = (json_decode($response, true))['records'];
 
-if ( count( $r) > 0 ) {
+if (count($r) > 0) {
 
 	//Grab Call Drivers
-	$cd = $r[0]['fields']['Call drivers'];//['id'];//['URL'];
+	$cd = $r[0]['fields']['Call drivers']; //['id'];//['URL'];
 	//print_r( $cd );
 	//echo count( $cd );
 	foreach ($cd as $key => $val) {
-	    //echo "a[$k] - $v\n\n";
-	    $request = $airtable->getContent( 'Call drivers/'. $val );
+		//echo "a[$k] - $v\n\n";
+		$request = $airtable->getContent('Call drivers/' . $val);
 		$response = $request->getResponse();
 		echo $key . "      " . $response . "<br /><br />";
 	}
@@ -58,9 +59,9 @@ echo $response;
 
 do {
 
-    $response = $request->getResponse();
+	$response = $request->getResponse();
 
-    var_dump( json_encode( $response[ 'records' ] ) );
+	var_dump( json_encode( $response[ 'records' ] ) );
 
 }
 while( $request = $response->next() );

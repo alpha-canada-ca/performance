@@ -17,7 +17,7 @@ function mongoDelete ( $url, $db, $type = null, $data = null, $sm = null, $date 
         $mng->executeBulkWrite('pageperformance.' . $db, $bulk);
 
     }  catch (MongoDB\Driver\Exception\Exception $e) {
-
+ 
         $filename = basename(__FILE__);
         
         $arr = array('error' => "The " . $filename . " script has experienced an error.\nIt failed with the following exception:\nException:" . $e->getMessage() . "\n
