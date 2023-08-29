@@ -46,229 +46,14 @@
         
         document.write(inlineScript.outerHTML);
     </script>
+    
+    <link rel="stylesheet" type="text/css" href="assets/style.css" /> <!-- load local stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- load font awesome stylesheet -->
+
     <noscript>
-            <link rel="stylesheet" href="gcweb/wet-boew/css/noscript.min.css" />
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-         </noscript>
-    <style>
-        canvas {
-            padding: 1em;
-            border: 1px solid lightgrey;
-        }
-        
-        html {
-            font-family: sans-serif;
-            -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%
-        }
-        
-        p.h2 sup {
-            font-size: 16px;
-        }
-        div.small {
-            line-height: 1.2em !important;
-        }
-        /* Dropdown 
-        
-        .dropdown {
-            display: inline-block;
-            position: relative;
-            color: #333;
-            font-family: Sans-Serif;
-            background-color: #f6f6f6;
-        }
-        
-        .dd-button {
-            display: inline-block;
-            border: 1px solid gray;
-            border-radius: 4px;
-            padding: 5px 30px 5px 20px;
-            background-color: #ffffff;
-            cursor: pointer;
-            white-space: nowrap;
-            z-index: 999;
-            font-size: 16px;
-            font-weight: 100;
-        }
-        
-        .dd-button::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: 15px;
-            transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            border-top: 5px solid black;
-        }
-        
-        .dd-button:hover {
-            background-color: #eeeeee;
-        }
-        
-        .dd-input {
-            display: none;
-        }
-        
-        .dd-menu {
-            position: absolute;
-            top: 100%;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 0;
-            margin: 2px 0 0 0;
-            box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
-            background-color: #ffffff;
-            list-style-type: none;
-            z-index: 9;
-            font-size: 16px;
-            font-weight: 100;
-        }
-        
-        .dd-input+.dd-menu {
-            display: none;
-        }
-        
-        .dd-input:checked+.dd-menu {
-            display: block;
-        }
-        
-        .dd-menu li {
-            padding: 10px 20px;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        
-        .dd-menu li:hover {
-            background-color: #f6f6f6;
-        }
-        
-        .dd-menu li a {
-            display: block;
-            margin: -10px -20px;
-            padding: 5px 20px;
-        }
-        
-        .dd-menu li.divider {
-            padding: 0;
-            border-bottom: 1px solid #cccccc;
-        }
-        */
-        
-        .bg {
-            background-color: #cfe8ef !important;
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-        }
-        
-        .bg-success-c {
-            background-color: #4285f4 !important;
-        }
-        
-        .bg-info-c {
-            background-color: #5e35b1 !important;
-        }
-        
-        .bg-warning-c {
-            background-color: #18897b !important;
-        }
-        
-        .bg-danger-c {
-            background-color: #e8710a !important;
-        }
-        
-        .bg-white-color {
-            color: #FFF !important;
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-        }
-        
-        .bg-black-color {
-            color: #000 !important;
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-        }
-        
-        .gsc-chart-container {
-            position: relative;
-            height: 60vh;
-        }
-        
-        .fa-question-circle {
-            color: #444;
-        }
-        
-        .fa-question-circle:hover {
-            color: #000;
-        }
-
-        .fas-1 {
-            font-size:16px;
-        }
-
-        #qwert {
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-        }
-        button#searchBttn.btn.btn-default span {
-            white-space: inherit;
-        }
-
-        button.btn {
-            white-space: inherit;
-        }
-
-        button.black {
-          background-color: #444444; /* Green */
-          border: none;
-          color: white;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          cursor: pointer;
-          font-size: 8px;
-          padding: 3px 4px;
-          border-radius: 50%;
-        }
-
-        button.black:hover {
-          background-color: #000000;
-        }
-
-        #dt-rng {  }
-
-        @media (min-width: 320px) and (max-width: 991px) {
-            .mobile-visible { display: block; margin-bottom: 15px; }
-            .desktop-visible { display: none; }  
-            /*
-            #dt-rng { margin-top: 0px; }
-            .dt-rng { width: 100%; }
-             #urlStatic { margin: 0 0 0 5px; } */
-        }
-
-        @media (min-width: 992px) {
-            .mobile-visible { display: none; }
-            .desktop-visible { display: block; }   
-            /*#dt-rng { margin-top: 38px; }
-            .dt-rng { width: 100%;}*/
-        }
-
-        .blue-box {
-            font-size: 17px;
-        }
-
-        #ajax-status-alert {
-    position: fixed;
-    bottom: 10px;
-    right: 15px;
-    z-index: 1001;
-}
-
-.ajax-status-alert__text + .ajax-status-alert__icon {
-    display: inline-block;
-    margin-left: 5px;
-}
-
-    </style>
+        <link rel="stylesheet" href="gcweb/wet-boew/css/noscript.min.css" /> <!--  load web experience toolkit stylesheet -->
+    </noscript>
+    
     <!-- Write closure template -->
     <script>
         //script.onreadystatechange = script.onload = null;
@@ -282,8 +67,9 @@
     
             <section class="experimental alpha-top">
                <h2 class="wb-inv" data-i18n="Alpha"></h2>
-               <div class="container"><small><label class="alpha-label" data-i18n="Alpha"></label>&nbsp;&nbsp; <span data-i18n="alphaMsg"></span> </small>
-    </div>
+               <div class="container">
+                <small><label class="alpha-label" data-i18n="Alpha"></label>&nbsp;&nbsp; <span data-i18n="alphaMsg"></span> </small>
+                </div>
     </section>
     <div id="def-top">
         <!-- Write closure fall-back static file -->
@@ -338,20 +124,120 @@
             </div>
 
             <div class="form-group">
-            <label for="date-range" id="dt-rng" data-i18n="select-date"></label>
-
-               <select id="date-range" class="form-control" name="date-range">
-                                <option data-value="31" data-index="0" value="0" data-i18n="Last30days"></option>
-                                <option data-value="8" data-index="1" value="1" data-i18n="Last7days" selected="selected"></option>
-                                <option data-value="2" data-index="2" value="2" data-i18n="Yesterday"></option>
-                            </select>
+                <select id="date-range" class="form-control" name="date-range">
+                    <option data-value="2" data-index="2" value="2" data-i18n="Yesterday" selected="selected"></option> <!-- data-index must equal 2 so that process.php can use $yesterday -->
+                </select>
+                <!-- calendar date picker for startdate -->
+                <div class="form-group">
+                    <label for="startdate" class="required">
+                        <span class="field-name" data-i18n="select-startdate"></span> 
+                        <strong class="required" data-i18n="Required"></strong>
+                        <sup>
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('date_start_content_modal')"></span>
+                            <span class="wb-inv" data-i18n="hlp-three-years-ago-title"></span>
+                        </sup>
+                    </label>
+                    <input class="form-control" type="date" id="startdate" name="startdate" min="" required="required"/>
                 </div>
-                <button data-gc-analytics-formsubmit="submit" class="btn btn-default" id="searchBttn" type="submit"><span class="glyphicon-search glyphicon"></span> <span data-i18n="Getdata"></span></button>
+                <script>startdate.max = new Date().toISOString().split("T")[0];</script>
+
+                <!-- calendar date picker for enddate -->
+                <div class="form-group">
+                    <label for="enddate" class="required">
+                        <span class="field-name" data-i18n="select-enddate"></span> 
+                        <strong class="required" data-i18n="Required"></strong>
+                        <sup>
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('date_end_content_modal')"></span>
+                            <span class="wb-inv" data-i18n="hlp-three-years-ago-title"></span>
+                        </sup>
+                    </label>
+                    <input class="form-control" type="date" id="enddate" name="enddate" min="" required="required"/>
+                </div>
+                <script>enddate.max = new Date().toISOString().split("T")[0];</script>
+                <script>
+                    // Get the current date
+                    var threeYearsAgo = new Date();
+                    // Subtract 3 years from the current date
+                    threeYearsAgo.setFullYear(threeYearsAgo.getFullYear() - 3);
+                    // Format the date as YYYY-MM-DD
+                    var formattedThreeYearsAgo = threeYearsAgo.toISOString().slice(0, 10);
+                    // Set the minimum value of the calendar input fields to the formatted date so that users cannot select a date that is more than 3 years ago, since AA data is only available for the past 3 years
+                    document.getElementById('startdate').setAttribute('min', formattedThreeYearsAgo);
+                    document.getElementById('enddate').setAttribute('min', formattedThreeYearsAgo);
+
+                    // Get the start date and end date input elements
+                    var startdateInput = document.getElementById("startdate");
+                    var enddateInput = document.getElementById("enddate");
+                    // prevent the user from setting an invalid date range, such as an enddate that is before the startdate
+                    startdateInput.addEventListener("input", function() {
+                        enddateInput.min = startdateInput.value;
+                    });
+                    enddateInput.addEventListener("input", function() {
+                        startdateInput.max = enddateInput.value;
+                    });
+                </script>
+            </div>
+            <button data-gc-analytics-formsubmit="submit" class="btn btn-primary" id="searchBttn" type="submit"><span class="glyphicon-search glyphicon"></span> <span data-i18n="Getdata"></span></button>
 
 
         </form>
     </div>
+    
+        <!-- LOADING WHILE SEARCHING -->
+            <!--
+            <section id="loading-popup-modal" class="hidden">
+                <div id="popup-modal-overlay" class="modal"></div>
+                <div id="popup-modal" class="modal-dialog modal-content overlay-def">
+                    <header class="modal-header">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i>
+                        <h2 class="modal-title">
+                            <i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i>
+                            <span id="loadGSC" aria-live="assertive" aria-atomic="true" aria-relevant="all"></span>
+                            <span id="loadAA" aria-live="polite" aria-atomic="true" aria-relevant="all"></span>
+                            <span id="loadFD" aria-live="polite" aria-atomic="true" aria-relevant="all"></span>
+                            <span id="loadComp" aria-live="assertive" aria-atomic="true" aria-relevant="all"></span>
+                        </h2>
+                    </header>
+                    <div class="modal-body">
+
+                        <p>We are working to get the data you requested. If it takes longer than a few minutes to load, please refresh the page and try again.</p>
+                        <hr>
+                        <p><b>While you are waiting, here’s a quick joke to pass the time...</b></p>
+                        <p><span id="quote"></span></p>
+                        -->
         
+                        <!-- QUOTE RANDOMIZER -->
+                        <!--
+                        <script>
+                            /*
+                            var quoteArray = new Array(5);
+                            var n = setTimeout(function(){
+                                var randomNumber = Math.round(Math.random()*(quoteArray.length-1));
+                                var quoteNumber = "quote" + randomNumber;
+                                console.log("quote number " + quoteNumber);
+                                $('#quote').attr("data-i18n", quoteNumber); 
+                                $(document).i18n();
+                            }, 1000);
+                            */
+                            var quote = [
+                                "Why did Hans Solo not enjoy his steak dinner? It was Chewie!", 
+                                "What do dentists call their x-rays? Tooth pics!", 
+                                "Why should you take a data scientist with you into the jungle? They can take care of Python problems.", 
+                                "How much data can be stored in a glacier? A frostbyte.",
+                                "Did you hear about the first restaurant to open on the moon? It had great food, but no atmosphere.",
+                                "When does a joke become a 'dad joke'? When it becomes apparent.",
+                                "What did one ocean say to the other ocean? Nothing, it just waved.",
+                                "What did the janitor say when he jumped out of the closet? Supplies!"
+                            ];
+                            var t = setTimeout(function(){
+                                var randomNumber = Math.round(Math.random()*(quote.length-1));
+                                $('#quote').html(quote[randomNumber]); 
+                            }, 1000);
+                        </script>
+                    </div>
+                </div>
+            </section>
+            -->
 
         <p id="loading" role="region" class="hidden" style="margin-top: 10px;">
             <i class="fa fa-spinner fa-spin fa-fw" style="font-size:24px"></i>
@@ -360,11 +246,44 @@
             <span id="loadFD" aria-live="polite" aria-atomic="true" aria-relevant="all"></span>
             <span id="loadComp" aria-live="assertive" aria-atomic="true" aria-relevant="all"></span>
         </p>
+        <!-- CHANGES CHECKLIST #3E -->
+        <!-- possible solution to re-enable search if loading takes longer than 5 minutes, commented out for now -->
+        <!--
+        <script>
+            function hideLoading() {
+                // hide the loading element
+                const loadingElement = document.getElementById("loading");
+                if (loadingElement) {
+                    loadingElement.classList.add("hidden");
+                }
+
+                // enable the search button
+                const searchButton = document.getElementById("searchBttn");
+                if (searchButton) {
+                    searchButton.disabled = false;
+                }
+
+                // unhide the notfoundGC element
+                const notfoundGCElement = document.getElementById("notfoundGC");
+                if (notfoundGCElement) {
+                    notfoundGCElement.classList.remove("hidden");
+                }
+            }
+
+            // Set a timer to hide the loading element after 10 minutes (600000 milliseconds)
+            const timer = setTimeout(hideLoading, 600000);
+        </script>
+        -->
+        <!-- return error message invalid url if 'notfound' triggered in api.js after 'Get data' button clicked-->
         <div id="notfound" class="hidden" aria-live="assertive" aria-atomic="true" aria-relevant="additions" style="padding-top:15px">
-            <p><i class="fas fa-exclamation-triangle" style="padding-right:15px"></i><span data-i18n="Opps"></span></p>
+            <p><span class="glyphicon glyphicon-exclamation-sign" style="padding-right:10px"></span><span data-i18n="Opps"></span></p>
+        </div>
+         <!-- return error message invalid url if 'notfoundGC' triggered in api.js after 'Get data' button clicked-->
+         <div id="notfoundGC" class="hidden" aria-live="assertive" aria-atomic="true" aria-relevant="additions" style="padding-top:15px">
+            <p><span class="glyphicon glyphicon-exclamation-sign" style="padding-right:10px"></span><span data-i18n="[html]OppsGC"></span></p>
         </div>
         <div id="error" class="hidden" aria-live="assertive" aria-atomic="true" aria-relevant="additions" style="padding-top:15px">
-            <p><i class="fas fa-exclamation-triangle" style="padding-right:15px"></i><span class="error_display" data-i18n="errorOccured"></span></p>
+            <p><span class="glyphicon glyphicon-exclamation-sign" style="padding-right:10px"></span><span class="error_display" data-i18n="errorOccured"></span></p>
 
             <details id="error-canvas">
                 <summary data-i18n="moreDetails"></summary>
@@ -392,7 +311,7 @@
                 <div class="col-md-12">
                     <h2><span class="wb-inv" data-i18n="Datafor"></span><span id="h2title" data-i18n="Page-levelstatistics"></span></h2>
                     <span id="urlStatic" class="small" aria-hidden="true"></span>
-                    <p class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></p>
+                    <p class="small"><a id="h2href" href="#" data-i18n="LanguageToggle"></a></p> <!-- link to view analytics for equivalent FR/EN page, if it is a canada.ca url -->
                     <p id="urlLang" class="hidden"></p>
                 </div>
 
@@ -432,235 +351,112 @@
 
             <div class="wb-tabs ignore-session">
                 <div class="tabpanels">
+
+                    <!-- WEB ANALYTICS --> 
                     <details id="details-panel1" open="open">
                         <summary><span data-i18n="Webanalytics"></span></summary>
+
+                        <!-- AA DATA --> 
                         <div id="canvas-container" class="hidden">
+
+                            <!-- DATE RANGE --> 
                             <p>
                                 <span id="fromGSC" class="hidden"></span>
                                 <span id="toGSC" class="hidden"></span>
-                                <strong data-i18n="Period:"></strong> <span id="ddDate"></span> - <span id="fromdaterange"></span> <span id="to" data-i18n="to"></span> <span id="todaterange"></span>
+                                <strong data-i18n="Period:"></strong> <span id="fromdaterange"></span> <span id="to" data-i18n="to"></span> <span id="todaterange"></span>
                                 <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv">Footnote </span>1</a></sup>-->
-                            </p>
+                            </p>     
 
+                            <!-- On this page -->
+
+                            <h2><strong data-i18n="Onthispage"></strong></h2>
+                            <!-- English table of contents anchor links -->
+                            <ul id="table-of-contents-english">
+                                <li><a href="#key-metrics"><span data-i18n="Keymetrics"></span></a></li>
+                                <li><a href="#traffic-sources"><span data-i18n="Trafficsources"></span></a></li>
+                                <li><a href="#visitor-profile"><span data-i18n="Visitorprofile"></span></a></li>
+                                <li><a href="#visitor-activity"><span data-i18n="Visitoractivity"></span></a></li>
+                            </ul>
+
+                            <!-- French table of contents anchor links -->
+                            <ul id="table-of-contents-french">
+                                <li><a href="#mesures-clés"><span data-i18n="Keymetrics"></span></a></li>
+                                <li><a href="#sources-de-trafic"><span data-i18n="Trafficsources"></span></a></li>
+                                <li><a href="#profil-du-visiteur"><span data-i18n="Visitorprofile"></span></a></li>
+                                <li><a href="#activité-de-visiteur"><span data-i18n="Visitoractivity"></span></a></li>
+                            </ul>
+
+                            <!-- KEY METRICS --> 
                             <div class="row">
 
-                            <div class="col-md-3" style="vertical-align: top;">
-                                <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p class="blue-box"><strong data-i18n="Averageuniquevisitors"></strong>
-                                        <sup>
-                                             <button class="fas fa-question fas-1 black" onclick="openOverlay('uniquev_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-unique-visitors-title"></span>
-                                             </button>
+                                <!-- English anchor link -->
+                                <h2 id="key-metrics" style="margin-left: 15px;"><strong data-i18n="Keymetrics"></strong>&nbsp;</h2>
+                                <!-- French anchor link -->
+                                <h2 id="mesures-clés" style="margin-left: 15px;"><strong data-i18n="Keymetrics"></strong>&nbsp;</h2>
 
-                                           
-                                        </sup>
-                                        <div id="uv"></div>
-                                    </p>
-                                </section>
-                            </div>
-                            <div class="col-md-3" style="vertical-align: top;">
-                                <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p class="blue-box"><strong data-i18n="Averagevisits"></strong> 
-                                        <sup>
-                                            <!-- <button data-template="hlp-average-visits" class="fas fa-question" id="black"></button> -->
-                                            <button class="fas fa-question fas-1 black" onclick="openOverlay('visits_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-average-visits-title"></span>
-                                             </button>
-                                            <!--
-                                            <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'visits'" href="#visits_content_modal"></a>
-                                            -->
-                                            
-                                        </sup>
-                                        <div id="visit"></div>
-                                    </p>
-                                </section>
-                            </div>
-
-                            <div class="col-md-3" style="vertical-align: top;">
-                                <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                    <p class="blue-box"><strong data-i18n="Averagepageviews"></strong> 
-                                        <sup>
-                                            <!-- <button data-template="hlp-average-pgv" class="fas fa-question" id="black"></button> -->
-                                            <button class="fas fa-question fas-1 black" onclick="openOverlay('pv_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-average-pgv-title"></span>
-                                             </button>
-                                             <!--
-                                            <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'page views'" href="#pv_content_modal"></a>
-                                            -->
-                                        </sup>
-                                        <div id="pagev"></div>
-                                    </p>
-                                </section>
-                            </div>
-                            <div class="col-md-3" style="vertical-align: top;">
-                                <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                   <p class="blue-box"><strong data-i18n="Averagetimespent"></strong> 
-                                    <sup>
-                                        <!-- <button data-template="hlp-average-tmspnt" class="fas fa-question" id="black"></button> -->
-                                        <button class="fas fa-question fas-1 black" onclick="openOverlay('tmspnt_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-average-tmspnt-title"></span>
-                                             </button>
-                                             <!--
-                                        <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'time on page'" href="#tmspnt_content_modal"></a>
-                                    -->
-                                            
-                                    </sup>
-                                        <div id="avgtime"></div>
-                                   </p>
-                                </section>
-                            </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6" id="fwlf-container">
-                                    <div id="rap-container">
-                                        <h2><strong data-i18n="Reportaproblem"></strong> <sup>
-                                            <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term report a problem" href="#rap_content_modal"></a> -->
-                                            <button class="fas fa-question fas-1 black" onclick="openOverlay('rap_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-rap-title"></span>
-                                             </button>
-
-                                            
-                                        </sup></h2>
-
-                                        <div id="rapCont" class="table-responsive"></div>
-                                        <div id="rapReason" class="table-responsive"></div>
-                                    </div>
-                                    <div id="fwylf-container">
-                                        <h2><strong data-i18n="FindWhatYoureLookingFor"></strong> <sup>
-                                            <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'did you find what you were looking for?'" href="#fwylf_content_modal"></a> -->
-                                            <button class="fas fa-question fas-1 black" onclick="openOverlay('fwylf_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-fwylf-title"></span>
-                                             </button>
-
-                                            </sup></h2>
-                                        <div id="fwylfCont">
-                                            <div id="fwylfTable" class="table-responsive"></div>
-                                            <div id="fwylfReason" class="table-responsive"></div>
-                                        </div>
-                                    </div>
+                                <!-- UNIQUE VISITORS --> 
+                                <div class="col-md-3" style="vertical-align: top;">
+                                    <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                        <p class="blue-box"><strong data-i18n="Averageuniquevisitors"></strong>
+                                            <sup>
+                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('uniquev_content_modal')"></span> 
+                                                <span class="wb-inv" data-i18n="hlp-unique-visitors-title"></span>
+                                            </sup>
+                                            <div id="uv"></div>
+                                        </p>
+                                    </section>
                                 </div>
 
-                                <div class="col-md-6" id="snum-container">
-                                    <h2><strong data-i18n="Searchesstartedfromthispage"></strong> <sup>
-                                        <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site searches started from this page'" href="#snum_content_modal"></a> -->
-                                        <button class="fas fa-question fas-1 black" onclick="openOverlay('snum_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-srch-started-title"></span>
-                                             </button>
-                                            
-                                    </sup></h2>
-                                    <p id="snum"></p>
+                                <!-- VISITS --> 
+                                <div class="col-md-3" style="vertical-align: top;">
+                                    <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                        <p class="blue-box"><strong data-i18n="Averagevisits"></strong> 
+                                            <sup>
+                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('visits_content_modal')"></span> 
+                                                <span class="wb-inv" data-i18n="hlp-average-visits-title"></span>
+                                            </sup>
+                                            <div id="visit"></div>
+                                        </p>
+                                    </section>
                                 </div>
-                                <div class="col-md-6" id="search-container">
-                                    <h2><strong data-i18n="Phrasessearchedfromthispage"></strong> <sup>
-                                         <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Phrases searched on Canada.ca from this page'" href="#srchP_content_modal"></a> -->
-                                         <button class="fas fa-question fas-1 black" onclick="openOverlay('srchP_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-phrases-search-title"></span>
-                                             </button>
-                                            
-                                    </sup></h2>
-                                    <div id="srchP" class="table-responsive"></div>
-                                </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6" id="srchA-container">
-                                    <h2><span data-i18n="Searchtermsleadingtothispage"></span>&nbsp;<sup>
-                                    <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#srchA_content_modal"></a> -->
-                                    <button class="fas fa-question fas-1 black" onclick="openOverlay('srchA_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-search-terms-lead-title"></span>
-                                             </button>
 
-                                            
-                                        </sup></h2>
-                                    <div id="srchA" class="table-responsive"></div>
+                                <!-- PAGE VIEWS --> 
+                                <div class="col-md-3" style="vertical-align: top;">
+                                    <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                        <p class="blue-box"><strong data-i18n="Averagepageviews"></strong> 
+                                            <sup>
+                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('pv_content_modal')"></span> 
+                                                <span class="wb-inv" data-i18n="hlp-average-pgv-title"></span>
+                                            </sup>
+                                            <div id="pagev"></div>
+                                        </p>
+                                    </section>
                                 </div>
-                                <div class="col-md-6" id="reft-container">
-                                    <h2><span data-i18n="Referringtypes"></span>&nbsp;<sup>
-                                        <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Referrer type'" href="#reft_content_modal"></a> -->
-                                        <button class="fas fa-question fas-1 black" onclick="openOverlay('reft_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-refferrer-type-title"></span>
-                                             </button>
-                                            
-                                    </sup> <!--<sup id="fn1-rf"><a class="fn-lnk" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup>--></h2>
-                                    <div id="reft" class="table-responsive"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12" id="ppt-container">
-                                    <h2><span data-i18n="Whereuserscamefrom"></span>&nbsp;<sup>
-                                        <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Where visitors came from'" href="#ppt_content_modal"></a> -->
-                                        <button class="fas fa-question fas-1 black" onclick="openOverlay('ppt_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-users-came-from-title"></span>
-                                             </button>
-                                            
-                                    </sup> <!--<sup id="fn2-rf"><a class="fn-lnk" href="#fn2"><span class="wb-inv" data-i18n="Footnote"> </span>2</a></sup>--></h2>
-                                    <div id="ppt" class="table-responsive"></div>
-                                    <!--<p id="pp" data-i18n="Nodata"></p>-->
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6" id="np-container">
-                                    <h2><span data-i18n="Whatusersclickedon"></span>&nbsp;<sup>
-                                    <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'What visitors clicked on'" href="#np_content_modal"></a> -->
-                                    <button class="fas fa-question fas-1 black" onclick="openOverlay('np_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-users-click-title"></span>
-                                             </button>
 
-                                            
-                                        <!--</sup> <sup id="fn1-rf"><a class="fn-lnk fas-1" href="#fn1"><span class="wb-inv" data-i18n="Footnote"> </span>1</a></sup>--></h2>
-                                    <div id="np" class="table-responsive"></div>
+                                <!-- AVG TIME ON PAGE --> 
+                                <div class="col-md-3" style="vertical-align: top;">
+                                    <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
+                                        <p class="blue-box"><strong data-i18n="Averagetimespent"></strong> 
+                                            <sup>
+                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('tmspnt_content_modal')"></span> 
+                                                <span class="wb-inv" data-i18n="hlp-average-tmspnt-title"></span>
+                                            </sup>
+                                            <div id="avgtime"></div>
+                                        </p>
+                                    </section>
                                 </div>
-                                <div class="col-md-6" id="geo-container">
-                                    <h2><span data-i18n="Whereaccess"></span>&nbsp;<sup>
-                                    <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Canada.ca site search terms leading to this page'" href="#provChart_content_modal"></a> -->
-                                    <button class="fas fa-question fas-1 black" onclick="openOverlay('provChart_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-whereaccess-title"></span>
-                                             </button>
 
-                                            
-                                        </sup></h2>
-                                    <div id="provChart" class="table-responsive"></div>
-                                </div>
-                                
-                                
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h2><span data-i18n="Devicesused"></span>&nbsp;<sup>
-                                    <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Devices used'" href="#chrtp_content_modal"></a> -->
-                                    <button class="fas fa-question fas-1 black" onclick="openOverlay('chrtp_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-device-used-title"></span>
-                                             </button>
-
-                                            
-                                        </sup></h2>
-                                    <div id="chrtp" data-i18n="Nodata"></div>
-                                    <div id="chart-pltfrms">
-                                        <h3 data-i18n="Numberofvisits(%)bydevicesused"></h3>
-                                        <div id="chart-canvas" style="width: 100%; height: 50vh;" aria-hidden="true">
-                                            <canvas id="chart" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow." aria-hidden="true"></canvas>
-                                        </div>
-                                        <details>
-                                            <summary id="tbl-pltfrm-sumary" data-i18n="Numberofvisits(%)bydevicesused-Table"></summary>
-                                            <div class="table-responsive">
-                                                <table id="tbl-pltfrm" class="table table-border">
-                                            </table>
-                                        </div>
-                                        </details>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <h2><span data-i18n="Visitstrend"></span>&nbsp;<sup>
-                                    <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Visits trend'" href="#chrtt_content_modal"></a> -->
-                                    <button class="fas fa-question fas-1 black" onclick="openOverlay('chrtt_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-trends-title"></span>
-                                             </button>
-                                            
-                                        </sup></h2>
+                                <!-- DAILY VISITS --> 
+                                <div class="col-md-12">
+                                    
                                     <div id="chrtt" data-i18n="Nodata"></div>
                                     <div id="chart-trnds">
-                                        <h3 data-i18n="Visitstrendbycurrentyearandpreviousyear"></h3>
+                                        <h3><span data-i18n="Visitstrendbycurrentyearandpreviousyear"></span>&nbsp;
+                                            <sup>
+                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('chrtt_content_modal')"></span> 
+                                                <span class="wb-inv" data-i18n="hlp-trends-title"></span>
+                                            </sup>
+                                        </h3>
                                         <div id="trends-canvas" style="width: 100%; height: 50vh;" aria-hidden="true">
                                             <canvas id="trends" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow." aria-hidden="true"></canvas>
                                         </div>
@@ -674,54 +470,184 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--
-                            <aside class="wb-fnote" role="note">
-                                <h2 id="fn" data-i18n="Footnotes"></h2>
-                                <dl>
-                                    <dt data-i18n="Footnote1"></dt>
-                                    <dd id="fn1">
-                                        <p data-i18n="Display25"></p>
-                                        <ul>
-                                            <li data-i18n="foreign"></li>
-                                            <li data-i18n="filedownloads"></li>
-                                            <li data-i18n="pageswhere"></li>
-                                        </ul>
-                                        <p><strong data-i18n="Notice:"></strong> <span data-i18n="Depending"></span></p>
-                                        <p class="fn-rtn"><a href="#fn1-rf"><span class="wb-inv" data-i18n="Returntofootnote"> </span>1<span class="wb-inv" data-i18n="referrer"> </span></a></p>
-                                    </dd>
-                                </dl>
-                            </aside>
-                        -->
+
+                            <!-- TRAFFIC SOURCES --> 
+                            <div class="row">
+
+                                <!-- English anchor link -->
+                                <h2 id="traffic-sources" style="margin-left: 15px;"><strong data-i18n="Trafficsources"></strong>&nbsp;</h2>
+                                <!-- French anchor link -->
+                                <h2 id="sources-de-trafic" style="margin-left: 15px;"><strong data-i18n="Trafficsources"></strong>&nbsp;</h2>
+
+                                <!-- REFERRER TYPE --> 
+                                <div class="col-md-12" id="reft-container">
+                                    <h3><span data-i18n="Referringtypes"></span>&nbsp;
+                                        <sup>
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('reft_content_modal')"></span> 
+                                            <span class="wb-inv" data-i18n="hlp-refferrer-type-title"></span>
+                                        </sup>
+                                    </h3>
+                                    <div id="reft" class="table-responsive"></div>
+                                </div>
+
+                                <!-- WHERE VISITORS CAME FROM --> 
+                                <div class="col-md-12" id="ppt-container">
+                                    <h3><span data-i18n="Whereuserscamefrom"></span>&nbsp;
+                                        <sup>
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('ppt_content_modal')"></span> 
+                                            <span class="wb-inv" data-i18n="hlp-users-came-from-title"></span>
+                                        </sup>
+                                    </h3>
+                                    <div id="ppt" class="table-responsive"></div>
+                                    <!--<p id="pp" data-i18n="Nodata"></p>-->
+                                </div>
+
+                                <!-- CANADA.CA SEARCH TERMS --> 
+                                <div class="col-md-12" id="srchA-container">
+                                    <h3><span data-i18n="Searchtermsleadingtothispage"></span>&nbsp;
+                                        <sup>
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('srchA_content_modal')"></span> 
+                                            <span class="wb-inv" data-i18n="hlp-search-terms-lead-title"></span>
+                                        </sup>
+                                    </h3>
+                                    <div id="srchA" class="table-responsive"></div>
+                                </div>
+                            </div>
+
+                            <!-- VISITOR PROFILE --> 
+                            <div class="row">
+
+                                <!-- English anchor link -->
+                                <h2 id="visitor-profile" style="margin-left: 15px;"><strong data-i18n="Visitorprofile"></strong>&nbsp;</h2>
+                                <!-- French anchor link -->
+                                <h2 id="profil-du-visiteur" style="margin-left: 15px;"><strong data-i18n="Visitorprofile"></strong>&nbsp;</h2>
+
+                                <!-- VISITOR LOCATION --> 
+                                <div class="col-md-12" id="geo-container">
+                                    <h3><span data-i18n="Whereaccess"></span>&nbsp;
+                                        <sup>
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('provChart_content_modal')"></span> 
+                                            <span class="wb-inv" data-i18n="hlp-whereaccess-title"></span>
+                                        </sup>
+                                    </h3>
+                                    <div id="provChart" class="table-responsive"></div>
+                                </div>
+
+                                <!-- DEVICES USED --> 
+                                <div class="col-md-12">
+                                    
+                                    <div id="chrtp" data-i18n="Nodata"></div>
+                                    <div id="chart-pltfrms">
+                                        <h3><span data-i18n="Numberofvisits(%)bydevicesused"></span>&nbsp;
+                                            <sup>
+                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('chrtp_content_modal')"></span> 
+                                                <span class="wb-inv" data-i18n="hlp-device-used-title"></span>
+                                            </sup>
+                                        </h3>
+                                        <div id="chart-canvas" style="width: 100%; height: 50vh;" aria-hidden="true">
+                                            <canvas id="chart" data-i18n="Textalternativeforthiscanvasgraphicisinthedatatablebelow." aria-hidden="true"></canvas>
+                                        </div>
+                                        <details>
+                                            <summary id="tbl-pltfrm-sumary" data-i18n="Numberofvisits(%)bydevicesused-Table"></summary>
+                                            <div class="table-responsive">
+                                                <table id="tbl-pltfrm" class="table table-border">
+                                            </table>
+                                        </div>
+                                        </details>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- VISITOR ACTIVITY --> 
+                            <div class="row">
+
+                                <!-- English anchor link -->
+                                <h2 id="visitor-activity" style="margin-left: 15px;"><strong data-i18n="Visitoractivity"></strong>&nbsp;</h2>
+                                <!-- French anchor link -->
+                                <h2 id="activité-de-visiteur" style="margin-left: 15px;"><strong data-i18n="Visitoractivity"></strong>&nbsp;</h2>
+
+                                <!-- WHAT VISITORS CLICKED ON --> 
+                                <div class="col-md-12" id="np-container">
+                                    <h3><span data-i18n="Whatusersclickedon"></span>&nbsp;
+                                        <sup>
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('np_content_modal')"></span> 
+                                            <span class="wb-inv" data-i18n="hlp-users-click-title"></span>
+                                        </sup>
+                                    </h3>
+                                    <div id="np" class="table-responsive"></div>
+                                </div>
+
+                                <!-- CANADA.CA SITE SEARCHES --> 
+                                <div class="col-md-12" id="snum-container">
+                                    <h3><strong data-i18n="Searchesstartedfromthispage"></strong> 
+                                        <sup>
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('snum_content_modal')"></span> 
+                                            <span class="wb-inv" data-i18n="hlp-srch-started-title"></span>
+                                        </sup>
+                                    </h3>
+                                    <p id="snum"></p>
+                                    <!-- PHRASES SEARCHED --> 
+                                    <div id="srchP" class="table-responsive"></div>
+                                </div>
+                                
+                            </div>
+
+                            <!-- REPORT A PROBLEM (HIDDEN) --> 
+                            <div class="col-md-6" id="fwlf-container" style="display: none;">
+                                <div id="rap-container">
+                                    <h2><strong data-i18n="Reportaproblem"></strong>
+                                        <sup>
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('rap_content_modal')"></span>
+                                            <span class="wb-inv" data-i18n="hlp-rap-title"></span>
+                                        </sup>                                      
+                                    </h2>
+
+                                    <div id="rapCont" class="table-responsive"></div>
+                                    <div id="rapReason" class="table-responsive"></div>
+                                </div>
+                                <div id="fwylf-container">
+                                    <h2><strong data-i18n="FindWhatYoureLookingFor"></strong>
+                                        <sup>
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('fwylf_content_modal')"></span>
+                                            <span class="wb-inv" data-i18n="hlp-fwylf-title"></span>
+                                        </sup>   
+                                    </h2>
+                                    <div id="fwylfCont">
+                                        <div id="fwylfTable" class="table-responsive"></div>
+                                        <div id="fwylfReason" class="table-responsive"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </details>
+
+                    <!-- GOOGLE CONSOLE -->
                     <span id="numDaysgsc" class="hidden"></span>
                     <details id="details-panel2">
                         <summary><span data-i18n="Googlesearchanalytics"></span></summary>
                         <div id="gsc-content">
                         <p>
-                            <strong data-i18n="Period:"></strong> <span id="gscDate"></span> - <span id="fromdaterangegsc"></span> <span id="gscto" data-i18n="to"></span> <span id="todaterangegsc"></span> <sup id="fn1b-rf"><a class="fn-lnk" href="#fn1b"><span class="wb-inv">Footnote </span>1</a></sup>
+                            <strong data-i18n="Period:"></strong> <span id="fromdaterangegsc"></span> <span id="gscto" data-i18n="to"></span> <span id="todaterangegsc"></span> <sup id="fn1b-rf"><a class="fn-lnk" href="#fn1b"><span class="wb-inv">Footnote </span>1</a></sup> <!-- display the date range for the 'Google search analytics' data retreived in words -->
                         </p>
                         <div class="col-md-3 col-md-offset-3" style="vertical-align: top;">
                             <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                <p class="blue-box"><strong data-i18n="Totalclicks"></strong> <sup>
-                                <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Clicks'" href="#gscc_content_modal"></a> -->
-                                <button class="fas fa-question fas-1 black" onclick="openOverlay('gscc_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-total-clicks-title"></span>
-                                             </button>
-                                            
-                                        </sup></p>
+                                <p class="blue-box"><strong data-i18n="Totalclicks"></strong>
+                                    <sup>
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('gscc_content_modal')"></span>
+                                        <span class="wb-inv" data-i18n="hlp-total-clicks-title"></span>
+                                    </sup>                                           
+                                </p>
                                 <p class="mrgn-tp-md" id="gsc-clicks"></p>
                             </section>
                         </div>
                         <div class="col-md-3" style="vertical-align: top;">
                             <section class="bg bg-success text-center brdr-lft brdr-lft brdr-rght brdr-tp brdr-bttm">
-                                <p class="blue-box"><strong data-i18n="Totalimpressions"></strong> <sup>
-                                <!-- <a class="fas fa-question-circle fas-1 wb-lbx lbx-modal" title="Help for term 'Impressions'" href="#gsci_content_modal"></a> -->
-                                <button class="fas fa-question fas-1 black" onclick="openOverlay('gsci_content_modal')">
-                                                 <span class="wb-inv" data-i18n="hlp-total-impressions-title"></span>
-                                             </button>
-                                            
-                                        </sup></p>
+                                <p class="blue-box"><strong data-i18n="Totalimpressions"></strong>
+                                    <sup>
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" onclick="openOverlay('gsci_content_modal')"></span>
+                                        <span class="wb-inv" data-i18n="hlp-total-impressions-title"></span>
+                                    </sup>                                            
+                                </p>
                                 <p class="mrgn-tp-md" id="gsc-imp"></p>
                             </section>
                         </div>
@@ -836,6 +762,7 @@
                 -->
                 </div>
             </div>
+            <p id="moreDetailedAnalysis"><i class="fa fa-address-book-o" style="font-size:24px; padding-right:15px"></i></span><span data-i18n="[html]moreDetailedAnalysis"></span></p>
         </div>
 
 <section id="uniquev_content_modal" class="modal-dialog modal-content overlay-def mfp-hide">
@@ -970,6 +897,18 @@
     </header>
     <div class="modal-body" data-i18n="hlp-position"></div>
 </section>
+<section id="date_start_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-three-start-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-three"></div>
+</section>
+<section id="date_end_content_modal" class="mfp-hide modal-dialog modal-content overlay-def">
+    <header class="modal-header">
+        <h2 class="modal-title" data-i18n="hlp-three-end-title"></h2>
+    </header>
+    <div class="modal-body" data-i18n="hlp-three"></div>
+</section>
 
 
             <div id="def-preFooter">
@@ -980,7 +919,9 @@
             <script>
                 var defPreFooter = document.getElementById("def-preFooter");
                 defPreFooter.outerHTML = wet.builder.preFooter({
-                    "dateModified": "2021-05-19"
+                    "dateModified": "2023-06-14",
+                        "showShare": false,
+                        "showFeedback" : false
                 });
             </script>
     </main>
@@ -1044,7 +985,7 @@
         }
     </script>
     <script type="text/javascript" src="js/whitelist.js"></script>
-    <script type="text/javascript" src="js/api.min.js"></script>
+    <script type="text/javascript" src="js/api.js"></script>
     <script type="text/javascript">_satellite.pageBottom();</script>
 </body>
 

@@ -10,8 +10,7 @@ function dateRange($first, $last, $step, $format = 'Y-m-d\TH:i:s.v')
     $current = strtotime($first);
     $last = strtotime($last);
 
-    while ($current <= $last)
-    {
+    while ($current <= $last) {
 
         $dates[] = date($format, $current);
         $current = strtotime($step, $current);
@@ -31,17 +30,19 @@ function contains($needle, $haystack)
     return strpos($haystack, $needle) !== false;
 }
 
-function strposa($haystack, $needle, $offset=0) {
-    if(!is_array($needle)) $needle = array($needle);
-    foreach($needle as $query) {
-        if(strpos($haystack, $query, $offset) !== false) return true; // stop on first true result
+function strposa($haystack, $needle, $offset = 0)
+{
+    if (!is_array($needle))
+        $needle = array($needle);
+    foreach ($needle as $query) {
+        if (strpos($haystack, $query, $offset) !== false)
+            return true; // stop on first true result
     }
     return false;
 }
 
-try
-{
-    $data = include ('data.php');
+try {
+    $data = include('data.php');
 
     $url = $_REQUEST["url"];
     $start = $_REQUEST["start"];
@@ -50,8 +51,7 @@ try
 
     $mode = (empty($_REQUEST["mode"])) ? "update" : $_REQUEST["mode"];
 
-    if ((!isset($start) && empty($start)) && (!isset($end) && empty($empty)))
-    {
+    if ((!isset($start) && empty($start)) && (!isset($end) && empty($empty))) {
         $iso = 'Y-m-d\TH:i:s.v';
         $today = new DateTime("today");
         $end = $today->format($iso);
@@ -67,9 +67,7 @@ try
 
         var_dump($dates);
 
-    }
-    else if ((isset($start) && !empty($start)) && (isset($end) && !empty($end)))
-    {
+    } else if ((isset($start) && !empty($start)) && (isset($end) && !empty($end))) {
         $iso = 'Y-m-d\TH:i:s.v';
         $start = (new DateTime($start))->format($iso);
         $end = (new DateTime($end))->format($iso);
@@ -95,8 +93,7 @@ try
         */
     }
 
-    if ((isset($url) && !empty($url)))
-    {
+    if ((isset($url) && !empty($url))) {
 
         /*
         $csv = array_map('str_getcsv', file('file.csv' , FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
@@ -113,8 +110,7 @@ try
         if (!isset($_SESSION['CREATED'])) {
             $_SESSION['CREATED'] = time();
             require_once('getToken.php');
-        }
-        else if (time() - $_SESSION['CREATED'] > 86400) {
+        } else if (time() - $_SESSION['CREATED'] > 86400) {
             session_regenerate_id(true);
             $_SESSION['CREATED'] = time();
             require_once('getToken.php');
@@ -123,8 +119,8 @@ try
         if (isset($_SESSION["token"])) {
 
             require_once('api_post.php');
-            $data = include ('data.php');
-            $config = include ('config.php');
+            $data = include('data.php');
+            $config = include('config.php');
             /*
             foreach ($csv as $row) { $array[] = trim($row[$col]); }
             
@@ -132,32 +128,32 @@ try
             */
             //echo "Starting " . $url . "<br />";
 
-            include ('lib/simple_html_dom.php');
+            include('lib/simple_html_dom.php');
 
-            if (substr($url, 0, 8) == "https://")
-                        {
-                            $url = substr($url, 8, strlen($url));
-                        }
-                        $html = file_get_html('https://' . $url);
-            
-                        if ($oLang) {
-                            foreach ($html->find('a') as $e) {
-                                if ( ($e->lang == "en" || $e->lang == "fr") &&
-                                   ( trim($e->innertext) == "English" || trim($e->innertext) == "Fran&ccedil;ais" )  ) {
-                                    $otherLang = $e->href;
-                                    break;
-                                }
-                            }
-            
-                            $url = "www.canada.ca" . $otherLang;
-                        }
-            
-                        //echo $url;
-            
-                        $html = file_get_html('https://' . $url);
-            
-            if (substr($url, 0, 8) == "https://")
-            {
+            if (substr($url, 0, 8) == "https://") {
+                $url = substr($url, 8, strlen($url));
+            }
+            $html = file_get_html('https://' . $url);
+
+            if ($oLang) {
+                foreach ($html->find('a') as $e) {
+                    if (
+                        ($e->lang == "en" || $e->lang == "fr") &&
+                        (trim($e->innertext) == "English" || trim($e->innertext) == "Fran&ccedil;ais")
+                    ) {
+                        $otherLang = $e->href;
+                        break;
+                    }
+                }
+
+                $url = "www.canada.ca" . $otherLang;
+            }
+
+            //echo $url;
+
+            $html = file_get_html('https://' . $url);
+
+            if (substr($url, 0, 8) == "https://") {
                 $url = substr($url, 8, strlen($url));
             }
             $pUrl = substr($url, 0, 255 - 8);
@@ -166,7 +162,7 @@ try
             $url = substr($url, -255);
             $oUrl = $url;
 
-            if ( $url == "www.canada.ca" )  {
+            if ($url == "www.canada.ca") {
                 $oUrl = "www.canada.ca/home.html";
                 $pUrl = "www.canada.ca/home.html";
             }
@@ -200,43 +196,36 @@ try
 
             $searchURL = "www.canada.ca" . $searchURL;
 
-            $searchURLFormat = str_replace(".","-",$searchURL);
+            $searchURLFormat = str_replace(".", "-", $searchURL);
 
             $globalSearchEn = "www.canada.ca/en/sr/srb.html";
             $globalSearchFr = "www.canada.ca/fr/sr/srb.html";
 
             if ($searchURL === $globalSearchEn || $searchURL === $globalSearchFr) {
-                $type = ["trnd", "prvs", "srchAll", "refType", "snmAll", "srchLeftAll", "activityMap", "metrics","fwylf"];
+                $type = ["trnd", "prvs", "srchAll", "refType", "snmAll", "srchLeftAll", "activityMap", "metrics", "fwylf"];
                 $hasContextual = false;
-            }
-            else {
+            } else {
                 if ($origUrl == 'www.canada.ca' || $origUrl == 'www.canada.ca/home.html') {
-                    $type = ["trnd", "prvs", "activityMap", "refType", "metrics","fwylf"];
+                    $type = ["trnd", "prvs", "activityMap", "refType", "metrics", "fwylf"];
                     $hasContextual = false;
-                }
-                else {
-                    $type = ["trnd", "prvs", "srchAll", "refType", "snmAll", "srchLeftAll", "activityMap", "metrics","fwylf"];
+                } else {
+                    $type = ["trnd", "prvs", "srchAll", "refType", "snmAll", "srchLeftAll", "activityMap", "metrics", "fwylf"];
                     $hasContextual = true;
                 }
             }
 
-            foreach ($dates as $key => $start)
-            {
+            foreach ($dates as $key => $start) {
                 $oDate = "$start/$end";
 
-                if ($mode == "delete")
-                {
+                if ($mode == "delete") {
                     mongoDelete($oUrl, "cache");
 
-                }
-                else if ($mode == "update")
-                {
+                } else if ($mode == "update") {
 
                     //echo $key + 1 . " " . $oDate . "<br />";
-                    foreach ($type as $t)
-                    {
+                    foreach ($type as $t) {
                         $sm = "single";
-                        if ( $t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf" || $t == "prvs" || $t == "trnd" ) {
+                        if ($t == "activityMap" || $t == "metrics" || $t == "srchAll" || $t == "refType" || $t == "snmAll" || $t == "srchLeftAll" || $t == "fwylf" || $t == "prvs" || $t == "trnd") {
                             $oDate = $dates[0] . "/" . $end;
                             $sm = "multi";
                         }
@@ -247,7 +236,7 @@ try
                             continue;
                         }
 
-                        $array = array( $start, $end );
+                        $array = array($start, $end);
 
                         if ($t == "srchAll") {
                             $array = array_merge(array($bUrl), $dates);
@@ -256,27 +245,25 @@ try
                         } else if ($t == "fwylf") {
                             $array = array_merge(array($oUrl), $dates);
                         } else if ($t == "prvs") {
-                            $array = array_merge( array( $oUrl ), $dates );
-                        } else if ( $t == "activityMap" ) {
-                            $array = array_merge ( array($titlePage), $dates );
-                        } else if ( $t == "snmAll" ) {
-                            $array = array_merge ( array($searchURL), $dates, array($bUrl) );
-                        } else if ( $t == "srchLeftAll" ) {
-                            $array = array_merge ( array($searchURL, $bUrl), $dates );
-                        } else if ( $t == "metrics" ) {
-                            $array = array( $oUrl );
+                            $array = array_merge(array($oUrl), $dates);
+                        } else if ($t == "activityMap") {
+                            $array = array_merge(array($titlePage), $dates);
+                        } else if ($t == "snmAll") {
+                            $array = array_merge(array($searchURL), $dates, array($bUrl));
+                        } else if ($t == "srchLeftAll") {
+                            $array = array_merge(array($searchURL, $bUrl), $dates);
+                        } else if ($t == "metrics") {
+                            $array = array($oUrl);
                         } else {
-                            $array = array_merge( $array, array($oUrl) );
+                            $array = array_merge($array, array($oUrl));
                         }
 
-                        if ($t == "trnd")
-                        {
+                        if ($t == "trnd") {
                             $iso = 'Y-m-d\TH:i:s.v';
                             $vstep = "day";
                             $start = $dates[0];
                             $date = dateRange($start, $end, $vstep);
-                            if ($date[count($date) - 1] != $end)
-                            {
+                            if ($date[count($date) - 1] != $end) {
                                 array_push($date, $end);
                             }
 
@@ -289,22 +276,19 @@ try
                             $end2 = $end3;
 
                             $date2 = dateRange($start2, $end2, $vstep);
-                            if ($date2[count($date2) - 1] != $end2)
-                            {
+                            if ($date2[count($date2) - 1] != $end2) {
                                 array_push($date2, $end2);
                             }
                             $date3 = array_merge($date, $date2);
                             $cnt = count($date3) - 2;
 
-                            $json = $data['trndB'] . rtrim(str_repeat($data['trndMA1'], $cnt) , ',') . $data['trndMS'] . rtrim(str_repeat($data['trndMA2'], $cnt) , ',') . $data['trndE'];
+                            $json = $data['trndB'] . rtrim(str_repeat($data['trndMA1'], $cnt), ',') . $data['trndMS'] . rtrim(str_repeat($data['trndMA2'], $cnt), ',') . $data['trndE'];
 
                             $arr = array();
-                            for ($x = 1;$x < count($date);$x++)
-                            {
+                            for ($x = 1; $x < count($date); $x++) {
                                 $arr[] = (current($date) . "/" . next($date));
                             }
-                            for ($x = 1;$x < count($date2);$x++)
-                            {
+                            for ($x = 1; $x < count($date2); $x++) {
                                 $arr[] = (current($date2) . "/" . next($date2));
                             }
 
@@ -318,9 +302,7 @@ try
                             $dates2 = array_merge($dse, $arr1, $arr2);
 
                             $array = array_merge($dates2, array($oUrl));
-                        }
-                        else
-                        {
+                        } else {
                             $json = $data[$t];
                         }
 
@@ -329,7 +311,7 @@ try
                             $json = str_replace("2020-05-16T00:00:00.000", $end, $json);
                             //echo $json;
                         }
-                        if ($t == "metrics" ) {
+                        if ($t == "metrics") {
                             $json = str_replace("*month*", $dates[0], $json);
                             $json = str_replace("*week*", $dates[1], $json);
                             $json = str_replace("*yesterday*", $dates[2], $json);
@@ -340,7 +322,7 @@ try
 
                         $api[] = $json;
 
-                            echo "<br />JSON:<br />$json<br />";
+                        echo "<br />JSON:<br />$json<br />";
 
                         //$api2 = json_decode($api);
 
@@ -379,27 +361,27 @@ try
 
                         }
                         */
-                        
+
 
                         //mongoUpdate($oUrl, $oDate, $t, $api, $sm);
-                        
+
                     }
 
                 }
             }
         }
     }
-}
-catch(Exception $ex)
-{
-    echo json_encode(array(
-        'error' => $ex
-    ));
+} catch (Exception $ex) {
+    echo json_encode(
+        array(
+            'error' => $ex
+        )
+    );
 }
 
 $result = api_post($config[$_SESSION['randIndex']]['ADOBE_API_KEY'], $config[$_SESSION['randIndex']]['COMPANY_ID'], $_SESSION['token'], $api);
 
-foreach($result as $r => $res) {
+foreach ($result as $r => $res) {
     mongoUpdate($oUrl, $oDate, $type[$r], $res, "multi", "cache");
 }
 

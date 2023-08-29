@@ -1,6 +1,6 @@
 <?php
 
-function api_get( $apiKey, $company_id, $token, $url = null )
+function api_get($apiKey, $company_id, $token, $url = null)
 {
     if (!$url) {
         $url = '/users/me';
@@ -9,7 +9,7 @@ function api_get( $apiKey, $company_id, $token, $url = null )
     $ch = curl_init();
 
     curl_setopt($ch, CURLOPT_URL, 'https://analytics.adobe.io/api/' .
-                                    $company_id . $url);
+        $company_id . $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
@@ -28,7 +28,7 @@ function api_get( $apiKey, $company_id, $token, $url = null )
     }
     curl_close($ch);
 
-    return $result; 
+    return $result;
 
 }
 

@@ -1,0 +1,154 @@
+canvas {
+  padding: 1em;
+  border: 1px solid lightgrey;
+}
+
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+p.h2 sup {
+  font-size: 16px;
+}
+div.small {
+  line-height: 1.2em !important;
+}
+
+.bg {
+  background-color: #cfe8ef !important;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.bg-success-c {
+  background-color: #4285f4 !important;
+}
+
+.bg-info-c {
+  background-color: #5e35b1 !important;
+}
+
+.bg-warning-c {
+  background-color: #18897b !important;
+}
+
+.bg-danger-c {
+  background-color: #e8710a !important;
+}
+
+.bg-white-color {
+  color: #fff !important;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.bg-black-color {
+  color: #000 !important;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.gsc-chart-container {
+  position: relative;
+  height: 60vh;
+}
+
+.fa-question-circle {
+  color: #444;
+}
+
+.fa-question-circle:hover {
+  color: #000;
+}
+
+.fas-1 {
+  font-size: 16px;
+}
+
+#qwert {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+button#searchBttn.btn.btn-default span {
+  white-space: inherit;
+}
+
+button.btn {
+  white-space: inherit;
+}
+
+button.black {
+  background-color: #444444; /* Green */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 8px;
+  padding: 3px 4px;
+  border-radius: 50%;
+}
+
+button.black:hover {
+  background-color: #000000;
+}
+
+@media (min-width: 320px) and (max-width: 991px) {
+  .mobile-visible {
+    display: block;
+    margin-bottom: 15px;
+  }
+  .desktop-visible {
+    display: none;
+  }
+  /*
+            #dt-rng { margin-top: 0px; }
+            .dt-rng { width: 100%; }
+             #urlStatic { margin: 0 0 0 5px; } */
+}
+
+@media (min-width: 992px) {
+  .mobile-visible {
+    display: none;
+  }
+  .desktop-visible {
+    display: block;
+  }
+  /*#dt-rng { margin-top: 38px; }
+            .dt-rng { width: 100%;}*/
+}
+
+.blue-box {
+  font-size: 17px;
+}
+
+#ajax-status-alert {
+  position: fixed;
+  bottom: 10px;
+  right: 15px;
+  z-index: 1001;
+}
+
+.ajax-status-alert__text + .ajax-status-alert__icon {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+#date-range {
+  display: none; /* Hide the date range dropdown but do not delete the date range dropdown so that data-index will always be set to 2 in the background */
+}
+
+#canvas-container {
+  overflow-x: hidden;
+}
+
+.glyphicon {
+  cursor: pointer;
+}
+
+#moreDetailedAnalysis {
+  padding-top: 30px;
+}

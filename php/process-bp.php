@@ -16,29 +16,29 @@ $oLang = $d->lang;
 
 
 if ((isset($start) && !empty($start)) && (isset($end) && !empty($end))) {
-        $iso = 'Y-m-d';
-        $start = (new DateTime($start))->format($iso);
-        $end = (new DateTime($end))->format($iso);
+  $iso = 'Y-m-d';
+  $start = (new DateTime($start))->format($iso);
+  $end = (new DateTime($end))->format($iso);
 }
 $dates = "$start/$end";
-$byPageURL = 'https://feedback-by-page.tbs.alpha.canada.ca/bypage?page='.$url.'&start_date='.$start.'&end_date='.$end.'&lang='.$oLang;
+$byPageURL = 'https://feedback-by-page.tbs.alpha.canada.ca/bypage?page=' . $url . '&start_date=' . $start . '&end_date=' . $end . '&lang=' . $oLang;
 $md = mongoGet($byPageURL, $dates, 'html', 'multi', "search", "bi");
 $output = '';
 if ($md) {
   $output = $md;
-} else  {
+} else {
   try {
     $html = file_get_html($byPageURL);
     $output = $html->getElementById('content');
     $output = $output->innertext();
     $output = json_encode($output);
-    $output = '{ "html":'.' '.$output.'}';
+    $output = '{ "html":' . ' ' . $output . '}';
     mongoUpdate($byPageURL, $dates, 'html', $output, "multi", "search", "bi");
   } catch (Throwable $e) {
     $output = "no data";
   }
 }
-$pos = strpos($output,'no data');
+$pos = strpos($output, 'no data');
 if ($pos === false) {
   echo $output;
 } else {
