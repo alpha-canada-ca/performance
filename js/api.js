@@ -1,4 +1,40 @@
+function handleDateRangeSetup(start, end) {
+  const currentDate = new Date().toISOString().split("T")[0];
+
+  // Set max dates for start and end
+  $("#startdate, #enddate").attr("max", currentDate);
+
+  // Calculate three years ago
+  const threeYearsAgo = new Date();
+  threeYearsAgo.setFullYear(threeYearsAgo.getFullYear() - 3);
+  const formattedThreeYearsAgo = threeYearsAgo.toISOString().slice(0, 10);
+
+  // Set the minimum date for start and end
+  $("#startdate, #enddate").attr("min", formattedThreeYearsAgo);
+
+  $("#startdate").on("input", function () {
+    $("#enddate").attr("min", $(this).val());
+  });
+
+  $("#enddate").on("input", function () {
+    $("#startdate").attr("max", $(this).val());
+  });
+
+  // If start and end dates are provided
+  if (start && end) {
+    $("#startdate").val(start);
+    $("#enddate").val(end);
+    $("#enddate").attr("min", start);
+    $("#startdate").attr("max", end);
+  }
+}
+
+$(document).ready(function () {
+  handleDateRangeSetup();
+});
+
 $(document).on("wb-ready.wb", function () {
+  const params = getQueryParams();
   $.i18n()
     .load({
       en: "./assets/js/i18n/en.json",
@@ -17,14 +53,19 @@ $(document).on("wb-ready.wb", function () {
         },
         allowHTML: true,
       });
+
+      var [start, end] = getSpecifiedParams(params, ["start", "end"]);
+      if (start && end) {
+        handleDateRangeSetup(start, end);
+      }
     });
 
-  let params = getQueryParams();
-  var url, start, end;
-  url = getSpecifiedParam(params, "url");
-  start = getSpecifiedParam(params, "start");
-  end = getSpecifiedParam(params, "end");
-  date = getSpecifiedParam(params, "date");
+  var [url, date, start, end] = getSpecifiedParams(params, [
+    "url",
+    "date",
+    "start",
+    "end",
+  ]);
 
   if (start && end) {
     start = moment(start).format("MMMM D, YYYY");
@@ -44,21 +85,14 @@ $(document).on("wb-ready.wb", function () {
 });
 
 function getQueryParams() {
-  // initialize an empty object
-  let result = {};
-  // get URL query string
-  let params = window.location.search;
-  // remove the '?' character
-  params = params.substr(1);
-  let queryParamArray = params.split("&");
-  // iterate over parameter array
-  queryParamArray.forEach(function (queryParam) {
-    // split the query parameter over '='
-    let item = queryParam.split("=");
-    result[item[0]] = decodeURIComponent(item[1]);
-  });
-  // return result object
-  return result;
+  return window.location.search
+    .slice(1)
+    .split("&")
+    .reduce((acc, item) => {
+      const [key, value] = item.split("=");
+      acc[key] = decodeURIComponent(value);
+      return acc;
+    }, {});
 }
 
 function extractJSON(obj, indent) {
@@ -87,392 +121,59 @@ function extractJSON(obj, indent) {
   return isError;
 }
 
-function setQueryParams(url, date) {
+function setQueryParams(url, start, end) {
   window.history.pushState(
     "Query Parameters",
     "Addition of Queries",
-    "?url=" + url + "&date=" + date + "&lang=" + document.documentElement.lang
+    `?url=${url}&start=${start}&end=${end}&lang=${document.documentElement.lang}`
   );
 }
 
-function getSpecifiedParam(object, val) {
-  for (let [key, value] of Object.entries(object)) {
-    if (key === val) return value;
-  }
+function getSpecifiedParams(object, keys) {
+  return keys.map((key) => object[key]);
 }
 
-const kFormatter = (num) => {
-  return Math.abs(num) > 999
-    ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + "k"
-    : Math.sign(num) * Math.abs(num);
-};
+const kFormatter = (num) =>
+  num > 999
+    ? `${Math.sign(num) * (Math.abs(num) / 1000).toFixed(1)}k`
+    : `${Math.sign(num) * Math.abs(num)}`;
 
-const dynamicColors = () => {
-  var r = Math.floor(Math.random() * 200);
-  var g = Math.floor(Math.random() * 200);
-  var b = Math.floor(Math.random() * 200);
-  return "rgba(" + r + "," + g + "," + b + ", 0.7)";
-};
+const dynamicColors = () =>
+  `rgba(${[...Array(3)]
+    .map(() => Math.floor(Math.random() * 200))
+    .join(",")}, 0.7)`;
 
-const poolColors = (a) => {
-  var pool = [];
-  for (i = 0; i < a; i++) {
-    pool.push(dynamicColors());
-  }
-  return pool;
-};
+const poolColors = (num) => Array.from({ length: num }, dynamicColors);
 
 function isInt(value) {
-  return (
-    !isNaN(value) &&
-    parseInt(Number(value)) == value &&
-    !isNaN(parseInt(value, 10))
-  );
+  return Number.isInteger(parseFloat(value));
 }
 
-/**
- * Generates table head
- *
- * @param      {<type>}  table   The table
- * @param      {<type>}  data    The data
- * @param      {<type>}  title   The title (caption)
- */
 function generateTableHead(table, data, title) {
-  let cap = (table.createCaption().innerHTML =
-    "<div class='wb-inv'>" + title + "</div");
-  let thead = table.createTHead();
-  let row = thead.insertRow();
-  for (let key of data) {
-    let th = document.createElement("th");
-    let text = document.createTextNode(key);
-
+  const caption = table.createCaption();
+  caption.innerHTML = `<div class='wb-inv'>${title}</div>`;
+  const thead = table.createTHead();
+  const row = thead.insertRow();
+  for (const key of data) {
+    const th = document.createElement("th");
     th.setAttribute("scope", "col");
-    /*
-        if ( text == "CTR" ) {
-            console.log("yes, CTR called")
-            th.appendChild(text + "<sup> <a class=\"fas fa-question-circle fas-1 wb-lbx lbx-modal\" title=\"Help for term 'CTR'\" href=\"#gscctr_content_modal\"></a></sup>")
-        }
-        else {
-            th.appendChild(text);
-        }
-        */
-    th.appendChild(text);
+    th.appendChild(document.createTextNode(key));
     row.appendChild(th);
   }
 }
 
-/**
- * { function_description }
- *
- * @param      {<type>}  table   The table
- * @param      {<type>}  data    The data
- */
 function generateTable(table, data) {
-  for (let element of data) {
-    let row = table.insertRow();
-    for (key in element) {
-      var key = element[key];
-      let cell = row.insertCell();
-      if (isInt(key)) {
-        key = key.toLocaleString(document.documentElement.lang + "-CA");
-      }
-      cell.insertAdjacentHTML("beforeend", key);
-      //let text = document.createTextNode(key);
-      //cell.appendChild(text);
+  for (const element of data) {
+    const row = table.insertRow();
+    for (const key in element) {
+      const cell = row.insertCell();
+      cell.innerHTML = element[key].toLocaleString(
+        document.documentElement.lang + "-CA"
+      );
     }
   }
 }
 
-function getPDF2() {
-  var arr = ["#canvas-container"];
-  var deferreds = [];
-  var pdf = new jsPDF();
-  $.each(arr, function (i, val) {
-    console.log(val);
-    var deferred = $.Deferred();
-    generateCanvas(val, pdf, deferred);
-    deferreds.push(deferred.promise());
-  });
-
-  $.when.apply($, deferreds).then(function () {
-    // executes after adding all images
-    pdf.save("HTML-Document.pdf");
-  });
-}
-
-function generateCanvas(val, pdf, deferred) {
-  var HTML_Width = $(val).width();
-  var HTML_Height = $(val).height();
-  var top_left_margin = 20;
-  var PDF_Width = HTML_Width + top_left_margin * 2;
-  var PDF_Height = PDF_Width * 1.5 + top_left_margin * 2;
-  var canvas_image_width = HTML_Width;
-  var canvas_image_height = HTML_Height;
-
-  var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-
-  html2canvas($(val)[0], {
-    allowTaint: true,
-    scrollX: 0,
-    scrollY: -window.scrollY,
-  }).then(function (canvas) {
-    canvas.getContext("2d");
-
-    console.log(canvas.height + "  " + canvas.width);
-
-    var imgData = canvas.toDataURL("image/jpeg", 1.0);
-    var pdf = new jsPDF("p", "pt", [PDF_Width, PDF_Height]);
-    //pdf.setFontSize(40)
-    //pdf.text(35, 25, 'Paranyan loves jsPDF')
-
-    pdf.addImage(
-      imgData,
-      "JPG",
-      top_left_margin,
-      top_left_margin,
-      canvas_image_width,
-      canvas_image_height
-    );
-
-    for (var i = 1; i <= totalPDFPages; i++) {
-      pdf.addPage(PDF_Width, PDF_Height);
-      //pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
-      pdf.addImage(
-        imgData,
-        "JPG",
-        top_left_margin,
-        -(PDF_Height * i) + top_left_margin * (2 * i + 1),
-        canvas_image_width,
-        canvas_image_height
-      );
-    }
-
-    /*
-            var img = canvas.toDataURL();
-            doc.addImage(img, 'PNG');
-            doc.addPage(); 
-            */
-
-    deferred.resolve();
-  });
-}
-
-function genPDF() {
-  var arr = ["#canvas-container"];
-  var deferreds = [];
-  var pdf = new jsPDF();
-  $.each(arr, function (i, val) {
-    console.log(val);
-    var deferred = $.Deferred();
-    generateCanvas(val, pdf, deferred);
-  });
-
-  $.when.apply($, deferreds).then(function () {
-    // executes after adding all images
-    pdf.save("test.pdf");
-  });
-}
-
-function generateCanvas2(i, doc, deferred) {
-  html2canvas($(i)[0], {
-    onrendered: function (canvas) {
-      var img = canvas.toDataURL();
-      doc.addImage(img, "PNG");
-      doc.addPage();
-
-      deferred.resolve();
-    },
-  });
-}
-
-function getPDF() {
-  var HTML_Width = $("main").width();
-  var HTML_Height = $("main").height();
-  var top_left_margin = 20;
-  var PDF_Width = HTML_Width + top_left_margin * 2;
-  var PDF_Height = PDF_Width * 1.5 + top_left_margin * 2;
-  var canvas_image_width = HTML_Width;
-  var canvas_image_height = HTML_Height;
-
-  var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-
-  html2canvas($("main")[0], {
-    allowTaint: true,
-    scrollX: 0,
-    scrollY: -window.scrollY,
-  }).then(function (canvas) {
-    canvas.getContext("2d");
-
-    console.log(canvas.height + "  " + canvas.width);
-
-    var imgData = canvas.toDataURL("image/jpeg", 1.0);
-    var pdf = new jsPDF("p", "pt", [PDF_Width, PDF_Height]);
-    //pdf.setFontSize(40)
-    //pdf.text(35, 25, 'Paranyan loves jsPDF')
-
-    pdf.addImage(
-      imgData,
-      "JPG",
-      top_left_margin,
-      top_left_margin,
-      canvas_image_width,
-      canvas_image_height
-    );
-
-    for (var i = 1; i <= totalPDFPages; i++) {
-      pdf.addPage(PDF_Width, PDF_Height);
-      //pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
-      pdf.addImage(
-        imgData,
-        "JPG",
-        top_left_margin,
-        -(PDF_Height * i) + top_left_margin * (2 * i + 1),
-        canvas_image_width,
-        canvas_image_height
-      );
-    }
-
-    pdf.save("HTML-Document.pdf");
-  });
-}
-
-/*
-    var options = {
-            pagesplit: true,
-            background: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
-        };
-        pdf.addHTML($('#canvas-container')[0], options, function () {
-                pdf.save('Test.pdf');
-        });
-        */
-
-function printToPDF() {
-  console.log("converting...");
-
-  /*
-
-  var printableArea = document.getElementById('printable');
-
-  html2canvas(printableArea, {
-    useCORS: true,
-    onrendered: function(canvas) {
-
-      var pdf = new jsPDF('p', 'pt', 'letter');
-
-      var pageHeight = 980;
-      var pageWidth = 900;
-      for (var i = 0; i <= printableArea.clientHeight / pageHeight; i++) {
-        var srcImg = canvas;
-        var sX = 0;
-        var sY = pageHeight * i; // start 1 pageHeight down for every new page
-        var sWidth = pageWidth;
-        var sHeight = pageHeight;
-        var dX = 0;
-        var dY = 0;
-        var dWidth = pageWidth;
-        var dHeight = pageHeight;
-
-        window.onePageCanvas = document.createElement("canvas");
-        onePageCanvas.setAttribute('width', pageWidth);
-        onePageCanvas.setAttribute('height', pageHeight);
-        var ctx = onePageCanvas.getContext('2d');
-        ctx.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
-
-        var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
-        var width = onePageCanvas.width;
-        var height = onePageCanvas.clientHeight;
-
-        if (i > 0) // if we're on anything other than the first page, add another page
-          pdf.addPage(612, 791); // 8.5" x 11" in pts (inches*72)
-
-        pdf.setPage(i + 1); // now we declare that we're working on that page
-        pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width * .62), (height * .62)); // add content to the page
-
-      }
-      pdf.save('test.pdf');
-    }
-  });
-  */
-  /*
-  var doc = new jsPDF();          
-var elementHandler = {
-  '#ignorePDF': function (element, renderer) {
-    return true;
-  }
-};
-var source = window.document.getElementsByTagName("main")[0];
-console.log( source );
-doc.fromHTML(
-    source,
-    15,
-    15,
-    {
-      'width': 180,'elementHandlers': elementHandler
-    });
-
-doc.output("dataurlnewwindow");
-
-
-
-
- var pdf = new jsPDF('p', 'pt', [1400, 792]);
- pdf.setFontSize(5);
-   pdf.text(20, 20, 'Consulta');
-    // source can be HTML-formatted string, or a reference
-    // to an actual DOM element from which the text will be scraped.
-    source = window.document.getElementsByTagName("main")[0]; //$('#customers')[0];
-
-    // we support special element handlers. Register them with jQuery-style 
-    // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
-    // There is no support for any other type of selectors 
-    // (class, of compound) at this time.
-    specialElementHandlers = {
-        // element with id of "bypass" - jQuery style selector
-        '#bypassme': function (element, renderer) {
-            // true = "handled elsewhere, bypass text extraction"
-            return true
-        }
-    };
-    margins = {
-        top: 80,
-        bottom: 60,
-        left: 40,
-        width: 522
-    };
-
-    // all coords and widths are in jsPDF instance's declared units
-    // 'inches' in this case
-    pdf.fromHTML(
-    source, // HTML string or DOM elem ref.
-    margins.left, // x coord
-    margins.top, { // y coord
-        'width': margins.width, // max width of content on PDF
-        'elementHandlers': specialElementHandlers
-    },
-
-    function (dispose) {
-        // dispose: object with X, Y of the last line add to the PDF 
-        //          this allow the insertion of new lines after html
-        pdf.save('Test.pdf');
-    }, margins);
-    */
-
-  var pdf = new jsPDF("p", "pt", "letter");
-  var options = {
-    pagesplit: true,
-    background: "#fff", //background is transparent if you don't set it, which turns it black for some reason.
-  };
-  pdf.addHTML($("#canvas-container")[0], options, function () {
-    pdf.save("Test.pdf");
-  });
-}
-
-/**
- * { function_description }
- *
- * @param      {<type>}  json    The json
- * @return     {<type>}  { description_of_the_return_value }
- */
 const jsonPieGenerate = (arr) => {
   $("#chart").remove();
   $("#chart-canvas").append("<canvas id='chart'></canvas>");
@@ -3138,19 +2839,14 @@ const containsAny = (str, substrings) => {
 const mainQueue = (url, start, end, lang) => {
   console.log(url);
 
-  //url = removeQueryString(url);
-  // hide previously displayed canvas and error messages if any
   $("#canvas-container").addClass("hidden");
   $("#whole-canvas").addClass("hidden");
   $("#notfound").addClass("hidden");
   $("#notfoundGC").addClass("hidden");
   hideError();
-  //$('#loading-popup-modal').removeClass("hidden");
   $("#loading").removeClass("hidden");
 
-  // table of contents anchor link localization
   if (document.documentElement.lang == "fr") {
-    // if French language is selected
     $("#table-of-contents-french").removeClass("hidden");
     $("#mesures-clés").removeClass("hidden");
     $("#sources-de-trafic").removeClass("hidden");
@@ -3163,7 +2859,6 @@ const mainQueue = (url, start, end, lang) => {
     $("#visitor-profile").addClass("hidden");
     $("#visitor-activity").addClass("hidden");
   } else {
-    // if English language is selected
     $("#table-of-contents-french").addClass("hidden");
     $("#mesures-clés").addClass("hidden");
     $("#sources-de-trafic").addClass("hidden");
@@ -3177,12 +2872,17 @@ const mainQueue = (url, start, end, lang) => {
     $("#visitor-activity").removeClass("hidden");
   }
 
-  $success = 0; // initial $success as 0, which is false, if success is still 0 after all the API calls, then display error message
+  $success = 0;
 
-  console.log(url);
-
-  var vStart2 = $("#startdate").val();
-  var vEnd2 = $("#enddate").val();
+  if (start && end) {
+    $("#startdate").val(start);
+    $("#enddate").val(end);
+    var vStart2 = start;
+    var vEnd2 = end;
+  } else {
+    var vStart2 = $("#startdate").val();
+    var vEnd2 = $("#enddate").val();
+  }
 
   var start2 = moment(vStart2).format("YYYY-MM-DDTHH:mm:ss.SSS");
   var end2 = moment(vEnd2).format("YYYY-MM-DDTHH:mm:ss.SSS");
@@ -3214,10 +2914,7 @@ const mainQueue = (url, start, end, lang) => {
   console.log("startDateWords " + startDateWords);
   console.log("endDateWords " + endDateWords);
 
-  // Calculate the numerical date range between start2 and end2
   var rangeStart2ToEnd2 = moment(end2).diff(moment(start2), "days") + 1;
-
-  // Calculate the numerical date range between end2 and today
   var rangeEnd2ToToday = moment().subtract(1, "day").diff(moment(end2), "days");
 
   console.log(
@@ -3227,46 +2924,27 @@ const mainQueue = (url, start, end, lang) => {
     "Numerical date range between end2 and today: " + rangeEnd2ToToday
   );
 
-  // find date 3 years ago today
   var threeYearsAgo = moment().subtract(3, "years").format("YYYY-MM-DD");
 
   if (
-    startDateWords == "Invalid Date" || // if start date is empty or invalid
-    endDateWords == "Invalid Date" || // if end date is empty or invalid
-    rangeStart2ToEnd2 == "NaN" || // if the date range is invalid
-    rangeEnd2ToToday == "NaN" || // if the date range is invalid
-    rangeStart2ToEnd2 <= 0 || // if the start date is after the end date
-    moment(vStart2).isBefore(threeYearsAgo) || // if the start date is before three years ago today
-    moment(vStart2).isAfter(moment()) || // if the start date is after today
-    moment(vEnd2).isBefore(threeYearsAgo) || // if the end date is before three years ago today
-    moment(vEnd2).isAfter(moment()) // if the end date is after today
+    startDateWords == "Invalid Date" ||
+    endDateWords == "Invalid Date" ||
+    rangeStart2ToEnd2 == "NaN" ||
+    rangeEnd2ToToday == "NaN" ||
+    rangeStart2ToEnd2 <= 0 ||
+    moment(vStart2).isBefore(threeYearsAgo) ||
+    moment(vStart2).isAfter(moment()) ||
+    moment(vEnd2).isBefore(threeYearsAgo) ||
+    moment(vEnd2).isAfter(moment())
   ) {
-    $("#loading").addClass("hidden"); // hide results
+    $("#loading").addClass("hidden");
     $("#loadFD").empty();
-    $("#searchBttn").prop("disabled", false); // enable the search button so user can search again with a different date range
-    // hideError();
+    $("#searchBttn").prop("disabled", false);
   }
 
-  // Determine if vStart2 and vEnd2 are the same day and set sameDay to true or false accordingly
   var sameDay = moment(vStart2).isSame(moment(vEnd2), "day");
 
-  /*
-    console.log(url);
-    url = (url.substring(0, 8) == "https://") ? url.substring(8, url.length) : url;
-    console.log(url)
-    /*
-    if (url.substring(0, 4) == "www." && url.substring(url.length - 5, url.length) == ".html" ||
-        /^(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ) {
-    
-    if (substrings.some(url.includes.bind(url))) {
-        console.log("worked")
-    } else {
-        console.log("not work")
-    }
-    */
-
   url = url.indexOf("www") === 0 ? "https://" + url : url;
-  //url = (url.substring(0, 3) == "www") ? "https://" + url : url;
 
   if (url.substring(0, 8) == "https://" && containsAny(url, substrings)) {
     $isApp = /(apps[1-8].ams-sga.cra-arc.gc.ca)/.test(url) ? 1 : 0;
@@ -3279,11 +2957,10 @@ const mainQueue = (url, start, end, lang) => {
 
     url = url.length > 255 ? url.substring(url.length - 255, url.length) : url;
 
-    moment.locale("en"); // default the locale to English
+    moment.locale("en");
 
     $dd = $("#date-range").find(":selected").data("index");
-    //console.log( "---------------------->> " + $dd );
-    //$dd = $("input[name=dd-value").val();
+
     if (!$.isNumeric($dd)) $dd = 1;
 
     if (start && end) {
@@ -3316,7 +2993,6 @@ const mainQueue = (url, start, end, lang) => {
     var localLocaleStart = moment(vStart2);
     var localLocaleEnd = moment(vEnd2);
 
-    // display the date in either English or French depending on the language selected
     localLocaleStart.locale(document.documentElement.lang);
     localLocaleEnd.locale(document.documentElement.lang);
 
@@ -3328,22 +3004,14 @@ const mainQueue = (url, start, end, lang) => {
       startDateWords = localLocaleStart.format("dddd DD MMMM YYYY");
       endDateWords = localLocaleEnd.format("dddd DD MMMM YYYY");
     }
-
     // display the start date and end date in words in index.html
     $("#fromdaterange").html(startDateWords);
     $("#todaterange").html(endDateWords);
-
     var start = moment(vStart);
     var end = moment(vEnd);
 
     dDay = end.diff(start, "days");
     dWeek = end.diff(start, "week", true);
-    //console.log(dWeek);
-    /*
-        dMonth = end.diff(start, "month", true);
-        dQuarter = end.diff(start, "quarter", true);
-        dYear = end.diff(start, "year", true);
-        */
 
     $("#numDays").html(rangeStart2ToEnd2);
     $("#numWeeks").html(dWeek);
@@ -3367,7 +3035,7 @@ const mainQueue = (url, start, end, lang) => {
     var langAbbr;
     console.log("language: " + lang);
     if ($isApp) {
-      var match = ["trnd", "prvs", "metrics-new"]; //, "fle"];
+      var match = ["trnd", "prvs", "metrics-new"];
       if ($("#urlLang").html() == 1) {
         langAbbr = "fr";
       } else {
@@ -3384,7 +3052,7 @@ const mainQueue = (url, start, end, lang) => {
         "activityMap",
         "metrics-new",
         "fwylf",
-      ]; //, "fle"];
+      ];
       var langAbbr = "bi";
     }
     var gsc = [
@@ -3396,15 +3064,9 @@ const mainQueue = (url, start, end, lang) => {
       "totals",
       "totalDate",
     ];
-    //var match = [ "snm", "uvrap" ];
     var previousURL = [];
-    var pageURL = []; //, "dwnld", "outbnd" ];
-    console.log("language abbr: " + langAbbr);
-    /*
-        let aa = (match.concat(previousURL).concat(pageURL)).length;
-        cnt = 0; $("#percent").html((cnt * 100 / aa).toFixed(1) + "%");
-        */
-    // Get by page data from database, if not pull it
+    var pageURL = [];
+
     const dbGetBPMatch = (res) => {
       url = $("#urlStatic").html();
       oUrl = $("#urlStatic").html();
@@ -3508,21 +3170,8 @@ const mainQueue = (url, start, end, lang) => {
       return res;
     };
     const checkErrorMatch = (res) => {
-      //console.log(res.some( vendor => vendor === "error" )); //res.some(item => item.name === 'Blofeld'))
-
       console.log("-----------------------------");
       console.log(res);
-
-      /*
-
-            Object.keys(res).map((key, index) => {
-                if (Array.isArray(res[i]) || typeof obj[i] === 'object') {
-                    console.log( res[key] );
-                }
-
-            });
-
-            */
 
       var $tf = extractJSON(res, "");
       console.log($tf);
@@ -3541,28 +3190,6 @@ const mainQueue = (url, start, end, lang) => {
       return Promise.reject(err);
     };
 
-    /*
-         const extractJSON = (obj, indent) => {
-          Object.keys(obj).map((key, index) => {
-            if (Array.isArray(obj[i]) || typeof obj[i] === 'object') {
-              console.log(indent + i + ' is array or object');
-              extractJSON(obj[i], indent + ' > ' + i + ' > ');
-            } else {
-              console.log(indent + i + ': ' + obj[i] + i + i);
-            }
-          });
-        }
-            /*
-            const getPreviousPage = id => {
-                if (id != null) return Promise.all( apiCall(d, id, previousURL, aa, url));
-                else $("#np").html("No data");
-            }
-            const getPageURL = id => {
-                if (id != null) return Promise.all( apiCall(d, id, pageURL, aa, url));
-                else $("#pp").html("No data");
-            }
-            */
-
     dbGetGSC()
       .then((res) => getTitle(res))
       .then((res) => {
@@ -3570,19 +3197,10 @@ const mainQueue = (url, start, end, lang) => {
       })
       .then(() => dbGetMatch())
       .then(() => getMatch())
-      .then((res) => checkErrorMatch(res)) //, chainError())
+      .then((res) => checkErrorMatch(res))
       .then((res) => getGSC(res))
-      //.then(res => dbGetBPMatch(res))
-      //.then(() => dbGetReadMatch())
-      /*.then( res => { getPreviousPage(res[0]); return res; })
-       */
       .then((res) => {
         console.log("log: " + res);
-        /*
-                $("#loadGSC").addClass("hidden");
-                $("#loadAA").removeClass("hidden");
-                */
-        //Object.keys(res)
 
         if (
           ($("#urlStatic").html().indexOf("/fr/") !== -1 && !$isApp) ||
@@ -3592,6 +3210,9 @@ const mainQueue = (url, start, end, lang) => {
         } else {
           $("a#h2href").html($.i18n("LanguageToggleEN"));
         }
+
+        const $start = moment($("#fromdaterange").text()).format("YYYY-MM-DD");
+        const $end = moment($("#todaterange").text()).format("YYYY-MM-DD");
 
         if ($isApp) {
           $("#rap-container").addClass("hidden");
@@ -3616,7 +3237,6 @@ const mainQueue = (url, start, end, lang) => {
         }
 
         if (res) {
-          //$('#loading-popup-modal').addClass("hidden");
           $("#loading").addClass("hidden");
           $("#loadFD").empty();
           $("#notfound").addClass("hidden");
@@ -3627,22 +3247,9 @@ const mainQueue = (url, start, end, lang) => {
           $("#urlval").val($("#urlStatic").text());
           date = $("#date-range").val();
           $("#loadComp").html($.i18n("FetchdataComplete"));
-          setQueryParams(oUrl, date);
+          setQueryParams(oUrl, $start, $end);
           $("#loadComp").empty();
-        } /* else if (
-          startDateWords == "Invalid date" ||
-          endDateWords == "Invalid date" ||
-          rangeStart2ToEnd2 == "NaN" ||
-          rangeEnd2ToToday == "NaN"
-        ) {
-          // if either the start date or end date is empty
-          $("#loading").addClass("hidden");
-          $("#loadFD").empty();
-          $("#searchBttn").prop("disabled", false);
-          hideError();
-          $("#invaliddaterange").removeClass("hidden"); // display invalid date range error message
-        } */ else {
-          //$('#loading-popup-modal').addClass("hidden");
+        } else {
           $("#loading").addClass("hidden");
           $("#loadFD").empty();
           hideError();
@@ -3653,7 +3260,7 @@ const mainQueue = (url, start, end, lang) => {
           $("#urlval").val($("#urlStatic").text());
           date = $("#date-range").val();
           $("#loadComp").html($.i18n("FetchdataComplete"));
-          setQueryParams(oUrl, date);
+          setQueryParams(oUrl, $start, $end);
           $("#loadComp").empty();
 
           // if not canada.ca site, hide these sections from the page
@@ -3680,7 +3287,6 @@ const mainQueue = (url, start, end, lang) => {
           $("#gscDate").html($.i18n("Yesterday"));
           $("#ddDate").html($.i18n("Yesterday"));
         }
-
         // if sameDay (the date range is a single day) is true then hide the "to" date range becasue it is the same as the "from" date range
         if (sameDay) {
           $("#todaterange").addClass("hidden");
@@ -3699,10 +3305,8 @@ const mainQueue = (url, start, end, lang) => {
         }
       })
       .catch(console.error.bind(console));
-
     $success = 1; // set $success to 1, which is true, if we get to this point, then all the API calls were successful
   }
-
   // display error message notfound if $success is still 0 after all the API calls
   if (!$success) {
     //$("#loading-popup-modal").addClass("hidden");
