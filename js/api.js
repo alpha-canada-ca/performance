@@ -1,11 +1,15 @@
 function handleDateRangeSetup(start, end) {
-  const currentDate = new Date().toISOString().split("T")[0];
+  const aDayAgo = new Date();
+  // Subtract one day to get the previous day
+  aDayAgo.setDate(aDayAgo.getDate() - 1);
+  const currentDate = aDayAgo.toISOString().split("T")[0];
 
   // Set max dates for start and end
   $("#startdate, #enddate").attr("max", currentDate);
 
   // Calculate three years ago
   const threeYearsAgo = new Date();
+  threeYearsAgo.setDate(threeYearsAgo.getDate() - 1);
   threeYearsAgo.setFullYear(threeYearsAgo.getFullYear() - 3);
   const formattedThreeYearsAgo = threeYearsAgo.toISOString().slice(0, 10);
 
@@ -2758,7 +2762,8 @@ $("#urlform").submit(function (event) {
   url = $("#urlval").val();
   $("#urlStatic").html(url);
   start = $(".dr-date-start").html();
-  end = moment();
+  //end = moment();
+  end = moment().subtract(1, 'days');
 
   mainQueue(url, start, end, 0);
 });
@@ -2767,7 +2772,8 @@ $("a#h2href").click(function () {
   event.preventDefault();
   url = $("#urlStatic").html();
   start = $(".dr-date-start").html();
-  end = moment();
+  //end = moment();
+  end = moment().subtract(1, 'days');
   if ($("#urlLang").html() == 1) {
     $("#urlLang").html(0);
   } else {
@@ -2782,7 +2788,8 @@ $("#ddRange").submit(function (event) {
   url = $("#urlval").val();
   $("#urlStatic").html(url);
   start = $(".dr-date-start").html();
-  end = moment();
+  //end = moment();
+  end = moment().subtract(1, 'days');
   //dd = $('#date-range').find(':selected').data('index');
 
   mainQueue(url, start, end, 0); //, dd);
@@ -2811,6 +2818,7 @@ function showError() {
   $("#error").attr("data-gc-analytics-customcall", errTrack);
   $(".error_display").attr("data-i18n", errKey);
   $(".error_display").text($.i18n(errKey));
+  $(".error_display").attr("data-i18n-aria-label", errKey);
 
   _satellite.track("CUSTOM_TRACK");
 }
@@ -2838,6 +2846,9 @@ const containsAny = (str, substrings) => {
 
 const mainQueue = (url, start, end, lang) => {
   console.log(url);
+  console.log(start);
+  console.log("***");  
+  console.log(end);
 
   $("#canvas-container").addClass("hidden");
   $("#whole-canvas").addClass("hidden");
@@ -2924,7 +2935,8 @@ const mainQueue = (url, start, end, lang) => {
     "Numerical date range between end2 and today: " + rangeEnd2ToToday
   );
 
-  var threeYearsAgo = moment().subtract(3, "years").format("YYYY-MM-DD");
+  //var threeYearsAgo = moment().subtract(3, "years").format("YYYY-MM-DD");
+  var threeYearsAgo = moment().subtract(1, "days").subtract(3, "years").format("YYYY-MM-DD");
 
   if (
     startDateWords == "Invalid Date" ||
@@ -2933,9 +2945,9 @@ const mainQueue = (url, start, end, lang) => {
     rangeEnd2ToToday == "NaN" ||
     rangeStart2ToEnd2 <= 0 ||
     moment(vStart2).isBefore(threeYearsAgo) ||
-    moment(vStart2).isAfter(moment()) ||
+    moment(vStart2).isAfter(moment().subtract(1, 'days')) ||
     moment(vEnd2).isBefore(threeYearsAgo) ||
-    moment(vEnd2).isAfter(moment())
+    moment(vEnd2).isAfter(moment().subtract(1, 'days'))
   ) {
     $("#loading").addClass("hidden");
     $("#loadFD").empty();
@@ -2967,8 +2979,9 @@ const mainQueue = (url, start, end, lang) => {
       vStart = start;
       vEnd = end;
     } else {
-      var start = moment();
-      var vEnd = moment().format("dddd MMMM DD, YYYY");
+      //var start = moment();
+      var start = moment().subtract(1, 'days');
+      var vEnd = moment().subtract(1, 'days').format("dddd MMMM DD, YYYY");
       if ($dd == 0) {
         vStart = moment(start)
           .subtract(30, "days")
@@ -3024,9 +3037,9 @@ const mainQueue = (url, start, end, lang) => {
       rangeEnd2ToToday != "NaN" &&
       rangeStart2ToEnd2 > 0 && // if the start date is before the end date
       !moment(vStart2).isBefore(threeYearsAgo) && // if the start date is less than three years ago today
-      !moment(vStart2).isAfter(moment()) && // if the start date is not after today
+      !moment(vStart2).isAfter(moment().subtract(1, 'days')) && // if the start date is not after today
       !moment(vEnd2).isBefore(threeYearsAgo) && // if the end date is less than three years ago today
-      !moment(vEnd2).isAfter(moment()) // if the end date is not after today
+      !moment(vEnd2).isAfter(moment().subtract(1, 'days')) // if the end date is not after today
     ) {
       $("#searchBttn").prop("disabled", true);
     }
