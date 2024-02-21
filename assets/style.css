@@ -152,3 +152,18 @@ button.black:hover {
 #moreDetailedAnalysis {
   padding-top: 30px;
 }
+
+/* Hide 'What visitor clicked on' table  */
+
+/* a[href^="#visitor-activity"] + ul, 
+a[href^="#activité-de-visiteur"] + ul,   */
+#np
+{
+  display:none;
+}
+
+.button-nostyle {
+background: none;
+border: none;
+padding: 0;  
+}
