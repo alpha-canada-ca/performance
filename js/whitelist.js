@@ -734,6 +734,7 @@ const substrings = [
 //SocialSecurityTribunalofCanada
 "sst-stage.stage.atssc-scdata.gc.ca",
 "www.sst-tss.gc.ca",
+"sst-tss.gc.ca",
 
 //StatisticsCanada
 "analytics-platform.statcan.gc.ca",
