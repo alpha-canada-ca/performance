@@ -840,5 +840,9 @@ const substrings = [
 "femmes-egalite-genres.canada.ca",
 "intranet.fegc-wage.gc.ca",
 "intranettest",
-"women-gender-equality.canada.ca"
+"women-gender-equality.canada.ca",
+
+//Housing, Infrastructure and Communities Canada
+"housing-infrastructure.canada.ca",
+"logement-infrastructure.canada.ca"
 ];
