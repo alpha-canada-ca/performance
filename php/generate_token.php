@@ -1,30 +1,42 @@
 <?php
-
-function generate_token( $apiKey, $secretKey, $jwt )
+function generate_token($client_id, $client_secret)
 {
+    $url = 'https://ims-na1.adobelogin.com/ims/token/v3';
+
+    $postFields = http_build_query([
+        'client_id' => $client_id,
+        'client_secret' => $client_secret,
+        'grant_type' => 'client_credentials',
+        'scope' => 'openid,AdobeID,additional_info.projectedProductContext',
+    ]);
+
     $ch = curl_init();
 
-    curl_setopt($ch, CURLOPT_URL, 'https://ims-na1.adobelogin.com/ims/exchange/jwt');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-
-    curl_setopt($ch, CURLOPT_POSTFIELDS, "client_id=".$apiKey."&client_secret=".$secretKey."&jwt_token=".$jwt);
-
-    $headers = array();
-    $headers[] = 'Content-Type: application/x-www-form-urlencoded';
-
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $postFields,
+        CURLOPT_HTTPHEADER => [
+            "Content-Type: application/x-www-form-urlencoded",
+        ],
+    ]);
 
     $result = curl_exec($ch);
-    if (curl_errno($ch)) {
-        echo 'Error:' . curl_error($ch);
+
+    if ($result === false) {
+        error_log('cURL Error: ' . curl_error($ch));
+        curl_close($ch);
+        return false;
     }
+
+    $response = json_decode($result, true);
+
     curl_close($ch);
 
-    $token = json_decode($result, true);
-    $token = $token["access_token"];
-
-    return $token;
+    if (isset($response['access_token'])) {
+        return $response['access_token'];
+    }
+    
+    return false;
 }
-
-?>

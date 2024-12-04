@@ -1,7 +1,8 @@
 <?php
 session_start();
 //session_unset();
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
+ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT);
 function dateRange($first, $last, $step, $format = 'Y-m-d\TH:i:s.v')
 {
     $dates = [];
@@ -190,23 +191,32 @@ try {
 
             $bUrl = substr('https://' . $origUrl, 0, 255);
 
-            $html = file_get_html('https://' . $origUrl);
+            try {
+                $html = file_get_html('https://' . $origUrl);
 
-            foreach ($html->find('form') as $e) {
-                if ($e->action && $e->name == 'cse-search-box') {
-                    $searchURL = $e->action;
+            } catch (Exception $e) {
+                $html = null;
+            }
+
+            $searchURL = null;
+            $titlePage = null;
+
+            if ($html) {
+                foreach ($html->find('form') as $e) {
+                    if ($e->action && $e->name == 'cse-search-box') {
+                        $searchURL = $e->action;
+                        break;
+                    }
+                }
+                
+                foreach ($html->find('meta[name=dcterms.title]') as $e) {
+                    $titlePage = $e->content;
                     break;
                 }
+                
+                $titlePage = trim($titlePage);
+                $titlePage = html_entity_decode($titlePage);
             }
-
-            // Find the meta tag with name="dcterms.title" and get its content attribute
-            foreach ($html->find('meta[name=dcterms.title]') as $e) {
-                $titlePage = $e->content;
-                break;
-            }
-
-            $titlePage = trim($titlePage);
-            $titlePage = html_entity_decode($titlePage);
 
             $oSearchURL = $searchURL;
 
