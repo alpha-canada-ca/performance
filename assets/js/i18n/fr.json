@@ -115,7 +115,7 @@
     "hlp-average-visits-title": "Définition pour le terme ' Visites '",
     "hlp-average-pgv": "Le nombre de fois que la page a été téléchargée.",
     "hlp-average-pgv-title": "Définition pour le terme ' Pages vues '",
-    "hlp-average-tmspnt": "Le temps moyen qu'un visiteur passe sur la page avant de la quitter ou de naviguer ailleurs.",
+    "hlp-average-tmspnt": "La durée moyenne d'interaction des visiteurs avec une page donné au cours de chaque visite.",
     "hlp-average-tmspnt-title": "Définition pour le terme ' Temps moyen par visite '",
     "hlp-unique-visitors": "Le nombre de personnes uniques ayant visité la page, une ou plusieurs fois, durant la période sélectionnée. Note : Un individu unique peut apparaître comme plusieurs visiteurs si, par exemple, cette personne accède au site à l'aide d'un téléphone et d'un ordinateur, accède au site sur différents navigateurs ou efface les témoins du navigateur.",
     "hlp-unique-visitors-title": "Définition pour le terme ' Visiteurs uniques '",
