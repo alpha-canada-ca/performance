@@ -1,10 +1,11 @@
 usePassword: false
-mongodbExtraFlags:
- "--wiredTigerCacheSizeGB=1"
-resources: 
- limits:
-   cpu: 500m
-   memory: 1024Mi
- requests:
-   cpu: 256m
-   memory: 128Mi
+image:
+  tag: "6.0.21"
+mongodbExtraFlags: "--wiredTigerCacheSizeGB=1"
+resources:
+  limits:
+    cpu: 500m
+    memory: 1024Mi
+  requests:
+    cpu: 256m
+    memory: 128Mi
