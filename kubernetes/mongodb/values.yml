@@ -1,6 +1,8 @@
+architecture: standalone
+replicaCount: 1
 usePassword: false
 image:
-  tag: "6.0.21"
+  tag: latest
 mongodbExtraFlags: "--wiredTigerCacheSizeGB=1"
 resources:
   limits:
