@@ -715,7 +715,11 @@ const getPageH1 = (url) => {
   let request = new Request(url, { method: "GET" });
   return fetch(request)
     .then((res) => res.text())
-    .then((res) => $(res).find("h1:first").text())
+    //.then((res) => $(res).find("h1:first").text())
+    .then((res) => {
+      const h1Text = $(res).find("h1:first").text();
+      return h1Text ? h1Text : "";
+    })
     .catch(console.error.bind(console));
   //}
 };
@@ -1458,6 +1462,7 @@ function sortByCol(arr) {
   return arr.sort((a, b) => b.Clicks - a.Clicks);
 }
 
+//const jsonAM = (json, day, url) => {
 const jsonAM = (json, day) => {
   var rows = json["rows"][0];
   var val = "#np";
@@ -1501,6 +1506,16 @@ const jsonAM = (json, day) => {
   } else {
     $next.html($.i18n("Nodata"));
   }
+  // // If page is NON canada.ca: Hide the '#np' table and Show the 'What visitors clicked on data temporarily removed' alert text;
+  // if (url.indexOf("canada.ca") !== -1) { //canada.ca page
+  //   $next.show();
+  //   $("#np-container .alert").hide();
+  // }
+  // else { // NON canada.ca page
+  //   $next.hide();
+  //   $("#np-container .alert").show();
+  // }
+  
 };
 
 const jsonFWYLF = (json, day) => {
@@ -1647,6 +1662,7 @@ const jsonMetrics = (json, day) => {
   var otherWebsitesNum = 102 + parseInt(day);
   var socialNetworksNum = 105 + parseInt(day);
   var typedBookmarkedNum = 108 + parseInt(day);
+  var conversationalAiToolsNum = 153 + parseInt(day);
 
   $uv.html("");
   $visit.html("");
@@ -1796,12 +1812,14 @@ const jsonMetrics = (json, day) => {
     otherWebsites = parseInt(rows[otherWebsitesNum]);
     socialNetworks = parseInt(rows[socialNetworksNum]);
     typedBookmarked = parseInt(rows[typedBookmarkedNum]);
+    conversationalAiTools = parseInt(rows[conversationalAiToolsNum]);
 
     let referrerType = [
       ["Search Engines", searchEngine],
       ["Other Web Sites", otherWebsites],
       ["Social Networks", socialNetworks],
       ["Typed / Bookmarked", typedBookmarked],
+      ["Conversational AI Tools", conversationalAiTools],
     ];
 
     jsonRT(referrerType, day);
@@ -2502,6 +2520,7 @@ const apiCall = (d, i, a, uu, dd, fld, lg, r, e) =>
             case "srchAll":
               return jsonSearchesAll(res, dd);
             case "activityMap":
+              //return jsonAM(res, dd, uu);
               return jsonAM(res, dd);
             case "metrics-new":
               return jsonMetrics(res, dd);
@@ -3194,6 +3213,9 @@ const mainQueue = (url, start, end, lang) => {
     };
     const getTitle = (h2) => {
       if (!$isApp) {
+        if (!h2[0] || !h2[0]["url"]) {
+          return Promise.resolve(); // is this OK? 
+        }
         return Promise.all([getPageH1(h2[0]["url"])]);
       }
       return Promise.resolve($.i18n("Page-levelstatistics"));

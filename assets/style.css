@@ -167,3 +167,14 @@ background: none;
 border: none;
 padding: 0;  
 }
+
+/* Prevent the original section created by the script doesn’t briefly flash before hiding */
+section.pagedetails {
+  display: none !important;
+}
+section.pagedetails.pat-version {
+  display: block !important;
+}
+section.pagedetails:not(.pat-version) {
+  display: none !important;
+}
