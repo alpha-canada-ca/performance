@@ -279,6 +279,7 @@ try {
                             $array = array_merge(array($dataLang, $segFunc, $oUrl), $dates2);
                         } else if ($t == "activityMap") {
                             $array = array_merge(array($titlePage), $dates2);
+                            //$array = array_merge(array($origUrl), $dates2); //Added by Kole - Feb 2024 (get data by URL, not Title)
                         } else if ($t == "snmAll") {
                             $array = array_merge(array($segFunc, $searchURL), $dates2, array(strtoupper($func), $oUrl));
                         } else if ($t == "srchLeftAll") {
